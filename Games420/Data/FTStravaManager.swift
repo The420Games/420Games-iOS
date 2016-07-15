@@ -80,7 +80,7 @@ class FTStravaManager: NSObject {
             else {
                 do {
                     let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [AnyObject]
-                    completion?(results: Activity.arrayFromJsonObjects(json) as? [Activity], error: nil)
+                    completion?(results: Activity.arrayFromJsonObjects(json, source: "Strava") as? [Activity], error: nil)
                     
                 } catch let error as NSError {
                     completion?(results: nil, error: error)

@@ -15,6 +15,8 @@ class FTMedicationCell: UITableViewCell {
     @IBOutlet weak var subtitleLabel: UILabel!
     
     func setupWithMedication(medication: Medication) {
-        
+     
+        titleLabel.text = "\(medication.activity?.name) \(medication.activity?.type) \(medication.activity?.startDate)"
+        subtitleLabel.text = "\(medication.type) \(medication.dosage) \(medication.mood != nil ? MedicationMoodIndex(rawValue: medication.mood!.integerValue) : nil)"
     }
 }

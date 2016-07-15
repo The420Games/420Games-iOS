@@ -22,6 +22,6 @@ class Medication: FTDataObject {
 
     var activity: Activity?
     var dosage: NSNumber?
-    var type: MedicationType?
-    var mood: MedicationMoodIndex?
+    var type: String?
+    var mood: NSNumber?
 }

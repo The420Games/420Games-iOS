@@ -10,7 +10,7 @@ import Foundation
 
 class Activity: FTDataObject {
     
-    var activityId: Int = 0
+    var activityId: String?
     var name: String?
     var type: String?
     var distance: NSNumber?
@@ -22,7 +22,8 @@ class Activity: FTDataObject {
         
         let object = Activity()
         
-        object.activityId = jsonObject["id"] as! Int
+        let id = jsonObject["id"] as! Int
+        object.activityId = String(id)
         object.name = jsonObject["name"] as? String
         object.type = jsonObject["type"] as? String
         object.distance = jsonObject["distance"] as? NSNumber

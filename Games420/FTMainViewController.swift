@@ -137,6 +137,10 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    }
+    
     // MARK: - Notifications
     
     private func manageForStravaNotification(signup: Bool) {
@@ -173,17 +177,20 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         hud.labelText = NSLocalizedString("Fetching Activities", comment: "HUD title when fetching activities")
         hud.mode = .Indeterminate
         
-        Activity.findObjects("ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId)'", order: ["startDate desc"]) { (objects, error) in
+        Medication.findObjects("ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'", order: ["updated desc"]) { (objects, error) in
             
-            hud.hide(true)
-            
-            if objects != nil {
-                self.medications = objects as? [Medication]
-                self.activitiesTableView.reloadData()
-            }
-            else {
-                print("Error fetching Medications: \(error)")
-            }
+            dispatch_async(dispatch_get_main_queue(), {
+                
+                hud.hide(true)
+                
+                if objects != nil {
+                    self.medications = objects as? [Medication]
+                    self.activitiesTableView.reloadData()
+                }
+                else {
+                    print("Error fetching Medications: \(error)")
+                }
+            })
         }
     }
 }
