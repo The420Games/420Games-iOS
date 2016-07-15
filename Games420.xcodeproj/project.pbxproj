@@ -8,20 +8,50 @@
 
 /* Begin PBXBuildFile section */
 		19E64C151D3518610063E3DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C141D3518610063E3DD /* AppDelegate.swift */; };
-		19E64C171D3518610063E3DD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C161D3518610063E3DD /* ViewController.swift */; };
+		19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C161D3518610063E3DD /* FTMainViewController.swift */; };
 		19E64C1A1D3518610063E3DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C181D3518610063E3DD /* Main.storyboard */; };
 		19E64C1C1D3518610063E3DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C1B1D3518610063E3DD /* Assets.xcassets */; };
 		19E64C1F1D3518610063E3DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C1D1D3518610063E3DD /* LaunchScreen.storyboard */; };
+		19E64C271D35196B0063E3DD /* FTDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C261D35196B0063E3DD /* FTDataManager.swift */; };
+		19E64C2F1D352F4A0063E3DD /* FTStravaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C2E1D352F4A0063E3DD /* FTStravaManager.swift */; };
+		19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C311D3674C90063E3DD /* FTDataObject.swift */; };
+		19E64C341D3677260063E3DD /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C331D3677260063E3DD /* Activity.swift */; };
+		19E64C371D368D700063E3DD /* FTSelectActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C361D368D700063E3DD /* FTSelectActivityViewController.swift */; };
+		19E64C3A1D368DB40063E3DD /* FTSelectActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C391D368DB40063E3DD /* FTSelectActivityCell.swift */; };
+		19E64C3C1D379A9D0063E3DD /* Medication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C3B1D379A9D0063E3DD /* Medication.swift */; };
+		19E64C3E1D379F030063E3DD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C3D1D379F030063E3DD /* User.swift */; };
+		19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C3F1D379F3F0063E3DD /* Athlete.swift */; };
+		19E64C421D379FF50063E3DD /* FTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C411D379FF50063E3DD /* FTError.swift */; };
+		19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */; };
+		19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C471D37FEC10063E3DD /* FTMedicationCell.swift */; };
+		19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */; };
+		A94C973365D81BA8CDDB4995 /* Pods_Games420.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C8624F85B315546460893B4 /* Pods_Games420.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		19E64C111D3518610063E3DD /* Games420.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Games420.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19E64C141D3518610063E3DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		19E64C161D3518610063E3DD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		19E64C161D3518610063E3DD /* FTMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMainViewController.swift; sourceTree = "<group>"; };
 		19E64C191D3518610063E3DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		19E64C1B1D3518610063E3DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		19E64C1E1D3518610063E3DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		19E64C201D3518610063E3DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		19E64C261D35196B0063E3DD /* FTDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTDataManager.swift; path = Data/FTDataManager.swift; sourceTree = "<group>"; };
+		19E64C2E1D352F4A0063E3DD /* FTStravaManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTStravaManager.swift; path = Data/FTStravaManager.swift; sourceTree = "<group>"; };
+		19E64C311D3674C90063E3DD /* FTDataObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTDataObject.swift; path = Model/FTDataObject.swift; sourceTree = "<group>"; };
+		19E64C331D3677260063E3DD /* Activity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Activity.swift; path = Model/Activity.swift; sourceTree = "<group>"; };
+		19E64C361D368D700063E3DD /* FTSelectActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSelectActivityViewController.swift; sourceTree = "<group>"; };
+		19E64C391D368DB40063E3DD /* FTSelectActivityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSelectActivityCell.swift; sourceTree = "<group>"; };
+		19E64C3B1D379A9D0063E3DD /* Medication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Medication.swift; path = Model/Medication.swift; sourceTree = "<group>"; };
+		19E64C3D1D379F030063E3DD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
+		19E64C3F1D379F3F0063E3DD /* Athlete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Athlete.swift; path = Model/Athlete.swift; sourceTree = "<group>"; };
+		19E64C411D379FF50063E3DD /* FTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTError.swift; path = Data/FTError.swift; sourceTree = "<group>"; };
+		19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTOnboardingViewController.swift; sourceTree = "<group>"; };
+		19E64C471D37FEC10063E3DD /* FTMedicationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationCell.swift; sourceTree = "<group>"; };
+		19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLogActivityViewController.swift; sourceTree = "<group>"; };
+		5BC5FF388B87F8921C768337 /* Pods-Games420.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Games420.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Games420/Pods-Games420.debug.xcconfig"; sourceTree = "<group>"; };
+		6C8624F85B315546460893B4 /* Pods_Games420.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Games420.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9BF4BB0CE89AFC4806BC2C6 /* Pods-Games420.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Games420.release.xcconfig"; path = "Pods/Target Support Files/Pods-Games420/Pods-Games420.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A94C973365D81BA8CDDB4995 /* Pods_Games420.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +71,8 @@
 			children = (
 				19E64C131D3518610063E3DD /* Games420 */,
 				19E64C121D3518610063E3DD /* Products */,
+				BFC95062948E14BC1EC183A4 /* Pods */,
+				1CFC921D0215E7BCDAD0DE11 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +87,100 @@
 		19E64C131D3518610063E3DD /* Games420 */ = {
 			isa = PBXGroup;
 			children = (
+				19E64C351D368D4B0063E3DD /* View Controllers */,
+				19E64C301D3674A90063E3DD /* Model */,
+				19E64C281D3519700063E3DD /* Data */,
 				19E64C141D3518610063E3DD /* AppDelegate.swift */,
-				19E64C161D3518610063E3DD /* ViewController.swift */,
 				19E64C181D3518610063E3DD /* Main.storyboard */,
 				19E64C1B1D3518610063E3DD /* Assets.xcassets */,
 				19E64C1D1D3518610063E3DD /* LaunchScreen.storyboard */,
 				19E64C201D3518610063E3DD /* Info.plist */,
 			);
 			path = Games420;
+			sourceTree = "<group>";
+		};
+		19E64C281D3519700063E3DD /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C261D35196B0063E3DD /* FTDataManager.swift */,
+				19E64C2E1D352F4A0063E3DD /* FTStravaManager.swift */,
+				19E64C411D379FF50063E3DD /* FTError.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		19E64C301D3674A90063E3DD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C311D3674C90063E3DD /* FTDataObject.swift */,
+				19E64C331D3677260063E3DD /* Activity.swift */,
+				19E64C3B1D379A9D0063E3DD /* Medication.swift */,
+				19E64C3D1D379F030063E3DD /* User.swift */,
+				19E64C3F1D379F3F0063E3DD /* Athlete.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		19E64C351D368D4B0063E3DD /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C491D380C1F0063E3DD /* Log Activity */,
+				19E64C461D37D40D0063E3DD /* Main */,
+				19E64C431D37A7BC0063E3DD /* Onboarding */,
+				19E64C381D368D970063E3DD /* Select activity */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		19E64C381D368D970063E3DD /* Select activity */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C361D368D700063E3DD /* FTSelectActivityViewController.swift */,
+				19E64C391D368DB40063E3DD /* FTSelectActivityCell.swift */,
+			);
+			name = "Select activity";
+			sourceTree = "<group>";
+		};
+		19E64C431D37A7BC0063E3DD /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */,
+			);
+			name = Onboarding;
+			sourceTree = "<group>";
+		};
+		19E64C461D37D40D0063E3DD /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C161D3518610063E3DD /* FTMainViewController.swift */,
+				19E64C471D37FEC10063E3DD /* FTMedicationCell.swift */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		19E64C491D380C1F0063E3DD /* Log Activity */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */,
+			);
+			name = "Log Activity";
+			sourceTree = "<group>";
+		};
+		1CFC921D0215E7BCDAD0DE11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6C8624F85B315546460893B4 /* Pods_Games420.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BFC95062948E14BC1EC183A4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5BC5FF388B87F8921C768337 /* Pods-Games420.debug.xcconfig */,
+				D9BF4BB0CE89AFC4806BC2C6 /* Pods-Games420.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +190,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 19E64C231D3518610063E3DD /* Build configuration list for PBXNativeTarget "Games420" */;
 			buildPhases = (
+				3DA57E5A9056ADBCA60904AC /* [CP] Check Pods Manifest.lock */,
 				19E64C0D1D3518610063E3DD /* Sources */,
 				19E64C0E1D3518610063E3DD /* Frameworks */,
 				19E64C0F1D3518610063E3DD /* Resources */,
+				2A377E688E7B52F27143F72B /* [CP] Embed Pods Frameworks */,
+				4CDCF4FCDBB29D5AAE388814 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -90,6 +212,7 @@
 		19E64C091D3518610063E3DD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = FT;
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = ScreamingBox;
@@ -130,13 +253,74 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2A377E688E7B52F27143F72B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Games420/Pods-Games420-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3DA57E5A9056ADBCA60904AC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4CDCF4FCDBB29D5AAE388814 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Games420/Pods-Games420-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		19E64C0D1D3518610063E3DD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19E64C171D3518610063E3DD /* ViewController.swift in Sources */,
+				19E64C341D3677260063E3DD /* Activity.swift in Sources */,
+				19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */,
+				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,
+				19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */,
+				19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */,
+				19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */,
+				19E64C371D368D700063E3DD /* FTSelectActivityViewController.swift in Sources */,
+				19E64C3A1D368DB40063E3DD /* FTSelectActivityCell.swift in Sources */,
 				19E64C151D3518610063E3DD /* AppDelegate.swift in Sources */,
+				19E64C2F1D352F4A0063E3DD /* FTStravaManager.swift in Sources */,
+				19E64C421D379FF50063E3DD /* FTError.swift in Sources */,
+				19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */,
+				19E64C3C1D379A9D0063E3DD /* Medication.swift in Sources */,
+				19E64C3E1D379F030063E3DD /* User.swift in Sources */,
+				19E64C271D35196B0063E3DD /* FTDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,7 +383,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -239,7 +423,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -249,23 +433,30 @@
 		};
 		19E64C241D3518610063E3DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BC5FF388B87F8921C768337 /* Pods-Games420.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Games420/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.screamingbox.Games420;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		19E64C251D3518610063E3DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9BF4BB0CE89AFC4806BC2C6 /* Pods-Games420.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Games420/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.screamingbox.Games420;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";
 			};
 			name = Release;
 		};
@@ -288,6 +479,7 @@
 				19E64C251D3518610063E3DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
