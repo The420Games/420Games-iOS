@@ -266,15 +266,13 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="9lr-FZ-7Mw"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CJw-3d-uv2">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CJw-3d-uv2">
                                 <rect key="frame" x="214" y="72" width="172" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="nRh-0P-ap7"/>
                                     <constraint firstAttribute="width" constant="172" id="xk1-ue-X3b"/>
                                 </constraints>
-                                <state key="normal" image="btn_strava">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </state>
+                                <state key="normal" title="Add new activity"/>
                                 <connections>
                                     <action selector="buttonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m71-YK-DTi"/>
                                 </connections>
@@ -396,7 +394,4 @@
             <point key="canvasLocation" x="968" y="377"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="btn_strava" width="172" height="31"/>
-    </resources>
 </document>

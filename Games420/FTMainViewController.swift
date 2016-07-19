@@ -28,6 +28,7 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         manageForStravaNotification(true)
         
+        title = NSLocalizedString("Logged activities", comment: "Main screen navigation title")
     }
     
     deinit {
@@ -56,18 +57,19 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     @IBAction func buttonTouched(sender: AnyObject) {
         
-        if !FTStravaManager.sharedInstance.isAuthorized {
-            waitingForStravaAuthentication = true
-            
-            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.labelText = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
-            hud.mode = .Indeterminate
-            
-            FTStravaManager.sharedInstance.authorize("games420://games420")
-        }
-        else {
-            performSegueWithIdentifier("activities", sender: self)
-        }
+        let picker = UIAlertController(title: NSLocalizedString("Source", comment: "Select source title"), message: NSLocalizedString("Select tracker app you logged your activity with", comment: "Message source"), preferredStyle: .ActionSheet)
+        
+        picker.addAction(UIAlertAction(title: "Strava", style: .Default, handler: { (action) in
+            self.logActivityWithStrava()
+        }))
+        
+        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
+        picker.addAction(UIAlertAction(title: "Endomondo", style: .Default, handler: nil))
+        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
+        
+        picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        presentViewController(picker, animated: true, completion: nil)
     }
     
     @IBAction func signoutPressed(sender: AnyObject) {
@@ -191,6 +193,24 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     print("Error fetching Medications: \(error)")
                 }
             })
+        }
+    }
+    
+    // MARK: - Apps integrations
+    
+    func logActivityWithStrava() {
+        
+        if !FTStravaManager.sharedInstance.isAuthorized {
+            waitingForStravaAuthentication = true
+            
+            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.labelText = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
+            hud.mode = .Indeterminate
+            
+            FTStravaManager.sharedInstance.authorize("games420://games420")
+        }
+        else {
+            performSegueWithIdentifier("activities", sender: self)
         }
     }
 }
