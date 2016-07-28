@@ -15,6 +15,15 @@ class FTDataObject: NSObject {
     var updated: NSDate?
     var ownerId: String?
     
+    override init() {
+        
+        super.init()
+        
+        if self.ofClass() != User.ofClass() {
+            self.ownerId = FTDataManager.sharedInstance.currentUser?.objectId
+        }
+    }
+    
     class func dataFromJsonObject(jsonObject: [String: AnyObject]!) -> FTDataObject {
         
         let object = FTDataObject()

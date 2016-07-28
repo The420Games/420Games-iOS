@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum ActivityType: String {
+    case Ride = "Ride", Run = "Run", Swim = "Swim"
+    static let allValues = [Ride, Run, Swim]
+}
+
 class Activity: FTDataObject {
     
     var activityId: String?
@@ -17,6 +22,7 @@ class Activity: FTDataObject {
     var startDate: NSDate?
     var elapsedTime: NSNumber?
     var source: String?
+    var elevationGain: NSNumber?
     
     private let ftAthleteProfileImagesPath = "profiles"
     

@@ -63,9 +63,13 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.logActivityWithStrava()
         }))
         
-        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
-        picker.addAction(UIAlertAction(title: "Endomondo", style: .Default, handler: nil))
-        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
+//        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
+//        picker.addAction(UIAlertAction(title: "Endomondo", style: .Default, handler: nil))
+//        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
+        
+        picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .Default, handler: { (action) in
+            self.performSegueWithIdentifier("manualTrack", sender: self)
+        }))
         
         picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         
@@ -75,12 +79,12 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBAction func signoutPressed(sender: AnyObject) {
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = NSLocalizedString("Signing out", comment: "HUD title when signingout")
+        hud.label.text = NSLocalizedString("Signing out", comment: "HUD title when signingout")
         hud.mode = .Indeterminate
         
         FTDataManager.sharedInstance.logout { (success, error) in
             dispatch_async(dispatch_get_main_queue(), {
-                hud.hide(true)
+                hud.hideAnimated(true)
                 
                 self.checkLoggedIn()
             })
@@ -176,14 +180,14 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private func fetchMedications() {
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = NSLocalizedString("Fetching Activities", comment: "HUD title when fetching activities")
+        hud.label.text = NSLocalizedString("Fetching Activities", comment: "HUD title when fetching activities")
         hud.mode = .Indeterminate
         
         Medication.findObjects("ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'", order: ["updated desc"]) { (objects, error) in
             
             dispatch_async(dispatch_get_main_queue(), {
                 
-                hud.hide(true)
+                hud.hideAnimated(true)
                 
                 if objects != nil {
                     self.medications = objects as? [Medication]
@@ -204,7 +208,7 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
             waitingForStravaAuthentication = true
             
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.labelText = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
+            hud.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
             hud.mode = .Indeterminate
             
             FTStravaManager.sharedInstance.authorize("games420://games420")

@@ -179,17 +179,17 @@ class FTLogActivityViewController: UIViewController {
             medication.dosage = NSNumber(double: NSString(string: dosageTextView.text!).doubleValue)
             
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.labelText = NSLocalizedString("Submitting Medication", comment: "HUD title when submitting Medication")
+            hud.label.text = NSLocalizedString("Submitting Medication", comment: "HUD title when submitting Medication")
             hud.mode = .Indeterminate
             
             medication.saveInBackgroundWithBlock({ (success, error) in
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     
-                    hud.hide(true)
+                    hud.hideAnimated(true)
                     
                     if success {
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popToRootViewControllerAnimated(true)
                     }
                     else {
                         print("Error saving Medication: \(error)")
