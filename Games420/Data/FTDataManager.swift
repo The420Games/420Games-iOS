@@ -121,13 +121,12 @@ class FTDataManager: NSObject {
         let fileName = NSUUID().UUIDString + ".jpg"
         let filePath = path + "/" + fileName
         
-        Backendless.sharedInstance().fileService.upload(filePath, content: imageData, response: { (backendlessFile) in
+        Backendless.sharedInstance().fileService.upload(filePath, content: imageData, overwrite: true, response: { (file) in
             
             completion?(fileName: fileName, error: nil)
             
-        }) { (fault) in
-            
-            completion?(fileName: nil, error: NSError.errorWithFault(fault))
+            }) { (fault) in
+                completion?(fileName: nil, error: NSError.errorWithFault(fault))
         }
     }
     

@@ -18,6 +18,8 @@ class Activity: FTDataObject {
     var elapsedTime: NSNumber?
     var source: String?
     
+    private let ftAthleteProfileImagesPath = "profiles"
+    
     override class func dataFromJsonObject(jsonObject: [String: AnyObject]!) -> Activity {
         
         let object = Activity()

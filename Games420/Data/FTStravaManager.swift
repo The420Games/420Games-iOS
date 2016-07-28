@@ -12,6 +12,8 @@ class FTStravaManager: NSObject {
 
     static let sharedInstance = FTStravaManager()
     
+    private let ftStravaSourceId = "Strava"
+    
     var appID = ""
     var clientSecret = ""
     private var token: String?
@@ -80,7 +82,7 @@ class FTStravaManager: NSObject {
             else {
                 do {
                     let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [AnyObject]
-                    completion?(results: Activity.arrayFromJsonObjects(json, source: "Strava") as? [Activity], error: nil)
+                    completion?(results: Activity.arrayFromJsonObjects(json, source: self.ftStravaSourceId) as? [Activity], error: nil)
                     
                 } catch let error as NSError {
                     completion?(results: nil, error: error)
@@ -133,6 +135,15 @@ class FTStravaManager: NSObject {
                         NSNotificationCenter.defaultCenter().postNotificationName(FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: self, userInfo: ["success": true])
                     })
                 }
+                
+                if let athleteJson = json["athlete"] as? [String : AnyObject] {
+                    
+                    if FTDataManager.sharedInstance.currentUser?.athlete == nil {
+                    
+                        self.updateUserAthlete(athleteJson)
+                    }
+                }
+                
             } catch let error as NSError {
                 print("Failed to load: \(error.localizedDescription)")
                 
@@ -145,5 +156,86 @@ class FTStravaManager: NSObject {
         
         task.resume()
         
+    }
+    
+    private func fetchAthleteProfileImage(athleteData: [String: AnyObject], completion: ((image: UIImage?, error: NSError?) -> ())?) {
+        
+        var urlString: String?
+        
+        if let url = athleteData["profile"] as? String {
+            urlString = url
+        }
+        else if let url = athleteData["profile_medium"] as? String {
+            urlString = url
+        }
+        
+        if urlString != nil && !urlString!.isEmpty {
+            
+            if let url = NSURL(string: urlString!) {
+                
+                let session = NSURLSession(configuration: customURLsessionConfiguration())
+                
+                let task = session.dataTaskWithURL(url) { (data, response, error) in
+                    
+                    if data != nil {
+                        if let image = UIImage(data: data!) {
+                            completion?(image: image, error: nil)
+                        }
+                        else {
+                            completion?(image: nil, error: nil)
+                        }
+                    }
+                    else {
+                        completion?(image: nil, error: error)
+                    }
+                }
+                
+                task.resume()
+            }
+        }
+        else {
+            completion?(image: nil, error: nil)
+        }
+    }
+    
+    private func updateUserAthlete(athleteJson: [String: AnyObject]) {
+        
+        let athlete = Athlete.dataFromJsonObject(athleteJson) as! Athlete
+        athlete.source = self.ftStravaSourceId
+        
+        let group = dispatch_group_create();
+        
+        dispatch_group_enter(group)
+        
+        self.fetchAthleteProfileImage(athleteJson, completion: { (image, error) in
+            
+            if image != nil {
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    FTDataManager.sharedInstance.uploadImage(image!, path: Athlete.profileImagePath, completion: { (fileName, error) in
+                        
+                        if fileName != nil {
+                            athlete.profileImage = fileName
+                        }
+                        
+                        dispatch_group_leave(group)
+                    })
+                })
+            }
+            else {
+                dispatch_group_leave(group)
+            }
+        })
+        
+        dispatch_group_notify(group, dispatch_get_main_queue(), {
+            
+            FTDataManager.sharedInstance.currentUser!.athlete = athlete
+            FTDataManager.sharedInstance.currentUser!.saveInBackground({ (object, error) in
+                if object != nil {
+                    athlete.objectId = (object as! User).athlete?.objectId
+                }
+            })
+        })
     }
 }

@@ -93,7 +93,7 @@ class User: FTDataObject {
         }
     }
     
-    override func saveInBackgroundWithBlock(completion: ((success: Bool, error: NSError?) -> ())?) {
+    override func saveInBackground(completion: ((object: FTDataObject?, error: NSError?) -> ())?) {
         
         let bUser = backendlessUser()
         Backendless.sharedInstance().userService.update(bUser, response: { (backendlessUser) in
@@ -101,11 +101,19 @@ class User: FTDataObject {
             let user = User(backendlessUser: backendlessUser)
             FTDataManager.sharedInstance.currentUser!.athlete = user.athlete
             
-            completion?(success: true, error: nil)
+            completion?(object: user, error: nil)
             
         }) { (fault) in
             
-            completion?(success: false, error: NSError.errorWithFault(fault))
+            completion?(object: nil, error: NSError.errorWithFault(fault))
+        }
+    }
+    
+    override func saveInBackgroundWithBlock(completion: ((success: Bool, error: NSError?) -> ())?) {
+        
+        saveInBackground { (object, error) in
+            
+            completion?(success: object != nil, error: error)
         }
     }
     
