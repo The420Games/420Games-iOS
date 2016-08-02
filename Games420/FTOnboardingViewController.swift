@@ -10,18 +10,25 @@ import UIKit
 import MBProgressHUD
 
 class FTOnboardingViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        title = NSLocalizedString("Welcome", comment: "Onboarding title")
+    }
 
     @IBAction func facebookButtonPressed(sender: AnyObject) {
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = NSLocalizedString("Signing up with Facebook", comment: "HUD title when signing up with Facebook")
+        hud.label.text = NSLocalizedString("Signing up with Facebook", comment: "HUD title when signing up with Facebook")
         hud.mode = .Indeterminate
         
         FTDataManager.sharedInstance.loginWithFacebook { (user, error) in
             
             dispatch_async(dispatch_get_main_queue(), {
                 
-                hud.hide(true)
+                hud.hideAnimated(true)
                 
                 if user != nil && error == nil {
                     self.dismissViewControllerAnimated(true, completion: nil)
@@ -33,6 +40,7 @@ class FTOnboardingViewController: UIViewController {
                 }
             })
         }
-        
     }
+    
+    
 }

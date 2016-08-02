@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */; };
+		1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */; };
+		1952C18D1D50DFC3008776AA /* FTString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C18C1D50DFC3008776AA /* FTString.swift */; };
 		19E64C151D3518610063E3DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C141D3518610063E3DD /* AppDelegate.swift */; };
 		19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C161D3518610063E3DD /* FTMainViewController.swift */; };
 		19E64C1A1D3518610063E3DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C181D3518610063E3DD /* Main.storyboard */; };
@@ -31,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTManualActivityTrackViewController.swift; sourceTree = "<group>"; };
+		1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSignupWithEmailViewController.swift; sourceTree = "<group>"; };
+		1952C18C1D50DFC3008776AA /* FTString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTString.swift; path = Extensions/FTString.swift; sourceTree = "<group>"; };
 		19E64C111D3518610063E3DD /* Games420.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Games420.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19E64C141D3518610063E3DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		19E64C161D3518610063E3DD /* FTMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMainViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1952C18B1D50DFAA008776AA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1952C18C1D50DFC3008776AA /* FTString.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		19E64C081D3518610063E3DD = {
 			isa = PBXGroup;
 			children = (
@@ -92,8 +104,9 @@
 				19E64C351D368D4B0063E3DD /* View Controllers */,
 				19E64C301D3674A90063E3DD /* Model */,
 				19E64C281D3519700063E3DD /* Data */,
-				19E64C141D3518610063E3DD /* AppDelegate.swift */,
+				1952C18B1D50DFAA008776AA /* Extensions */,
 				19E64C181D3518610063E3DD /* Main.storyboard */,
+				19E64C141D3518610063E3DD /* AppDelegate.swift */,
 				19E64C1B1D3518610063E3DD /* Assets.xcassets */,
 				19E64C1D1D3518610063E3DD /* LaunchScreen.storyboard */,
 				19E64C201D3518610063E3DD /* Info.plist */,
@@ -147,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */,
+				1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -310,12 +324,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				19E64C341D3677260063E3DD /* Activity.swift in Sources */,
+				1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */,
 				19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */,
 				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,
 				19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */,
 				19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */,
 				19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */,
 				19E64C371D368D700063E3DD /* FTSelectActivityViewController.swift in Sources */,
+				1952C18D1D50DFC3008776AA /* FTString.swift in Sources */,
 				19E64C3A1D368DB40063E3DD /* FTSelectActivityCell.swift in Sources */,
 				19E64C151D3518610063E3DD /* AppDelegate.swift in Sources */,
 				19E64C2F1D352F4A0063E3DD /* FTStravaManager.swift in Sources */,
