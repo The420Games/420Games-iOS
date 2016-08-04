@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		192CEFC01D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192CEFBF1D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift */; };
+		192CEFC21D53757B005E5AF4 /* ProfileCustomization.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 192CEFC11D53757B005E5AF4 /* ProfileCustomization.storyboard */; };
+		192CEFC51D537DB3005E5AF4 /* FTProfileMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */; };
 		1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */; };
 		1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */; };
 		1952C18D1D50DFC3008776AA /* FTString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C18C1D50DFC3008776AA /* FTString.swift */; };
@@ -34,6 +36,8 @@
 
 /* Begin PBXFileReference section */
 		192CEFBF1D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSigninWithEmailViewController.swift; sourceTree = "<group>"; };
+		192CEFC11D53757B005E5AF4 /* ProfileCustomization.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileCustomization.storyboard; sourceTree = "<group>"; };
+		192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTProfileMainViewController.swift; path = Profile/FTProfileMainViewController.swift; sourceTree = "<group>"; };
 		1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTManualActivityTrackViewController.swift; sourceTree = "<group>"; };
 		1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSignupWithEmailViewController.swift; sourceTree = "<group>"; };
 		1952C18C1D50DFC3008776AA /* FTString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTString.swift; path = Extensions/FTString.swift; sourceTree = "<group>"; };
@@ -74,6 +78,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		192CEFC31D537D86005E5AF4 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		192CEFC61D537E4B005E5AF4 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				19E64C181D3518610063E3DD /* Main.storyboard */,
+				192CEFC11D53757B005E5AF4 /* ProfileCustomization.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		1952C18B1D50DFAA008776AA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,11 +124,11 @@
 		19E64C131D3518610063E3DD /* Games420 */ = {
 			isa = PBXGroup;
 			children = (
+				192CEFC61D537E4B005E5AF4 /* Storyboards */,
 				19E64C351D368D4B0063E3DD /* View Controllers */,
 				19E64C301D3674A90063E3DD /* Model */,
 				19E64C281D3519700063E3DD /* Data */,
 				1952C18B1D50DFAA008776AA /* Extensions */,
-				19E64C181D3518610063E3DD /* Main.storyboard */,
 				19E64C141D3518610063E3DD /* AppDelegate.swift */,
 				19E64C1B1D3518610063E3DD /* Assets.xcassets */,
 				19E64C1D1D3518610063E3DD /* LaunchScreen.storyboard */,
@@ -141,6 +162,7 @@
 		19E64C351D368D4B0063E3DD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				192CEFC31D537D86005E5AF4 /* Profile */,
 				19E64C491D380C1F0063E3DD /* Log Activity */,
 				19E64C461D37D40D0063E3DD /* Main */,
 				19E64C431D37A7BC0063E3DD /* Onboarding */,
@@ -265,6 +287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				192CEFC21D53757B005E5AF4 /* ProfileCustomization.storyboard in Resources */,
 				19E64C1F1D3518610063E3DD /* LaunchScreen.storyboard in Resources */,
 				19E64C1C1D3518610063E3DD /* Assets.xcassets in Resources */,
 				19E64C1A1D3518610063E3DD /* Main.storyboard in Resources */,
@@ -331,6 +354,7 @@
 				1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */,
 				19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */,
 				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,
+				192CEFC51D537DB3005E5AF4 /* FTProfileMainViewController.swift in Sources */,
 				19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */,
 				19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */,
 				19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */,
