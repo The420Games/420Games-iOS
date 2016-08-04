@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		192CEFC01D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192CEFBF1D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift */; };
 		1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */; };
 		1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */; };
 		1952C18D1D50DFC3008776AA /* FTString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C18C1D50DFC3008776AA /* FTString.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		192CEFBF1D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSigninWithEmailViewController.swift; sourceTree = "<group>"; };
 		1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTManualActivityTrackViewController.swift; sourceTree = "<group>"; };
 		1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSignupWithEmailViewController.swift; sourceTree = "<group>"; };
 		1952C18C1D50DFC3008776AA /* FTString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTString.swift; path = Extensions/FTString.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			children = (
 				19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */,
 				1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */,
+				192CEFBF1D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				19E64C341D3677260063E3DD /* Activity.swift in Sources */,
+				192CEFC01D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift in Sources */,
 				1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */,
 				19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */,
 				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,

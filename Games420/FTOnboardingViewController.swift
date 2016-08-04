@@ -17,6 +17,15 @@ class FTOnboardingViewController: UIViewController {
         
         title = NSLocalizedString("Welcome", comment: "Onboarding title")
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        if FTDataManager.sharedInstance.currentUser != nil {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
 
     @IBAction func facebookButtonPressed(sender: AnyObject) {
         

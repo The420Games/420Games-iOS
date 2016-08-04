@@ -49,7 +49,18 @@ class FTSignupWithEmailViewController: UIViewController {
                 hud.hideAnimated(true)
                 
                 if success && error == nil {
-                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                    let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                    hud.label.text = NSLocalizedString("Success", comment: "HUD title when signing up with Email succeeded")
+                    hud.detailsLabel.text = NSLocalizedString("Check your email for instructions", comment: "HUD subtitle when email signup succeeded")
+                    hud.mode = .Text
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (Int64)(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                        
+                        hud.hideAnimated(true)
+                        
+                        self.performSegueWithIdentifier("signIn", sender: self)
+                    }
                 }
                 else {
                     var message: String!
@@ -77,7 +88,7 @@ class FTSignupWithEmailViewController: UIViewController {
         }
         else if !emailTextField.text!.validEmailFormat() {
             
-            errors.append(NSLocalizedString("Please provide valif email!", comment: "Error message when email invalid"))
+            errors.append(NSLocalizedString("Please provide valid email!", comment: "Error message when email invalid"))
         }
         
         if passwordTextField.text == nil || passwordTextField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < minimumPasswordLength {
