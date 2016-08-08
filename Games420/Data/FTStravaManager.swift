@@ -12,7 +12,7 @@ class FTStravaManager: NSObject {
 
     static let sharedInstance = FTStravaManager()
     
-    private let ftStravaSourceId = "Strava"
+    let ftStravaSourceId = "Strava"
     
     var appID = ""
     var clientSecret = ""
@@ -22,6 +22,7 @@ class FTStravaManager: NSObject {
     private let baseURL = "https://www.strava.com"
     private let apiPath = "/api/v3"
     private let athletePath = "/athlete"
+    private let athletesPath = "/athletes"
     private let activitesPath = "/activities"
     
     private let oathPath = "/oauth"
@@ -35,6 +36,8 @@ class FTStravaManager: NSObject {
             return self.token != nil
         }
     }
+    
+    var updateAthleteWhenAuhtorized = true
     
     func authorize(urlString: String!) {
         
@@ -138,7 +141,7 @@ class FTStravaManager: NSObject {
                 
                 if let athleteJson = json["athlete"] as? [String : AnyObject] {
                     
-                    if FTDataManager.sharedInstance.currentUser?.athlete == nil {
+                    if self.updateAthleteWhenAuhtorized && FTDataManager.sharedInstance.currentUser?.athlete == nil {
                     
                         self.updateUserAthlete(athleteJson)
                     }
@@ -158,7 +161,7 @@ class FTStravaManager: NSObject {
         
     }
     
-    private func fetchAthleteProfileImage(athleteData: [String: AnyObject], completion: ((image: UIImage?, error: NSError?) -> ())?) {
+    func fetchAthleteProfileImage(athleteData: [String: AnyObject], completion: ((image: UIImage?, error: NSError?) -> ())?) {
         
         var urlString: String?
         
@@ -237,5 +240,29 @@ class FTStravaManager: NSObject {
                 }
             })
         })
+    }
+    
+    func fetchAthlete(athleteId: String?, completion: ((athleteData: [String: AnyObject]?, error: NSError?) -> ())?) {
+
+        let session = NSURLSession(configuration: customURLsessionConfiguration())
+        
+        let url = NSURL(string: baseURL + apiPath + (athleteId != nil ? athletesPath + "/\(athleteId!)" : athletePath))
+        
+        let task = session.dataTaskWithURL(url!) { (data, response, error) in
+            if error != nil {
+                completion?(athleteData: nil, error: error)
+            }
+            else {
+                do {
+                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
+                    completion?(athleteData: json, error: nil)
+                    
+                } catch let error as NSError {
+                    completion?(athleteData: nil, error: error)
+                }
+            }
+        }
+        
+        task.resume()        
     }
 }

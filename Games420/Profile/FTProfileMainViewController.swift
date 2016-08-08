@@ -65,6 +65,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     private let backTitle = NSLocalizedString("Back", comment: "Back button title")
     private let bDayTitle = NSLocalizedString("Set birth date", comment: "Set birth date button title")
     private let genderTitle = NSLocalizedString("Set gender", comment: "Set gender button title")
+    
+    private var waitingForStravaAuthentication = false
 
     override func viewDidLoad() {
         
@@ -76,7 +78,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         
         addLeftButtonItem()
         
-        populateData()
+        populateData(FTDataManager.sharedInstance.currentUser?.athlete)
         
         fetchAthlete()
     }
@@ -84,6 +86,13 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    deinit {
+        
+        if waitingForStravaAuthentication {
+            manageForStravaNotification(false)
+        }
     }
     
     // MARK:  - UI Customization
@@ -121,7 +130,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             profilePicture = nil
             birthDate = nil
             gender = nil
-            populateData()
+            populateData(FTDataManager.sharedInstance.currentUser?.athlete)
         }
         else {
             navigationController?.popViewControllerAnimated(true)
@@ -166,6 +175,16 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         if edit {
             startPhotoSelection()
         }
+    }
+    
+    @IBAction func stravaButtonTouched(sender: AnyObject) {
+        
+        completeWithStrava()
+    }
+    
+    @IBAction func facebookButtonTouched(sender: AnyObject) {
+        
+        completeWithFacebook()
     }
     
     // MARK: - Photo
@@ -296,9 +315,9 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         
     }
 
-    private func populateData() {
+    private func populateData(currentAthlete: Athlete?) {
 
-        if let athlete = FTDataManager.sharedInstance.currentUser?.athlete {
+        if let athlete = currentAthlete {
 
             updateNameLabel(athlete.firstName, lastName: athlete.lastName)
             
@@ -329,7 +348,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             if profilePicture != nil {
                 profileImageView.image = profilePicture
             }
-            if let url = FTDataManager.sharedInstance.imageUrlForProperty(athlete.profileImage, path: Athlete.profileImagePath) {
+            else if let url = FTDataManager.sharedInstance.imageUrlForProperty(athlete.profileImage, path: Athlete.profileImagePath) {
                 profileImageView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "default_photo"), optionsInfo: .None, progressBlock: nil, completionHandler: nil)
             }
             else {
@@ -369,7 +388,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                 
                 if error == nil && object != nil {
                     FTDataManager.sharedInstance.currentUser?.athlete = object as? Athlete
-                    self.populateData()
+                    self.populateData(FTDataManager.sharedInstance.currentUser?.athlete)
                 }
             })
             
@@ -461,7 +480,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                                     
                                     if object != nil && error == nil {
                                         self.edit = false
-                                        self.populateData()
+                                        self.populateData(FTDataManager.sharedInstance.currentUser?.athlete)
                                     }
                                     else {
                                         print("Error saving User: \(error)")
@@ -475,7 +494,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                         }
                         else {
                             self.edit = false
-                            self.populateData()
+                            self.populateData(FTDataManager.sharedInstance.currentUser?.athlete)
                         }
                     }
                     else {
@@ -489,6 +508,118 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                 })
             }
         }
+    }
+    
+    // MARK: - Strava integration
+    
+    private func completeWithStrava() {
+        
+        if !FTStravaManager.sharedInstance.isAuthorized {
+            
+            waitingForStravaAuthentication = true
+            manageForStravaNotification(true)
+            
+            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
+            hud.mode = .Indeterminate
+            
+            FTStravaManager.sharedInstance.updateAthleteWhenAuhtorized = false
+            FTStravaManager.sharedInstance.authorize("games420://games420")
+        }
+        else {
+            
+            fetchAthleteFromStrava()
+        }
+    }
+    
+    private func fetchAthleteFromStrava() {
+        
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
+        hud.mode = .Indeterminate
+        
+        FTStravaManager.sharedInstance.fetchAthlete(nil, completion: { (athleteData, error) in
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                
+                hud.hideAnimated(true)
+            
+                if athleteData != nil {
+                    
+                    let athlete = Athlete.dataFromJsonObject(athleteData!) as! Athlete
+                    athlete.source = FTStravaManager.sharedInstance.ftStravaSourceId
+                
+                    let group = dispatch_group_create();
+                    
+                    dispatch_group_enter(group)
+                    
+                    let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                    hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
+                    hud.mode = .Indeterminate
+                    
+                    FTStravaManager.sharedInstance.fetchAthleteProfileImage(athleteData!, completion: { (image, error) in
+            
+                        dispatch_async(dispatch_get_main_queue(), {
+                            
+                            hud.hideAnimated(true)
+                            
+                            self.profilePicture = image
+                        })
+                        
+                        dispatch_group_leave(group)
+                    })
+                    
+                    dispatch_group_notify(group, dispatch_get_main_queue()) {
+            
+                        self.populateData(athlete)
+                    }
+                }
+                else {
+                    
+                    print("Error fetching Athlete: \(error)")
+                    
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to fetch profile:(", comment: "Error message when failed to fetch Athlete from Strava"), preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            })
+        })
+    }
+    
+    // MARK: Notifications
+    
+    private func manageForStravaNotification(signup: Bool) {
+        
+        if signup {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.stravaNotificationReceived(_:)), name: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: nil)
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: nil)
+        }
+    }
+    
+    func stravaNotificationReceived(notification: NSNotification) {
+        
+        if waitingForStravaAuthentication {
+            
+            manageForStravaNotification(false)
+            
+            waitingForStravaAuthentication = false
+            
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            
+            if let success = notification.userInfo?["success"] as? Bool {
+                if success {
+                    fetchAthleteFromStrava()
+                }
+            }
+        }
+    }
+    
+    // MARK: - Facebook integration
+    
+    private func completeWithFacebook() {
+        
     }
     
     /*

@@ -84,14 +84,14 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
     private func fetchActivities() {
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = NSLocalizedString("Fetching Strava Activities", comment: "HUD title when fetching activities from strava")
+        hud.label.text = NSLocalizedString("Fetching Strava Activities", comment: "HUD title when fetching activities from strava")
         hud.mode = .Indeterminate
         
         FTStravaManager.sharedInstance.fetchActivities({ (results, error) in
             
             dispatch_async(dispatch_get_main_queue(), {
                 
-                hud.hide(true)
+                hud.hideAnimated(true)
                 
                 if results != nil {
                     self.activities = results
