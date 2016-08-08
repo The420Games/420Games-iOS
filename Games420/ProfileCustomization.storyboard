@@ -39,7 +39,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="atU-1P-12G" userLabel="Holder">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9s9-hj-M4Y" userLabel="Profile Image View">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_photo" translatesAutoresizingMaskIntoConstraints="NO" id="9s9-hj-M4Y" userLabel="Profile Image View">
                                                 <rect key="frame" x="10" y="10" width="100" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="Rtf-rB-xDD"/>
@@ -76,7 +76,7 @@
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Locality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Az-By-ZcB" userLabel="Locality Label">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Locality" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Az-By-ZcB" userLabel="Locality Label">
                                                 <rect key="frame" x="124" y="129" width="59" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -157,10 +157,16 @@
                                                             <constraint firstAttribute="width" constant="160" id="UHT-bE-aFi"/>
                                                         </constraints>
                                                         <state key="normal" title="Select gender"/>
+                                                        <connections>
+                                                            <action selector="genderButtonTouched:" destination="FPM-Rt-cB5" eventType="touchUpInside" id="zda-eS-Cx7"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4P-O3-ihr" userLabel="Birthday Button">
                                                         <rect key="frame" x="0.0" y="204" width="160" height="30"/>
                                                         <state key="normal" title="Set birth date"/>
+                                                        <connections>
+                                                            <action selector="birthdateButtonTouched:" destination="FPM-Rt-cB5" eventType="touchUpInside" id="GkV-Ph-MMJ"/>
+                                                        </connections>
                                                     </button>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Nl-mG-IQc" userLabel="Bio Text View">
                                                         <rect key="frame" x="0.0" y="253" width="466" height="165"/>
@@ -282,4 +288,7 @@
             <point key="canvasLocation" x="771" y="364"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="default_photo" width="100" height="100"/>
+    </resources>
 </document>

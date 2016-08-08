@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum GenderType : String {
+    case Male = "M", Female = "F", NotProvided = ""
+    static let allValues = [Male, Female, NotProvided]
+}
+
 class Athlete: FTDataObject {
     
     static let profileImagePath = "profileimages"
@@ -21,6 +26,8 @@ class Athlete: FTDataObject {
     var country: String?
     var source: String?
     var externalId: String?
+    var bio: String?
+    var birthDay: NSDate?
     
     override class func dataFromJsonObject(jsonObject: [String: AnyObject]!) -> FTDataObject {
         
@@ -38,6 +45,26 @@ class Athlete: FTDataObject {
         }
         
         return athlete
+    }
+    
+    func localizedGender() -> String {
+        
+        var ret = ""
+        
+        let maleString = NSLocalizedString("Male", comment: "Male gender title")
+        let femaleString = NSLocalizedString("Female", comment: "Female gender title")
+        
+        if let genderStr = gender {
+            
+            if genderStr == "M" {
+                ret = maleString
+            }
+            else if genderStr == "F" {
+                ret = femaleString
+            }
+        }
+        
+        return ret        
     }
 
 }

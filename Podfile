@@ -10,4 +10,5 @@ target 'Games420' do
     pod 'Kingfisher'
     pod 'TPKeyboardAvoiding'
     pod 'Crashlytics'
+    pod 'ActionSheetPicker-3.0'
 end
