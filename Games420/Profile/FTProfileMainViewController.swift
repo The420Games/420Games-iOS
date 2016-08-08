@@ -11,7 +11,7 @@ import Kingfisher
 import MBProgressHUD
 import ActionSheetPicker_3_0
 
-class FTProfileMainViewController: UIViewController {
+class FTProfileMainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var profileImageView: UIImageView!
     
@@ -57,7 +57,7 @@ class FTProfileMainViewController: UIViewController {
     
     private var birthDate: NSDate?
     private var gender: String?
-    private var profilePicture: String?
+    private var profilePicture: UIImage?
     
     private let editTitle = NSLocalizedString("Edit", comment: "Edit button title")
     private let saveTitle = NSLocalizedString("Save", comment: "Save button title")
@@ -118,6 +118,9 @@ class FTProfileMainViewController: UIViewController {
         
         if edit {
             edit = false
+            profilePicture = nil
+            birthDate = nil
+            gender = nil
             populateData()
         }
         else {
@@ -156,6 +159,86 @@ class FTProfileMainViewController: UIViewController {
         datePicker.maximumDate = NSDate()
         
         datePicker.showActionSheetPicker()
+    }
+    
+    @IBAction func photoTapped(sender: AnyObject) {
+        
+        if edit {
+            startPhotoSelection()
+        }
+    }
+    
+    // MARK: - Photo
+    
+    private func startPhotoSelection() {
+        
+        // If camrea and photo library are available
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) && UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+            // Both available, ask user
+            queryPhotoSource()
+        } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+            // Just camera available
+            takePhoto()
+        } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+            // Just library available
+            queryPhotoSource()
+        }
+    }
+    
+    private func queryPhotoSource() {
+        
+        let alert = UIAlertController(title: NSLocalizedString("Select source", comment: "Select photo source title"), message: nil, preferredStyle: .ActionSheet)
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Take new photo", comment: "Take new photo title"), style: .Default, handler: { (action) in
+            self.takePhoto()
+        }))
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Camera roll", comment: "Choose photo from library title"), style: .Default, handler: { (action) in
+            self.selectPhotoFromCameraRoll()
+        }))
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .Cancel, handler: nil))
+        
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    private func selectPhotoFromCameraRoll() {
+        
+        getPhoto(.SavedPhotosAlbum)
+    }
+    
+    private func takePhoto() {
+        getPhoto(.Camera)
+    }
+    
+    // Start image picker or camera
+    private func getPhoto(sourceType: UIImagePickerControllerSourceType)
+    {
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = sourceType
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    // Photo selection callback
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        // Hide picker
+        
+        var image = info[UIImagePickerControllerEditedImage] as? UIImage;
+        if image == nil {
+            image = info[UIImagePickerControllerOriginalImage] as? UIImage;
+        }
+        
+        picker.dismissViewControllerAnimated(true) { () -> Void in
+
+            if image != nil {
+            
+                self.profilePicture = image!
+                self.profileImageView.image = image!
+            }
+        }
     }
     
     // MARK: - Populate data
@@ -243,8 +326,10 @@ class FTProfileMainViewController: UIViewController {
             bioLabel.text = athlete.bio
             bioTextView.text = athlete.bio
             
-            profilePicture = athlete.profileImage
-            if let url = FTDataManager.sharedInstance.imageUrlForProperty(profilePicture, path: Athlete.profileImagePath) {
+            if profilePicture != nil {
+                profileImageView.image = profilePicture
+            }
+            if let url = FTDataManager.sharedInstance.imageUrlForProperty(athlete.profileImage, path: Athlete.profileImagePath) {
                 profileImageView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "default_photo"), optionsInfo: .None, progressBlock: nil, completionHandler: nil)
             }
             else {
@@ -325,66 +410,87 @@ class FTProfileMainViewController: UIViewController {
         athlete.gender = self.gender
         athlete.birthDay = birthDate
         athlete.bio = bioTextView.text
-        athlete.profileImage = profilePicture
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
         hud.mode = .Indeterminate
         
-        athlete.saveInBackground { (object, error) in
+        let group = dispatch_group_create();
+        
+        if profilePicture != nil {
             
-            dispatch_async(dispatch_get_main_queue(), {
-                
-                hud.hideAnimated(true)
-            
-                if object != nil && error == nil {
-                    
-                    let needsUpdateUser = FTDataManager.sharedInstance.currentUser!.athlete == nil
-                    
-                    FTDataManager.sharedInstance.currentUser!.athlete = object as? Athlete
-                    
-                    if needsUpdateUser {
-                        
-                        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-                        hud.label.text = NSLocalizedString("Updating account", comment: "HUD title when updating user account")
-                        hud.mode = .Indeterminate
-                        
-                        FTDataManager.sharedInstance.currentUser!.saveInBackground({ (object, error) in
-                            
-                            dispatch_async(dispatch_get_main_queue(), {
-                                
-                                hud.hideAnimated(true)
-                                
-                                if object != nil && error == nil {
-                                    self.edit = false
-                                    self.populateData()
-                                }
-                                else {
-                                    print("Error saving User: \(error)")
-                                    
-                                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update account:(", comment: "Error message when failed to save User"), preferredStyle: .Alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                                    self.presentViewController(alert, animated: true, completion: nil)
-                                }
-                            })
-                        })
-                    }
-                    else {
-                        self.edit = false
-                        self.populateData()
-                    }
+            dispatch_group_enter(group)
+            FTDataManager.sharedInstance.uploadImage(profilePicture!, path: Athlete.profileImagePath, completion: { (fileName, error) in
+         
+                if error == nil {
+                    athlete.profileImage = fileName
                 }
                 else {
-                    print("Error saving Athlete: \(error)")
-                    
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update profile:(", comment: "Error message when failed to save Athlete"), preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.profilePicture = nil
                 }
                 
+                dispatch_group_leave(group)
             })
         }
+        
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            
+            athlete.saveInBackground { (object, error) in
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    hud.hideAnimated(true)
+                    
+                    if object != nil && error == nil {
+                        
+                        let needsUpdateUser = FTDataManager.sharedInstance.currentUser!.athlete == nil
+                        
+                        FTDataManager.sharedInstance.currentUser!.athlete = object as? Athlete
+                        
+                        if needsUpdateUser {
+                            
+                            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                            hud.label.text = NSLocalizedString("Updating account", comment: "HUD title when updating user account")
+                            hud.mode = .Indeterminate
+                            
+                            FTDataManager.sharedInstance.currentUser!.saveInBackground({ (object, error) in
+                                
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    
+                                    hud.hideAnimated(true)
+                                    
+                                    if object != nil && error == nil {
+                                        self.edit = false
+                                        self.populateData()
+                                    }
+                                    else {
+                                        print("Error saving User: \(error)")
+                                        
+                                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update account:(", comment: "Error message when failed to save User"), preferredStyle: .Alert)
+                                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                                        self.presentViewController(alert, animated: true, completion: nil)
+                                    }
+                                })
+                            })
+                        }
+                        else {
+                            self.edit = false
+                            self.populateData()
+                        }
+                    }
+                    else {
+                        print("Error saving Athlete: \(error)")
+                        
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update profile:(", comment: "Error message when failed to save Athlete"), preferredStyle: .Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    
+                })
+            }
+        }
     }
+    
     /*
     // MARK: - Navigation
 

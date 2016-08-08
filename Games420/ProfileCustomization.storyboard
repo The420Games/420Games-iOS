@@ -39,12 +39,16 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="atU-1P-12G" userLabel="Holder">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_photo" translatesAutoresizingMaskIntoConstraints="NO" id="9s9-hj-M4Y" userLabel="Profile Image View">
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_photo" translatesAutoresizingMaskIntoConstraints="NO" id="9s9-hj-M4Y" userLabel="Profile Image View">
                                                 <rect key="frame" x="10" y="10" width="100" height="100"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="Rtf-rB-xDD"/>
                                                     <constraint firstAttribute="width" constant="100" id="ltZ-CT-v3a"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="2cV-2M-jQD" appends="YES" id="N4e-1V-aFS"/>
+                                                </connections>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User full name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGz-Ta-uuf" userLabel="Name Label">
                                                 <rect key="frame" x="124" y="49.5" width="110.5" height="21"/>
@@ -284,6 +288,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eIW-ZC-zN8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="2cV-2M-jQD" userLabel="Photo Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="photoTapped:" destination="FPM-Rt-cB5" id="Y7j-WM-n4C"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="771" y="364"/>
         </scene>
