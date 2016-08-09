@@ -148,6 +148,25 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
     }
     
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Delete", comment: "Delete action title")) { (action, indexpath) in
+            
+            let medication = self.medications![indexPath.row]
+            self.deleteMedication(medication)
+        }
+        
+        return [deleteAction]
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        //
+    }
+    
     // MARK: - Notifications
     
     private func manageForStravaNotification(signup: Bool) {
@@ -202,6 +221,40 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             })
         }
+    }
+    
+    private func deleteMedication(medication: Medication) {
+        
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.label.text = NSLocalizedString("Deleting Medication", comment: "HUD title when deleting a medication")
+        hud.mode = .Indeterminate
+        
+        // TODO: Delete activity
+        
+        medication.deleteInBackgroundWithBlock { (success, error) in
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                
+                hud.hideAnimated(true)
+                
+                if success {
+                    
+                    if let index = self.medications!.indexOf(medication) {
+                        self.medications?.removeAtIndex(index)
+                        self.activitiesTableView.beginUpdates()
+                        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                        self.activitiesTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Top)
+                        self.activitiesTableView.endUpdates()
+                    }
+                }
+                else {
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to delete medication:(", comment: "Error message when failed to delete medication"), preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            })
+        }
+        
     }
     
     // MARK: - Apps integrations
