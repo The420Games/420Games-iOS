@@ -79,6 +79,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     private let kFacebookKeyBirthday = "birthday"
     private let kFacebookKeyLocation = "location"
     private let kFacebookKeyLocationName = "name"
+    
+    private let cropSegueId = "cropPhoto"
 
     override func viewDidLoad() {
         
@@ -266,8 +268,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
 
             if image != nil {
             
-                self.profilePicture = image!
-                self.profileImageView.image = image!
+                self.performSegueWithIdentifier(self.cropSegueId, sender: image!)
             }
         }
     }
@@ -726,14 +727,20 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == cropSegueId {
+            let target = segue.destinationViewController as! FTPhotoCropViewController
+            target.originalPhoto = sender as! UIImage
+            target.completionBlock = {(croppedPhoto: UIImage) -> () in
+                
+                self.profilePicture = croppedPhoto
+                self.profileImageView.image = croppedPhoto
+            }
+        }
     }
-    */
 
 }

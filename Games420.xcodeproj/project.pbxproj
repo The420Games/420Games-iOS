@@ -13,6 +13,7 @@
 		1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */; };
 		1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */; };
 		1952C18D1D50DFC3008776AA /* FTString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C18C1D50DFC3008776AA /* FTString.swift */; };
+		19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746441D59F2020013883F /* FTPhotoCropViewController.swift */; };
 		19E64C151D3518610063E3DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C141D3518610063E3DD /* AppDelegate.swift */; };
 		19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C161D3518610063E3DD /* FTMainViewController.swift */; };
 		19E64C1A1D3518610063E3DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C181D3518610063E3DD /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 		1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTManualActivityTrackViewController.swift; sourceTree = "<group>"; };
 		1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSignupWithEmailViewController.swift; sourceTree = "<group>"; };
 		1952C18C1D50DFC3008776AA /* FTString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTString.swift; path = Extensions/FTString.swift; sourceTree = "<group>"; };
+		19B746441D59F2020013883F /* FTPhotoCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTPhotoCropViewController.swift; sourceTree = "<group>"; };
 		19E64C111D3518610063E3DD /* Games420.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Games420.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19E64C141D3518610063E3DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		19E64C161D3518610063E3DD /* FTMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMainViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */,
+				19B746441D59F2020013883F /* FTPhotoCropViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */,
 				19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */,
 				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,
+				19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */,
 				192CEFC51D537DB3005E5AF4 /* FTProfileMainViewController.swift in Sources */,
 				19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */,
 				19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */,

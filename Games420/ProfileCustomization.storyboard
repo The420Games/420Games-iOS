@@ -309,6 +309,7 @@
                         <outlet property="nameLabel" destination="tGz-Ta-uuf" id="DUF-Ez-Q9j"/>
                         <outlet property="profileImageView" destination="9s9-hj-M4Y" id="MWD-9Z-1v1"/>
                         <outlet property="stateTextField" destination="DQj-19-1f5" id="Ap4-Sl-SNy"/>
+                        <segue destination="ZDP-gH-7RW" kind="show" identifier="cropPhoto" id="yJN-Ro-7Fw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eIW-ZC-zN8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -319,6 +320,66 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="771" y="364"/>
+        </scene>
+        <!--Photo Crop View Controller-->
+        <scene sceneID="ns9-bz-RiF">
+            <objects>
+                <viewController id="ZDP-gH-7RW" customClass="FTPhotoCropViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FMe-US-Qmx"/>
+                        <viewControllerLayoutGuide type="bottom" id="lfR-C9-mG7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rxu-pC-7hS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0wt-BD-eJj">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0zc-wS-HpB">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="0zc-wS-HpB" firstAttribute="leading" secondItem="0wt-BD-eJj" secondAttribute="leading" id="Aam-AL-m2J"/>
+                                    <constraint firstItem="0zc-wS-HpB" firstAttribute="centerY" secondItem="0wt-BD-eJj" secondAttribute="centerY" id="DIW-4h-7qO"/>
+                                    <constraint firstAttribute="trailing" secondItem="0zc-wS-HpB" secondAttribute="trailing" id="ZvZ-dV-LY0"/>
+                                    <constraint firstAttribute="bottom" secondItem="0zc-wS-HpB" secondAttribute="bottom" id="dFw-1g-bGA"/>
+                                    <constraint firstItem="0zc-wS-HpB" firstAttribute="centerX" secondItem="0wt-BD-eJj" secondAttribute="centerX" id="hBh-L2-Mym"/>
+                                    <constraint firstItem="0zc-wS-HpB" firstAttribute="top" secondItem="0wt-BD-eJj" secondAttribute="top" id="wgN-Ex-atU"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="ZDP-gH-7RW" id="NlQ-96-8ou"/>
+                                </connections>
+                            </scrollView>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NPF-IF-Nxj" userLabel="Overlay View">
+                                <rect key="frame" x="200" y="200" width="200" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="0.35159278100775193" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="XUh-5z-T9n"/>
+                                    <constraint firstAttribute="width" constant="200" id="nsq-qt-rox"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0wt-BD-eJj" secondAttribute="trailing" id="H9l-RP-Ky4"/>
+                            <constraint firstItem="0wt-BD-eJj" firstAttribute="leading" secondItem="rxu-pC-7hS" secondAttribute="leading" id="XaY-iZ-ghN"/>
+                            <constraint firstItem="NPF-IF-Nxj" firstAttribute="centerX" secondItem="rxu-pC-7hS" secondAttribute="centerX" id="ao4-aK-UIX"/>
+                            <constraint firstItem="lfR-C9-mG7" firstAttribute="top" secondItem="0wt-BD-eJj" secondAttribute="bottom" id="b7e-Mp-1hk"/>
+                            <constraint firstItem="NPF-IF-Nxj" firstAttribute="centerY" secondItem="rxu-pC-7hS" secondAttribute="centerY" id="kBE-hr-vwI"/>
+                            <constraint firstItem="0wt-BD-eJj" firstAttribute="top" secondItem="rxu-pC-7hS" secondAttribute="top" id="yvk-QM-mD7"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="overlayView" destination="NPF-IF-Nxj" id="5ge-IH-1Sy"/>
+                        <outlet property="photoImageView" destination="0zc-wS-HpB" id="oVk-gC-YR9"/>
+                        <outlet property="photoScrollView" destination="0wt-BD-eJj" id="mv9-DY-gCp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uXl-Cc-hR1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1487" y="364"/>
         </scene>
     </scenes>
     <resources>
