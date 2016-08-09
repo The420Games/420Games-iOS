@@ -15,8 +15,6 @@ class FTSignupWithEmailViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var retypeTextField: UITextField!
     
-    private let minimumPasswordLength = 6
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -91,7 +89,7 @@ class FTSignupWithEmailViewController: UIViewController {
             errors.append(NSLocalizedString("Please provide valid email!", comment: "Error message when email invalid"))
         }
         
-        if passwordTextField.text == nil || passwordTextField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < minimumPasswordLength {
+        if passwordTextField.text == nil || passwordTextField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < User.minimumPasswordLength {
             
             errors.append(NSLocalizedString("Password too short!", comment: "Error message when password too short"))
         }

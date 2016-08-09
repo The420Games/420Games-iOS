@@ -285,6 +285,14 @@
             </objects>
             <point key="canvasLocation" x="632.5" y="717"/>
         </scene>
+        <!--FTChangePasswordViewController-->
+        <scene sceneID="Cgz-j8-SKm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ChangePassword" referencedIdentifier="FTChangePasswordViewController" id="M4k-fd-yji" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ud8-Ps-noj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="613.5" y="782"/>
+        </scene>
         <!--Manual Activity Track View Controller-->
         <scene sceneID="epb-HZ-f85">
             <objects>
@@ -594,15 +602,25 @@
                                     <segue destination="Aes-Hi-Td7" kind="show" id="DUz-Yf-MHx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBO-dd-xp8">
+                                <rect key="frame" x="460" y="550" width="66" height="30"/>
+                                <state key="normal" title="Password"/>
+                                <connections>
+                                    <segue destination="M4k-fd-yji" kind="show" id="hrx-aW-7G7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uaV-sY-9cQ" secondAttribute="bottom" constant="20" id="3VG-PI-Las"/>
+                            <constraint firstItem="PCh-vU-dab" firstAttribute="leading" secondItem="PBO-dd-xp8" secondAttribute="trailing" constant="8" id="40j-N5-QZE"/>
+                            <constraint firstItem="PBO-dd-xp8" firstAttribute="centerY" secondItem="PCh-vU-dab" secondAttribute="centerY" id="4iy-Ru-4ND"/>
                             <constraint firstItem="PCh-vU-dab" firstAttribute="centerY" secondItem="uaV-sY-9cQ" secondAttribute="centerY" id="CLO-lX-R6E"/>
                             <constraint firstItem="uaV-sY-9cQ" firstAttribute="top" secondItem="vYw-PX-NHx" secondAttribute="bottom" constant="8" id="Gh6-UJ-6A9"/>
                             <constraint firstAttribute="trailing" secondItem="vYw-PX-NHx" secondAttribute="trailing" id="LUh-Rk-Gwg"/>
                             <constraint firstItem="PCh-vU-dab" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="MJD-qN-yMU"/>
                             <constraint firstItem="CJw-3d-uv2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="Ys1-3g-gMi"/>
+                            <constraint firstItem="PBO-dd-xp8" firstAttribute="height" secondItem="PCh-vU-dab" secondAttribute="height" id="qcj-lk-UcI"/>
                             <constraint firstItem="vYw-PX-NHx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rLY-lM-Ik3"/>
                             <constraint firstItem="CJw-3d-uv2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="shS-ZR-JfK"/>
                             <constraint firstItem="uaV-sY-9cQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wnn-Ui-Xyz"/>

@@ -24,6 +24,8 @@ class User: FTDataObject {
     
     private let ttNewUserTimeOut: NSTimeInterval = 100.0 //If user created within n seconds
     
+    static let minimumPasswordLength = 6
+    
     convenience init(backendlessUser: BackendlessUser) {
         
         self.init()
