@@ -18,6 +18,7 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private var medications: [Medication]?
     
     private var waitingForStravaAuthentication = false
+    private var stravaAuthenticationHUD: MBProgressHUD?
     
     override func viewDidLoad() {
         
@@ -165,7 +166,10 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             waitingForStravaAuthentication = false
             
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            if stravaAuthenticationHUD != nil {
+                stravaAuthenticationHUD!.hideAnimated(true)
+                stravaAuthenticationHUD = nil
+            }
             
             if let success = notification.userInfo?["success"] as? Bool {
                 if success {
@@ -207,9 +211,9 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if !FTStravaManager.sharedInstance.isAuthorized {
             waitingForStravaAuthentication = true
             
-            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
-            hud.mode = .Indeterminate
+            stravaAuthenticationHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            stravaAuthenticationHUD!.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
+            stravaAuthenticationHUD!.mode = .Indeterminate
             
             FTStravaManager.sharedInstance.authorize("games420://games420")
         }

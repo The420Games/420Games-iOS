@@ -47,7 +47,7 @@ class FTStravaManager: NSObject {
         
         let callBackUrl = NSURL(string: urlString)
         
-        let urlString = NSString(format: baseURL + oathPath + authorizationPath + "?client_id=%ld&response_type=code&redirect_uri=%@&scope=write&state=%@&approval_prompt=force", 12445, callBackUrl!.absoluteString, stateInfo.stringByAddingPercentEscapesUsingEncoding(NSASCIIStringEncoding)!)
+        let urlString = NSString(format: baseURL + oathPath + authorizationPath + "?client_id=%ld&response_type=code&redirect_uri=%@&scope=write&state=%@&approval_prompt=force", 12445, callBackUrl!.absoluteString, stateInfo.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.letterCharacterSet())!)
         
         if let url = NSURL(string: urlString as String) {
             if UIApplication.sharedApplication().canOpenURL(url) {

@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 import MBProgressHUD
 import ActionSheetPicker_3_0
+import FBSDKCoreKit
 
 class FTProfileMainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -67,6 +68,17 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     private let genderTitle = NSLocalizedString("Set gender", comment: "Set gender button title")
     
     private var waitingForStravaAuthentication = false
+    private var stravaAuthenticationHUD: MBProgressHUD?
+    
+    //Facebook keys
+    private let kFacebookKeyId = "id"
+    private let kFacebookKeyEmail = "email"
+    private let kFacebookKeyFirstName = "first_name"
+    private let kFacebookKeyLastName = "last_name"
+    private let kFacebookKeyGender = "gender"
+    private let kFacebookKeyBirthday = "birthday"
+    private let kFacebookKeyLocation = "location"
+    private let kFacebookKeyLocationName = "name"
 
     override func viewDidLoad() {
         
@@ -519,9 +531,9 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             waitingForStravaAuthentication = true
             manageForStravaNotification(true)
             
-            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
-            hud.mode = .Indeterminate
+            stravaAuthenticationHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            stravaAuthenticationHUD!.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
+            stravaAuthenticationHUD!.mode = .Indeterminate
             
             FTStravaManager.sharedInstance.updateAthleteWhenAuhtorized = false
             FTStravaManager.sharedInstance.authorize("games420://games420")
@@ -554,7 +566,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                     dispatch_group_enter(group)
                     
                     let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-                    hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
+                    hud.label.text = NSLocalizedString("Fetching profile picture", comment: "HUD title when updating profile picture from Strava")
                     hud.mode = .Indeterminate
                     
                     FTStravaManager.sharedInstance.fetchAthleteProfileImage(athleteData!, completion: { (image, error) in
@@ -606,7 +618,10 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             
             waitingForStravaAuthentication = false
             
-            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            if stravaAuthenticationHUD != nil {
+                stravaAuthenticationHUD!.hideAnimated(true)
+                stravaAuthenticationHUD = nil
+            }
             
             if let success = notification.userInfo?["success"] as? Bool {
                 if success {
@@ -620,6 +635,95 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     private func completeWithFacebook() {
         
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
+        hud.mode = .Indeterminate
+        
+        let athletete = Athlete()
+        
+        //Request Facebook for the data
+        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, link, first_name, last_name, email, birthday, location, hometown, picture, gender"]).startWithCompletionHandler({ (connection:FBSDKGraphRequestConnection?, fbUser:AnyObject?, error:NSError?) -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                
+                hud.hideAnimated(true)
+            
+                if error == nil {
+                    
+                    if let dict = fbUser as? NSDictionary {
+                        
+                        if let firstName = dict.objectForKey(self.kFacebookKeyFirstName) as? String {
+                            athletete.firstName = firstName
+                        }
+                        
+                        if let lastName = dict.objectForKey(self.kFacebookKeyLastName) as? String {
+                            athletete.lastName = lastName
+                        }
+                        
+                        if let gender = dict.objectForKey(self.kFacebookKeyGender) as? String {
+                            if gender == "male" {
+                                athletete.gender = "M"
+                            }
+                            else if gender == "female" {
+                                athletete.gender = "F"
+                            }
+                        }
+                        
+                        if let bDayStr = dict.objectForKey(self.kFacebookKeyBirthday) as? String {
+                            athletete.birthDay = self.convertBirthdayToDate(bDayStr)
+                        }
+                        
+                        if let location = dict.objectForKey(self.kFacebookKeyLocation), nameLocation = location.objectForKey(self.kFacebookKeyLocationName) as? String {
+                            athletete.locality = nameLocation
+                        }
+                        
+                        var pictureUrl: NSURL?
+                        if let picture = dict.objectForKey("picture") as? NSDictionary {
+                            if let data = picture.objectForKey("data") as? NSDictionary {
+                                if let url = data.objectForKey("url") as? String {
+                                    pictureUrl = NSURL(string: url)
+                                }
+                            }
+                        }
+                        
+                        if pictureUrl == nil {
+                            self.populateData(athletete)
+                        }
+                        else {
+                            
+                            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                            hud.label.text = NSLocalizedString("Fetching profile picture", comment: "HUD title when updating profile picture from Facebook")
+                            hud.mode = .Indeterminate
+                            
+                            KingfisherManager.sharedManager.downloader.downloadImageWithURL(pictureUrl!, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) in
+                                
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    
+                                    hud.hideAnimated(true)
+                                    
+                                    self.profilePicture = image
+                                    self.populateData(athletete)
+                                })
+                            })
+                        }
+                    }
+                }
+            })
+            
+        })
+    }
+    
+    func convertBirthdayToDate(birthday:String) -> NSDate? {
+        
+        let dateFormatter:NSDateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        
+        if let date = dateFormatter.dateFromString(birthday) {
+            return date
+        } else {
+            return nil
+        }
     }
     
     /*
