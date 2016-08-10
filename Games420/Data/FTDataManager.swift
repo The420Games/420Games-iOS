@@ -11,6 +11,8 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import Kingfisher
 
+let FTSignedOutNotificationName = "SignedOutNotification"
+
 class FTDataManager: NSObject {
     
     static let sharedInstance = FTDataManager()

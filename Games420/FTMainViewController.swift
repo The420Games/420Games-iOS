@@ -49,12 +49,6 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        checkLoggedIn()
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -88,19 +82,14 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         hud.mode = .Indeterminate
         
         FTDataManager.sharedInstance.logout { (success, error) in
+            
             dispatch_async(dispatch_get_main_queue(), {
+                
                 hud.hideAnimated(true)
                 
-                self.checkLoggedIn()
+                NSNotificationCenter.defaultCenter().postNotificationName(FTSignedOutNotificationName, object: self)
             })
-        }
-        
-    }
-    
-    private func checkLoggedIn() {
-        if FTDataManager.sharedInstance.currentUser == nil {
-            performSegueWithIdentifier("onboarding", sender: self)
-        }
+        }        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

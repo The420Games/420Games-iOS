@@ -11,4 +11,5 @@ target 'Games420' do
     pod 'TPKeyboardAvoiding'
     pod 'Crashlytics'
     pod 'ActionSheetPicker-3.0'
+    pod 'SlideMenuControllerSwift'
 end
