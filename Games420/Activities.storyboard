@@ -121,10 +121,30 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="HbQ-f6-Trf"/>
+                    <connections>
+                        <segue destination="4yp-Ia-3pP" kind="show" identifier="editMedication" id="m0N-xn-1go"/>
+                        <segue destination="Mmh-ah-Iti" kind="show" identifier="editActivity" id="MKz-r8-lKm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NjT-7K-JyG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="946" y="417"/>
+        </scene>
+        <!--FTLogActivityViewController-->
+        <scene sceneID="F48-yK-J3T">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FTLogActivityViewController" id="4yp-Ia-3pP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HcA-bq-QsH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1466.5" y="231"/>
+        </scene>
+        <!--FTManualActivityTrackViewController-->
+        <scene sceneID="40Y-An-Wc4">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FTManualActivityTrackViewController" id="Mmh-ah-Iti" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cgu-1u-p6e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1493.5" y="563"/>
         </scene>
     </scenes>
 </document>

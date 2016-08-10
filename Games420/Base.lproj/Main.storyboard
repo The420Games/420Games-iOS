@@ -304,7 +304,7 @@
         <!--Manual Activity Track View Controller-->
         <scene sceneID="epb-HZ-f85">
             <objects>
-                <viewController id="LBF-9A-kNX" customClass="FTManualActivityTrackViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FTManualActivityTrackViewController" id="LBF-9A-kNX" customClass="FTManualActivityTrackViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vWG-iy-lWe"/>
                         <viewControllerLayoutGuide type="bottom" id="zdo-Vd-20D"/>
@@ -411,7 +411,7 @@
         <!--Log Activity View Controller-->
         <scene sceneID="d1c-1t-pAi">
             <objects>
-                <viewController id="EcL-e5-A12" customClass="FTLogActivityViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FTLogActivityViewController" id="EcL-e5-A12" customClass="FTLogActivityViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="utz-ts-h0s"/>
                         <viewControllerLayoutGuide type="bottom" id="Msw-3w-QXu"/>
@@ -456,7 +456,7 @@
                                     <action selector="typeButtonPressed:" destination="EcL-e5-A12" eventType="touchUpInside" id="FU4-UG-lAo"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.5" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QVY-dV-Mzh" userLabel="Dosage TextView">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.5" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QVY-dV-Mzh" userLabel="Dosage TextField">
                                 <rect key="frame" x="170" y="152" width="191" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="191" id="393-vE-GOX"/>
@@ -512,7 +512,7 @@
                     </view>
                     <connections>
                         <outlet property="activityLabel" destination="Cid-4O-6ZB" id="Dgx-1c-U7a"/>
-                        <outlet property="dosageTextView" destination="QVY-dV-Mzh" id="OZT-TA-Ciz"/>
+                        <outlet property="dosageTextField" destination="QVY-dV-Mzh" id="lmg-Ah-UQc"/>
                         <outlet property="moodButton" destination="Iju-KJ-XzK" id="6Tl-Ej-PQB"/>
                         <outlet property="typeButton" destination="tVp-rq-cCu" id="mAx-CH-gam"/>
                     </connections>
@@ -742,7 +742,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="aLz-n9-xCT"/>
         <segue reference="9XF-r7-CbJ"/>
+        <segue reference="Jsf-fB-kD4"/>
     </inferredMetricsTieBreakers>
 </document>

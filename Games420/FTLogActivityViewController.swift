@@ -14,11 +14,11 @@ class FTLogActivityViewController: UIViewController {
     
     @IBOutlet weak var activityLabel: UILabel!
     @IBOutlet weak var typeButton: UIButton!
-    @IBOutlet weak var dosageTextView: UITextField!
+    @IBOutlet weak var dosageTextField: UITextField!
     @IBOutlet weak var moodButton: UIButton!
     
     var activity: Activity?
-    let medication = Medication()
+    var medication: Medication!
     
     private let typePlaceholderLabel = NSLocalizedString("Select medication type", comment: "Medication type placeholder")
     private let moodPLaceHolderLabel = NSLocalizedString("Select mood", comment: "Mood placeholder")
@@ -33,7 +33,11 @@ class FTLogActivityViewController: UIViewController {
         
         loadActivityDetails()
         
-        medication.activity = activity
+        if medication == nil {
+
+            medication = Medication()
+            medication.activity = activity
+        }
         
     }
     
@@ -43,13 +47,13 @@ class FTLogActivityViewController: UIViewController {
         
         activityLabel.text = NSLocalizedString("Activity", comment: "Activity details placeholder")
         
-        dosageTextView.placeholder = NSLocalizedString("Enter dosage", comment: "Dosage placeholder")
+        dosageTextField.placeholder = NSLocalizedString("Enter dosage", comment: "Dosage placeholder")
         
         moodButton.setTitle(moodPLaceHolderLabel, forState: .Normal)
         
         typeButton.setTitle(typePlaceholderLabel, forState: .Normal)
         
-        dosageTextView.text = nil
+        dosageTextField.text = nil
     }
     
     private func loadActivityDetails() {
@@ -101,6 +105,25 @@ class FTLogActivityViewController: UIViewController {
             }
             
             activityLabel.text = title
+        }
+    }
+    
+    private func loadMedicationDetails() {
+        
+        if medication.type != nil {
+            if let type = MedicationType(rawValue: medication.type!) {
+                self.typeButton.setTitle("\(type)", forState: .Normal)
+            }
+        }
+        
+        if medication.dosage != nil {
+            dosageTextField.text = medication.dosage!.stringValue
+        }
+        
+        if medication.mood != nil {
+            if let mood = MedicationMoodIndex(rawValue: medication.mood!.integerValue) {
+                self.moodButton.setTitle("\(mood)", forState: .Normal)
+            }
         }
     }
     
@@ -157,7 +180,7 @@ class FTLogActivityViewController: UIViewController {
             errors.append(NSLocalizedString("Missing mood", comment: "Error when mood not set"))
         }
         
-        if dosageTextView.text == nil || dosageTextView.text!.isEmpty || NSString(string: dosageTextView.text!).doubleValue <= 0 {
+        if dosageTextField.text == nil || dosageTextField.text!.isEmpty || NSString(string: dosageTextField.text!).doubleValue <= 0 {
             errors.append(NSLocalizedString("Missing dosage", comment: "Error when dosage not set"))
         }
         
@@ -176,7 +199,7 @@ class FTLogActivityViewController: UIViewController {
     private func submitMedication() {
         
         if validData() {
-            medication.dosage = NSNumber(double: NSString(string: dosageTextView.text!).doubleValue)
+            medication.dosage = NSNumber(double: NSString(string: dosageTextField.text!).doubleValue)
             
             let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             hud.label.text = NSLocalizedString("Submitting Medication", comment: "HUD title when submitting Medication")

@@ -16,12 +16,38 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     @IBOutlet weak var elevationTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
     
-    private let activity = Activity()
+    var activity: Activity!
+    var medication: Medication?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if activity == nil {
+            activity = Activity()
+        }
+        
         addNextButton()
+    }
+    
+    private func loadActivityDetails() {
+        
+        if activity.type != nil {
+            if let type = ActivityType(rawValue: activity.type!) {
+                self.typeButton.setTitle("\(type)", forState: .Normal)
+            }
+        }
+        
+        if activity.distance != nil {
+            distanceTextField.text = activity.distance!.stringValue
+        }
+        
+        if activity.elevationGain != nil {
+            elevationTextField.text = activity.elevationGain!.stringValue
+        }
+        
+        if activity.elapsedTime != nil {
+            durationTextField.text = activity.elapsedTime!.stringValue
+        }
     }
     
     private func addNextButton() {
@@ -82,6 +108,9 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         
         if segue.identifier == "logActivity" {
             (segue.destinationViewController as! FTLogActivityViewController).activity = self.activity
+            if medication != nil {
+                (segue.destinationViewController as! FTLogActivityViewController).medication = self.medication!
+            }
         }
     }
     
