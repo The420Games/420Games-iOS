@@ -37,6 +37,39 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Xvx-8Q-2ph">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="yzz-VK-rDq" userLabel="Footer">
+                                    <rect key="frame" x="0.0" y="175.5" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pBD-Me-HXM" userLabel="Delete Button">
+                                            <rect key="frame" x="40" y="7" width="45" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="TRU-Xx-CH0"/>
+                                            </constraints>
+                                            <state key="normal" title="Delete"/>
+                                            <connections>
+                                                <action selector="deleteTouched:" destination="ZGo-de-mLx" eventType="touchUpInside" id="7UQ-2t-7C1"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QTH-nH-VYr" userLabel="Edit Button">
+                                            <rect key="frame" x="530" y="7" width="30" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="c8s-0z-tQL"/>
+                                            </constraints>
+                                            <state key="normal" title="Edit"/>
+                                            <connections>
+                                                <action selector="editTouched:" destination="ZGo-de-mLx" eventType="touchUpInside" id="GSi-CN-o2G"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="QTH-nH-VYr" secondAttribute="trailing" constant="40" id="5CS-O4-sOC"/>
+                                        <constraint firstItem="pBD-Me-HXM" firstAttribute="leading" secondItem="yzz-VK-rDq" secondAttribute="leading" constant="40" id="Psh-Cd-mVC"/>
+                                        <constraint firstItem="pBD-Me-HXM" firstAttribute="centerY" secondItem="yzz-VK-rDq" secondAttribute="centerY" id="dqT-Wi-cTI"/>
+                                        <constraint firstItem="QTH-nH-VYr" firstAttribute="centerY" secondItem="yzz-VK-rDq" secondAttribute="centerY" id="mVI-KB-sLX"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="medicationCell" id="1Lo-A5-4aw" customClass="FTMedicationDetailCell" customModule="Games420" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="113.5" width="600" height="44"/>

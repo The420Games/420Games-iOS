@@ -36,6 +36,7 @@ class Activity: FTDataObject {
         object.type = jsonObject["type"] as? String
         object.distance = jsonObject["distance"] as? NSNumber
         object.elapsedTime = jsonObject["elapsed_time"] as? NSNumber
+        object.elevationGain = jsonObject["total_elevation_gain"] as? NSNumber
         
         if let dateStr = jsonObject["start_date"] as? String {
             let formatter = NSDateFormatter()

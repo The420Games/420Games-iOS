@@ -286,7 +286,6 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 })
             }
         }
-        
     }
     
     // MARK: - Apps integrations
