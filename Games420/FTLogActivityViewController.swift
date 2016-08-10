@@ -38,6 +38,11 @@ class FTLogActivityViewController: UIViewController {
             medication = Medication()
             medication.activity = activity
         }
+        else {
+            activity = medication.activity
+        }
+        
+        loadMedicationDetails()
         
     }
     

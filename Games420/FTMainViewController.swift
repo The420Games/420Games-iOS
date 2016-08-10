@@ -21,6 +21,8 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private var stravaAuthenticationHUD: MBProgressHUD?
     
     private let medicationDetailSegueId = "medicationDetail"
+    private let activityEditSegueId = "manualTrack"
+    private let medicationEditSegueId = "logActivity"
     
     override func viewDidLoad() {
         
@@ -71,7 +73,7 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
         
         picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .Default, handler: { (action) in
-            self.performSegueWithIdentifier("manualTrack", sender: self)
+            self.performSegueWithIdentifier(self.activityEditSegueId, sender: self)
         }))
         
         picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -107,15 +109,28 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
             ((segue.destinationViewController as! UINavigationController).viewControllers[0] as! FTSelectActivityViewController).activitySelected = {(activity) -> () in
                 self.dismissViewControllerAnimated(true, completion: {
                     print("selected activiy: \(activity)")
-                    self.performSegueWithIdentifier("logActivity", sender: activity)
+                    self.performSegueWithIdentifier(self.medicationEditSegueId, sender: activity)
                 });
             }
         }
-        else if segue.identifier == "logActivity" {
-            (segue.destinationViewController as! FTLogActivityViewController).activity = sender as? Activity
-        }
         else if segue.identifier == medicationDetailSegueId {
             (segue.destinationViewController as! FTMedicationDetailsViewController).medication = sender as! Medication
+        }
+        else if segue.identifier == medicationEditSegueId {
+            let target = segue.destinationViewController as! FTLogActivityViewController
+            if let activity = sender as? Activity {
+                target.activity = activity
+            }
+            else if let medication = sender as? Medication {
+                target.medication = medication
+                target.activity = medication.activity
+            }
+        }
+        else if segue.identifier == activityEditSegueId {
+            let target = segue.destinationViewController as! FTManualActivityTrackViewController
+            let medication = sender as! Medication
+            target.activity = medication.activity
+            target.medication = medication
         }
     }
     
@@ -169,7 +184,13 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.deleteMedication(medication)
         }
         
-        return [deleteAction]
+        let editAction = UITableViewRowAction(style: .Normal, title: NSLocalizedString("Edit", comment: "Edit action title")) { (action, indexpath) in
+            
+            let medication = self.medications![indexPath.row]
+            self.editMedication(medication)
+        }
+        
+        return [deleteAction, editAction]
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -285,6 +306,16 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     }
                 })
             }
+        }
+    }
+    
+    private func editMedication(medication: Medication) {
+        
+        if medication.activity != nil && medication.activity!.source != nil {
+            performSegueWithIdentifier(medicationEditSegueId, sender: medication)
+        }
+        else {
+            performSegueWithIdentifier(activityEditSegueId, sender: medication)
         }
     }
     

@@ -29,6 +29,11 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         static let count = 3
     }
     
+    private let activityEditSegueId = "editActivity"
+    private let medicationEditSegueId = "editMedication"
+    
+    // MARK: - Controller LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -119,6 +124,13 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
     }
     
     @IBAction func editTouched(sender: AnyObject) {
+        
+        if medication.activity != nil && medication.activity!.source != nil {
+            performSegueWithIdentifier(medicationEditSegueId, sender: self)
+        }
+        else {
+            performSegueWithIdentifier(activityEditSegueId, sender: self)
+        }
     }
     
     // MARK: - Data integration
@@ -269,14 +281,26 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         }
     }
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == activityEditSegueId {
+            
+            let target = segue.destinationViewController as! FTManualActivityTrackViewController
+            
+            target.activity = medication.activity
+            target.medication = medication
+        }
+        else if segue.identifier == medicationEditSegueId {
+            
+            let target = segue.destinationViewController as! FTLogActivityViewController
+            
+            target.activity = medication.activity
+            target.medication = medication
+        }
     }
-    */
 
 }

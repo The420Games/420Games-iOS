@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActionSheetPicker_3_0
 
 class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate {
 
@@ -15,11 +16,31 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     @IBOutlet weak var distanceTextField: UITextField!
     @IBOutlet weak var elevationTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
+    
+    @IBOutlet weak var dateButton: UIButton!
+    
+    private let typeButtonTitle = NSLocalizedString("Set type", comment: "Select activity type title")
+    private let dateButtonTitle = NSLocalizedString("Set date", comment: "Select activity date title")
+    
+    private let medicationSegueId = "logActivity"
+    
+    private lazy var dateFormatter: NSDateFormatter = {
+       
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .ShortStyle
+        formatter.timeStyle = .ShortStyle
+        
+        return formatter
+    }()
     
     var activity: Activity!
     var medication: Medication?
     
+    // MARK: - Controller lifecycle
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         if activity == nil {
@@ -27,6 +48,19 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         }
         
         addNextButton()
+        
+        setupUI()
+        
+        loadActivityDetails()
+    }
+    
+    private func setupUI() {
+        
+        typeButton.setTitle(typeButtonTitle, forState: .Normal)
+        distanceTextField.text = nil
+        elevationTextField.text = nil
+        durationTextField.text = nil
+        dateButton.setTitle(dateButtonTitle, forState: .Normal)
     }
     
     private func loadActivityDetails() {
@@ -48,6 +82,12 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         if activity.elapsedTime != nil {
             durationTextField.text = activity.elapsedTime!.stringValue
         }
+        
+        if activity.startDate != nil {
+            dateButton.setTitle(dateFormatter.stringFromDate(activity.startDate!), forState: .Normal)
+        }
+        
+        nameTextField.text = activity.name
     }
     
     private func addNextButton() {
@@ -56,10 +96,12 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         navigationItem.rightBarButtonItem = barItem
     }
     
+    // MARK: - Actions
+    
     func nextButtonPressed(sender: AnyObject) {
         
         if validData() {
-            performSegueWithIdentifier("logActivity", sender: self)
+            performSegueWithIdentifier(medicationSegueId, sender: self)
         }
     }
     
@@ -77,6 +119,27 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         presentViewController(picker, animated: true, completion: nil)
     }
     
+    @IBAction func dateButtonTouched(sender: AnyObject) {
+        
+        let datePicker = ActionSheetDatePicker(title: NSLocalizedString("Select activity date", comment: "Activity date picker tite"), datePickerMode: UIDatePickerMode.DateAndTime, selectedDate: self.activity.startDate != nil ? self.activity.startDate : NSDate(), doneBlock: {
+            picker, value, index in
+            
+            if let date = value as? NSDate {
+                
+                self.activity.startDate = date
+                self.dateButton.setTitle(self.dateFormatter.stringFromDate(date), forState: .Normal)
+            }
+            
+            }, cancelBlock: { ActionStringCancelBlock in return }, origin: self.view)
+        
+        datePicker.minimumDate = NSDate(timeInterval: -1 * 365 * 24 * 60 * 60, sinceDate: NSDate())
+        datePicker.maximumDate = NSDate()
+        
+        datePicker.showActionSheetPicker()
+    }
+    
+    // MARK: - Data integration
+    
     private func validData() -> Bool {
         
         var errors = [String]()
@@ -93,6 +156,10 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
             errors.append(NSLocalizedString("Please set activity duration", comment: "Missing duration error message"))
         }
         
+        if activity.startDate == nil {
+            errors.append(NSLocalizedString("Please set date", comment: "Missing date error message"))
+        }
+        
         if errors.count > 0 {
             
             let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
@@ -106,7 +173,7 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue.identifier == "logActivity" {
+        if segue.identifier == medicationSegueId {
             (segue.destinationViewController as! FTLogActivityViewController).activity = self.activity
             if medication != nil {
                 (segue.destinationViewController as! FTLogActivityViewController).medication = self.medication!
@@ -129,6 +196,9 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
             }
             else if textField == elevationTextField {
                 activity.elevationGain = number
+            }
+            else if textField == nameTextField {
+                activity.name = textField.text
             }
         }
     }
