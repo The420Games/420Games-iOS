@@ -28,6 +28,8 @@ class FTContainerViewController: SlideMenuController {
         super.viewDidLoad()
         
         self.addLeftBarButtonWithImage(UIImage(named: "icon_menu")!)
+        
+        navigationItem.title = NSLocalizedString("420 Games", comment: "Main screen title")
 
         signupForSignoutNotification()
     }

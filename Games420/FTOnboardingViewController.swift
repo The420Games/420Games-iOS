@@ -11,11 +11,19 @@ import MBProgressHUD
 
 class FTOnboardingViewController: UIViewController {
     
+    @IBOutlet weak var facebookButton: UIButton!
+    @IBOutlet weak var signinButton: UIButton!
+    @IBOutlet weak var signupButton: UIButton!
+    
+    // MARK: - Controller lifecycle
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        title = NSLocalizedString("Welcome", comment: "Onboarding title")
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
+        
+        title = NSLocalizedString("420 Games", comment: "Main screen title")
     }
     
     override func viewDidAppear(animated: Bool) {

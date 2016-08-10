@@ -9,7 +9,7 @@
 import Foundation
 
 enum FTFontType {
-    case Regular, Bold, Light
+    case Regular, Bold, Light, Medium
 }
 
 extension UIFont {
@@ -22,6 +22,7 @@ extension UIFont {
         
         switch type {
         case .Bold: fontName = baseFontName + "-Bold"
+        case .Medium: fontName = baseFontName + "-Medium"
         default: fontName = baseFontName + "-Regular"
         }
         
