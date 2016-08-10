@@ -20,6 +20,8 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private var waitingForStravaAuthentication = false
     private var stravaAuthenticationHUD: MBProgressHUD?
     
+    private let medicationDetailSegueId = "medicationDetail"
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -112,6 +114,9 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         else if segue.identifier == "logActivity" {
             (segue.destinationViewController as! FTLogActivityViewController).activity = sender as? Activity
         }
+        else if segue.identifier == medicationDetailSegueId {
+            (segue.destinationViewController as! FTMedicationDetailsViewController).medication = sender as! Medication
+        }
     }
     
     // MARK: - UI Customizations
@@ -145,7 +150,11 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        
+        let medication = medications![indexPath.row]
+        performSegueWithIdentifier(medicationDetailSegueId, sender: medication)
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

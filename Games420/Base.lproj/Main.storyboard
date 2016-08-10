@@ -22,6 +22,14 @@
             </objects>
             <point key="canvasLocation" x="-640" y="378"/>
         </scene>
+        <!--FTMedicationDetailsViewController-->
+        <scene sceneID="nRl-rb-sp7">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="Activities" storyboardName="Activities" referencedIdentifier="FTMedicationDetailsViewController" id="iud-Go-5OR" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PEk-fS-MbA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-199.5" y="568"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="F1N-pG-xKa">
             <objects>
@@ -635,6 +643,7 @@
                         <segue destination="EcL-e5-A12" kind="show" identifier="logActivity" id="aLz-n9-xCT"/>
                         <segue destination="LBF-9A-kNX" kind="show" identifier="manualTrack" id="DSR-xB-bEl"/>
                         <segue destination="GyX-zx-v9W" kind="presentation" identifier="onboarding" id="S7a-U5-qtK"/>
+                        <segue destination="iud-Go-5OR" kind="show" identifier="medicationDetail" id="OwR-Rw-qrL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
