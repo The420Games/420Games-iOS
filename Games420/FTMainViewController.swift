@@ -229,30 +229,53 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         hud.label.text = NSLocalizedString("Deleting Medication", comment: "HUD title when deleting a medication")
         hud.mode = .Indeterminate
         
-        // TODO: Delete activity
+        let group = dispatch_group_create();
         
-        medication.deleteInBackgroundWithBlock { (success, error) in
+        if medication.activity != nil {
             
-            dispatch_async(dispatch_get_main_queue(), {
+            dispatch_group_enter(group)
+            
+            medication.activity!.deleteInBackgroundWithBlock({ (success, error) in
                 
-                hud.hideAnimated(true)
+                if error != nil {
+                    print("Error deleting activity: \(error)")
+                }
                 
-                if success {
-                    
-                    if let index = self.medications!.indexOf(medication) {
-                        self.medications?.removeAtIndex(index)
-                        self.activitiesTableView.beginUpdates()
-                        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                        self.activitiesTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Top)
-                        self.activitiesTableView.endUpdates()
-                    }
-                }
-                else {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to delete medication:(", comment: "Error message when failed to delete medication"), preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }
+                dispatch_group_leave(group)
             })
+        }
+        
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+        
+            medication.deleteInBackgroundWithBlock { (success, error) in
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    hud.hideAnimated(true)
+                    
+                    if success {
+                        
+                        if let index = self.medications!.indexOf(medication) {
+                            self.medications?.removeAtIndex(index)
+                            self.activitiesTableView.beginUpdates()
+                            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                            self.activitiesTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Top)
+                            self.activitiesTableView.endUpdates()
+                        }
+                        else {
+                            self.fetchMedications()
+                        }
+                    }
+                    else {
+                        if self.activitiesTableView.editing {
+                            self.activitiesTableView.setEditing(false, animated: false)
+                        }
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to delete medication:(", comment: "Error message when failed to delete medication"), preferredStyle: .Alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                })
+            }
         }
         
     }
