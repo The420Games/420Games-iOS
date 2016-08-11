@@ -22,4 +22,7 @@ extension UIColor {
         return UIColor.blackColor()
     }
     
+    class func ftMidGray() -> UIColor {
+        return UIColor(red: 153/255.0, green: 153/255.0, blue: 153/255.0, alpha: 1.0)
+    }
 }

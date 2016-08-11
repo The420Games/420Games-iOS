@@ -72,6 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont.defaultFont(.Medium, size: 18.7)!
         ]
+        
+        //UIFont.printFonts()
     }
 
 }

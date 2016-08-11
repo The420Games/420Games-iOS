@@ -9,25 +9,99 @@
 import UIKit
 import MBProgressHUD
 
-class FTSignupWithEmailViewController: UIViewController {
+class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var retypeTextField: UITextField!
+    @IBOutlet weak var emailTextField: FTTextField!
+    @IBOutlet weak var passwordTextField: FTTextField!
+    @IBOutlet weak var retypeTextField: FTTextField!
+    
+    @IBOutlet weak var signupButton: UIButton!
+    
+    @IBOutlet weak var passwordHintLabel: UILabel!
+    
+    @IBOutlet weak var termsCheckButton: UIButton!
+    
+    @IBOutlet weak var termsHintLabel: UILabel!
+    
+    // MARK: - Controller Lifecycle
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        title = NSLocalizedString("Sign up", comment: "Sign up with email navigation title")
+        setupUI()
     }
     
+    // MARK: - UI Customizations
+    
+    private func setupUI() {
+        
+        title = NSLocalizedString("Sign up", comment: "Sign up with email navigation title")
+        view.backgroundColor =  UIColor.ftMainBackgroundColor()
+        
+        navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonPressed(_:)))
+        
+        signupButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("SIGN UP", comment: "Sign up button title"))
+        
+        emailTextField.ft_setup()
+        emailTextField.ft_setPlaceholder(NSLocalizedString("EMAIL", comment: "Email placeholder"))        
+        
+        passwordTextField.ft_setup()
+        passwordTextField.ft_setPlaceholder(NSLocalizedString("PASSWORD", comment: "Password placeholder"))
+        
+        retypeTextField.ft_setup()
+        retypeTextField.ft_setPlaceholder(NSLocalizedString("RETYPE PASSWORD", comment: "Retype password placeholder"))
+        
+        passwordHintLabel.font = UIFont.defaultFont(.Light, size: 12.7)
+        passwordHintLabel.textColor = UIColor.whiteColor()
+        passwordHintLabel.text = NSLocalizedString("Password must be at least six characters long.", comment: "Password hint label")
+        
+        termsCheckButton.ft_setupCheckBox()
+        termsCheckButton.ft_setChecked(false)
+        
+        let hintAttrStr = NSMutableAttributedString(string: NSLocalizedString("I have read and accepted the ", comment: "Terms hint label part 1"), attributes: [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.7)!
+            ])
+        
+        hintAttrStr.appendAttributedString(NSAttributedString(string: NSLocalizedString("Terms And Conditions", comment: "Terms hint label part 2 (underlined)"), attributes: [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.7)!,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue
+            ]))
+        termsHintLabel.attributedText = hintAttrStr
+    }
+    
+    // MARK: - Actions
+    
     @IBAction func signupButtonPressed(sender: AnyObject) {
+        
+        self.editing = false
         
         if validData() {
             signup()
         }
     }
+    
+    @IBAction func termsCheckButtonPressed(sender: AnyObject) {
+        
+        termsCheckButton.ft_setChecked(!termsCheckButton.ft_Checked())
+    }
+    
+    @IBAction func termsHintLabelTouched(sender: AnyObject) {
+    }
+    
+    func backButtonPressed(sender: AnyObject) {
+        
+        navigationController?.popViewControllerAnimated(true)
+    }
+    
+    @IBAction func textfieldDidExit(sender: UITextField) {
+        
+        sender.resignFirstResponder()
+    }
+    
+    // MARK: - Data integration
     
     private func signup() {
         

@@ -23,7 +23,8 @@ extension UIFont {
         switch type {
         case .Bold: fontName = baseFontName + "-Bold"
         case .Medium: fontName = baseFontName + "-Medium"
-        default: fontName = baseFontName + "-Regular"
+        case .Light: fontName = baseFontName + "-Light"
+        default: fontName = baseFontName
         }
         
         if fontName != nil {
@@ -42,6 +43,7 @@ extension UIFont {
             let names = UIFont.fontNamesForFamilyName(familyName)
             print("Font Names = [\(names)]")
         }
+        print("done")
     }
 }
 

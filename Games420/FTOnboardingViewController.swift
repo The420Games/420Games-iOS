@@ -14,6 +14,7 @@ class FTOnboardingViewController: UIViewController {
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var signinButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var tutorialButton: UIButton!
     
     // MARK: - Controller lifecycle
     
@@ -21,9 +22,7 @@ class FTOnboardingViewController: UIViewController {
         
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.ftMainBackgroundColor()
-        
-        title = NSLocalizedString("420 Games", comment: "Main screen title")
+        setupUI()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -34,6 +33,32 @@ class FTOnboardingViewController: UIViewController {
             dismissViewControllerAnimated(true, completion: nil)
         }
     }
+    
+    // MARK: - UI Customization
+    
+    private func setupReviewButton() {
+        
+        tutorialButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        tutorialButton.titleLabel?.font = UIFont.defaultFont(.Bold, size: 14.7)
+        tutorialButton.setTitle(NSLocalizedString("REVIEW TUTORIAL", comment: "Review tutorial button title"), forState: .Normal)
+    }
+    
+    private func setupUI() {
+        
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
+        
+        title = NSLocalizedString("420 Games", comment: "Onboarding screen title")
+        
+        facebookButton.ft_setupButton(UIColor.ftFacebookBlue(), title: NSLocalizedString("SIGN UP/IN WITH FACEBOOK", comment: "Facebook signup button title"))
+        
+        signinButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("SIGN IN WITH EMAIL", comment: "Email signin button title"))
+        
+        signupButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("SIGN UP WITH EMAIL", comment: "Email signup button title"))
+        
+        setupReviewButton()
+    }
+    
+    // MARK: - Actions
 
     @IBAction func facebookButtonPressed(sender: AnyObject) {
         
@@ -59,5 +84,7 @@ class FTOnboardingViewController: UIViewController {
         }
     }
     
+    @IBAction func tutorialButtonPressed(sender: AnyObject) {
+    }
     
 }
