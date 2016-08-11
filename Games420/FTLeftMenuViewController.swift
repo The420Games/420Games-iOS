@@ -8,6 +8,12 @@
 
 import UIKit
 import Kingfisher
+import MBProgressHUD
+
+enum FTSlideMenuItem: Int {
+    case Main = 0, Workouts, Profile, FAQ, Terms, Tutorial
+    static let count = 6
+}
 
 class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -31,6 +37,8 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         
         signupForUserUpdatedNotification()
         signupForLoginNotification()
+        
+        populateUserData()
         
         fetchUserData()
     }
@@ -58,7 +66,7 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         
         profileImageView.clipsToBounds = true
         profileImageView.layer.borderColor = UIColor.ftLimeGreen().CGColor
-        profileImageView.layer.borderWidth = 13.0
+        profileImageView.layer.borderWidth = 5.0
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
         
         userNameLabel.font = UIFont.defaultFont(.Medium, size: 15.0)
@@ -89,26 +97,43 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: - Actions
     
     @IBAction func logoutTapped(sender: AnyObject) {
+        
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.label.text = NSLocalizedString("Signing out", comment: "HUD title when signingout")
+        hud.mode = .Indeterminate
+        
+        FTDataManager.sharedInstance.logout { (success, error) in
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                
+                hud.hideAnimated(true)
+                
+                self.slideMenuController()?.closeLeft()
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(FTSignedOutNotificationName, object: self)
+            })
+        }
     }
-    
-    @IBAction func profileTapped(sender: AnyObject) {
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: - Data integration
     
     private func fetchUserData() {
         
-        populateUserData()
+        if let athleteId = FTDataManager.sharedInstance.currentUser?.athlete?.objectId {
+            
+            Athlete.findFirstObject("objectId = '\(athleteId)'", completion: { (object, error) in
+                
+                if error == nil && object != nil {
+                    
+                    FTDataManager.sharedInstance.currentUser?.athlete = object as? Athlete
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.populateUserData()
+                    })
+                }
+            })
+            
+        }
     }
     
     private func populateUserData() {
@@ -124,21 +149,62 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    private func menuItemTitle(item: FTSlideMenuItem) -> String {
+        
+        switch item {
+        case .Main: return NSLocalizedString("HOME", comment: "Home menu item title")
+        case .Workouts: return NSLocalizedString("WORKOUTS", comment: "Workouts menu item title")
+        case .Profile: return NSLocalizedString("PROFILE", comment: "Profile menu item title")
+        case .FAQ: return NSLocalizedString("FAQ", comment: "FAQ menu item title")
+        case .Terms: return NSLocalizedString("TERMS & CONDITIONS", comment: "Terms menu item title")
+        case .Tutorial: return NSLocalizedString("TUTORIAL", comment: "Tutorial menu item title")
+        }
+    }
+    
+    private func menuItemIcon(item: FTSlideMenuItem) -> UIImage? {
+        
+        switch item {
+        case .Main: return UIImage(named: "icon_home")
+        case .Workouts: return UIImage(named: "icon_activities")
+        case .Profile: return UIImage(named: "icon_settings")
+        case .FAQ: return UIImage(named: "icon_faq")
+        case .Terms: return UIImage(named: "icon_terms")
+        case .Tutorial: return UIImage(named: "icon_tutorial")
+        }
+    }
+    
     // MARK: - Tableview
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 0
+        
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        
+        return FTSlideMenuItem.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(menuCellId, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(menuCellId, forIndexPath: indexPath) as! FTLeftMenuItemCell
+        
+        if let item = FTSlideMenuItem(rawValue: indexPath.row) {
+            cell.setupCell(menuItemIcon(item)!, title: menuItemTitle(item), lastItem: indexPath.row == FTSlideMenuItem.count - 1)
+        }
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        
+        if let item = FTSlideMenuItem(rawValue: indexPath.row) {
+            NSNotificationCenter.defaultCenter().postNotificationName(FTSlideMenuItemSelectedNotificationName, object: self, userInfo: ["itemIndex": item.rawValue])
+        }
+        
+        slideMenuController()?.closeLeft()
     }
 
     // MARK: - Notifications

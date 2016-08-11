@@ -9,6 +9,8 @@
 import UIKit
 import MBProgressHUD
 
+let FTSlideMenuItemSelectedNotificationName = "SlideMenuItemSelectedNotification"
+
 class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var logActivityButton: UIButton!
@@ -23,6 +25,7 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private let medicationDetailSegueId = "medicationDetail"
     private let activityEditSegueId = "manualTrack"
     private let medicationEditSegueId = "logActivity"
+    private let profileSegueId = "profile"
     
     override func viewDidLoad() {
         
@@ -33,11 +36,16 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         manageForStravaNotification(true)
         
+        manageForMenuNotification(true)
+        
         title = NSLocalizedString("Logged activities", comment: "Main screen navigation title")
     }
     
     deinit {
+        
         manageForStravaNotification(false)
+        
+        manageForMenuNotification(false)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -77,19 +85,7 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func signoutPressed(sender: AnyObject) {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.label.text = NSLocalizedString("Signing out", comment: "HUD title when signingout")
-        hud.mode = .Indeterminate
-        
-        FTDataManager.sharedInstance.logout { (success, error) in
-            
-            dispatch_async(dispatch_get_main_queue(), {
                 
-                hud.hideAnimated(true)
-                
-                NSNotificationCenter.defaultCenter().postNotificationName(FTSignedOutNotificationName, object: self)
-            })
-        }        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -212,6 +208,31 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if let success = notification.userInfo?["success"] as? Bool {
                 if success {
                     performSegueWithIdentifier("activities", sender: self)
+                }
+            }
+        }
+    }
+    
+    private func manageForMenuNotification(signup: Bool) {
+        
+        if signup {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.menuItemSelectedNotificationReceived(_:)), name: FTSlideMenuItemSelectedNotificationName, object: nil)
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTSlideMenuItemSelectedNotificationName, object: nil)
+        }
+    }
+    
+    func menuItemSelectedNotificationReceived(notification: NSNotification) {
+        
+        if let index = notification.userInfo?["itemIndex"] as? Int {
+            
+            if let item = FTSlideMenuItem(rawValue: index) {
+                
+                switch item {
+                case .Profile: performSegueWithIdentifier(profileSegueId, sender: self)
+                case .Main: navigationController?.popToRootViewControllerAnimated(true)
+                default: print("Implement menu for \(item)")
                 }
             }
         }

@@ -22,6 +22,9 @@ class FTLeftMenuItemCell: UITableViewCell {
         titleLabel.textColor = UIColor.ftMidGray2()
 
         horizontalLine.backgroundColor = UIColor.ftMidGray2()
+        
+        contentView.backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clearColor()
     }
     
     func setupCell(icon: UIImage, title: String, lastItem: Bool) {
