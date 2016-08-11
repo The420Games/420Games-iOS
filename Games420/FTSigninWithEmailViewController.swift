@@ -11,13 +11,62 @@ import MBProgressHUD
 
 class FTSigninWithEmailViewController: UIViewController {
 
-    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailTextField: FTTextField!
     
-    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordTextField: FTTextField!
     
+    @IBOutlet weak var resetButton: UIButton!
+    
+    @IBOutlet weak var signinButton: UIButton!
+    
+    var userName: String?// MARK: - Controller Lifecycle
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        setupUI()
+        
+        emailTextField.text = userName
+    }
+    
+    // MARK: - UI Customizations
+    
+    private func setupUI() {
+        
+        title = NSLocalizedString("Sign in", comment: "Sign in with email navigation title")
+        view.backgroundColor =  UIColor.ftMainBackgroundColor()
+        
+        navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonPressed(_:)))
+        
+        signinButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("SIGN IN", comment: "Sign in button title"))
+        
+        emailTextField.ft_setup()
+        emailTextField.ft_setPlaceholder(NSLocalizedString("EMAIL", comment: "Email placeholder"))
+        
+        passwordTextField.ft_setup()
+        passwordTextField.ft_setPlaceholder(NSLocalizedString("PASSWORD", comment: "Password placeholder"))
+        
+        resetButton.backgroundColor = UIColor.clearColor()
+        let resetTitle =  NSAttributedString(string: NSLocalizedString("Forgot your password?", comment: "Forgot password button title"), attributes: [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.7)!,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue
+            ])
+        resetButton.setAttributedTitle(resetTitle, forState: .Normal)
+    }
+    
+    // MARK: - Actions
+    
+    func backButtonPressed(sender: AnyObject) {
+        
+        navigationController?.popViewControllerAnimated(true)
+    }
     
     @IBAction func resetButtonPressed(sender: AnyObject) {
 
+        self.editing = false
+        
         if validResetData() {
 
             resetPassword()
@@ -26,15 +75,24 @@ class FTSigninWithEmailViewController: UIViewController {
     
     @IBAction func signinButtonPressed(sender: AnyObject) {
         
+        self.editing = false
+        
         if validSignInData() {
             
             signIn()
         }
     }
     
+    @IBAction func textfieldExit(sender: UITextField) {
+        
+        sender.resignFirstResponder()
+    }
+    
+    // MARK: - Data integration
+    
     private func displayErrors(errors: [String]!) {
         
-        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
+        let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
         

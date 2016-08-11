@@ -23,6 +23,11 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var termsHintLabel: UILabel!
     
+    // TODO: Change this to final URL
+    private let termsURL = NSURL(string: "http://screamingbox.com")
+    
+    private let signinSegueId = "signin"
+    
     // MARK: - Controller Lifecycle
     
     override func viewDidLoad() {
@@ -89,6 +94,10 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func termsHintLabelTouched(sender: AnyObject) {
+        
+        if UIApplication.sharedApplication().canOpenURL(termsURL!) {
+            UIApplication.sharedApplication().openURL(termsURL!)
+        }
     }
     
     func backButtonPressed(sender: AnyObject) {
@@ -107,7 +116,8 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
         
         let user = User()
         
-        user.email = emailTextField.text!
+        let userName = emailTextField.text!
+        user.email = userName
         user.password = passwordTextField.text!
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
@@ -131,7 +141,7 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
                         
                         hud.hideAnimated(true)
                         
-                        self.performSegueWithIdentifier("signIn", sender: self)
+                        self.performSegueWithIdentifier(self.signinSegueId, sender: userName)
                     }
                 }
                 else {
@@ -154,6 +164,10 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
         
         var errors = [String]()
         
+        if !termsCheckButton.ft_Checked() {
+            errors.append(NSLocalizedString("Please accept Terms And Conditions!", comment: "Error message when terms not accepted"))
+        }
+        
         if emailTextField.text == nil || emailTextField.text!.isEmpty {
             
             errors.append(NSLocalizedString("Please set your email address!", comment: "Error message when email missing"))
@@ -174,7 +188,7 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
         
         if errors.count > 0 {
             
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
+            let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
             
             alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
             
@@ -184,6 +198,16 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
         }
         
         return true
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == signinSegueId {
+            (segue.destinationViewController as! FTSigninWithEmailViewController).userName = sender as? String
+        }
+        
     }
     
 }
