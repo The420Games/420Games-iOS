@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -231,7 +232,37 @@
                     <view key="view" contentMode="scaleToFill" id="h5F-UW-o3g">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b2m-qj-6Bi" userLabel="Top">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
+                                <color key="backgroundColor" red="0.86274509803921573" green="0.86274509803921573" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hb4-pe-q5j" userLabel="Middle">
+                                <rect key="frame" x="0.0" y="216" width="600" height="84"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="84" id="SOb-X7-VqZ"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h0e-jR-zxJ" userLabel="Bottom">
+                                <rect key="frame" x="0.0" y="299" width="600" height="301"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Hb4-pe-q5j" firstAttribute="top" secondItem="b2m-qj-6Bi" secondAttribute="bottom" id="2o4-vM-p6H"/>
+                            <constraint firstItem="Hb4-pe-q5j" firstAttribute="leading" secondItem="h5F-UW-o3g" secondAttribute="leading" id="88B-hv-zHy"/>
+                            <constraint firstItem="b2m-qj-6Bi" firstAttribute="height" secondItem="h5F-UW-o3g" secondAttribute="height" multiplier="0.5" constant="-84" id="AHr-qi-t5p"/>
+                            <constraint firstAttribute="trailing" secondItem="h0e-jR-zxJ" secondAttribute="trailing" id="DFk-sc-7YE"/>
+                            <constraint firstItem="b2m-qj-6Bi" firstAttribute="top" secondItem="h5F-UW-o3g" secondAttribute="top" id="FT0-Re-EiW"/>
+                            <constraint firstAttribute="trailing" secondItem="b2m-qj-6Bi" secondAttribute="trailing" id="Hx5-d3-T0E"/>
+                            <constraint firstAttribute="trailing" secondItem="Hb4-pe-q5j" secondAttribute="trailing" id="OyT-ji-w2g"/>
+                            <constraint firstItem="b2m-qj-6Bi" firstAttribute="leading" secondItem="h5F-UW-o3g" secondAttribute="leading" id="caf-zZ-Xfd"/>
+                            <constraint firstItem="CxZ-cv-RhX" firstAttribute="top" secondItem="h0e-jR-zxJ" secondAttribute="bottom" id="dMP-MK-UD0"/>
+                            <constraint firstItem="h0e-jR-zxJ" firstAttribute="top" secondItem="Hb4-pe-q5j" secondAttribute="bottom" constant="-1" id="ojs-qv-1mX"/>
+                            <constraint firstItem="h0e-jR-zxJ" firstAttribute="leading" secondItem="h5F-UW-o3g" secondAttribute="leading" id="rZ9-T6-wLX"/>
+                        </constraints>
                     </view>
                     <connections>
                         <segue destination="Aes-Hi-Td7" kind="show" identifier="profile" id="k9O-Le-PIX"/>
