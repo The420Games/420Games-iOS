@@ -25,7 +25,7 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private let medicationDetailSegueId = "medicationDetail"
     private let activityEditSegueId = "manualTrack"
     private let medicationEditSegueId = "logActivity"
-    private let profileSegueId = "profile"
+    
     
     override func viewDidLoad() {
         
@@ -36,8 +36,6 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         manageForStravaNotification(true)
         
-        manageForMenuNotification(true)
-        
         title = NSLocalizedString("Logged activities", comment: "Main screen navigation title")
     }
     
@@ -45,7 +43,6 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         manageForStravaNotification(false)
         
-        manageForMenuNotification(false)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -81,11 +78,6 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
         picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         
         presentViewController(picker, animated: true, completion: nil)
-    }
-    
-    @IBAction func signoutPressed(sender: AnyObject) {
-        
-                
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -208,31 +200,6 @@ class FTMainViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if let success = notification.userInfo?["success"] as? Bool {
                 if success {
                     performSegueWithIdentifier("activities", sender: self)
-                }
-            }
-        }
-    }
-    
-    private func manageForMenuNotification(signup: Bool) {
-        
-        if signup {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.menuItemSelectedNotificationReceived(_:)), name: FTSlideMenuItemSelectedNotificationName, object: nil)
-        }
-        else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTSlideMenuItemSelectedNotificationName, object: nil)
-        }
-    }
-    
-    func menuItemSelectedNotificationReceived(notification: NSNotification) {
-        
-        if let index = notification.userInfo?["itemIndex"] as? Int {
-            
-            if let item = FTSlideMenuItem(rawValue: index) {
-                
-                switch item {
-                case .Profile: performSegueWithIdentifier(profileSegueId, sender: self)
-                case .Main: navigationController?.popToRootViewControllerAnimated(true)
-                default: print("Implement menu for \(item)")
                 }
             }
         }

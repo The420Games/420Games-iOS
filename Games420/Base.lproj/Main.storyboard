@@ -220,13 +220,34 @@
             </objects>
             <point key="canvasLocation" x="-817" y="1057"/>
         </scene>
+        <!--Home View Controller-->
+        <scene sceneID="cev-xb-dqn">
+            <objects>
+                <viewController storyboardIdentifier="FTHomeViewController" id="NCb-3d-kRZ" customClass="FTHomeViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VbA-dV-Kco"/>
+                        <viewControllerLayoutGuide type="bottom" id="CxZ-cv-RhX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="h5F-UW-o3g">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="Aes-Hi-Td7" kind="show" identifier="profile" id="k9O-Le-PIX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uxd-SR-akg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-142" y="368"/>
+        </scene>
         <!--FTMedicationDetailsViewController-->
         <scene sceneID="nRl-rb-sp7">
             <objects>
                 <viewControllerPlaceholder storyboardIdentifier="Activities" storyboardName="Activities" referencedIdentifier="FTMedicationDetailsViewController" id="iud-Go-5OR" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PEk-fS-MbA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-199.5" y="568"/>
+            <point key="canvasLocation" x="378" y="654"/>
         </scene>
         <!--NavigationController-->
         <scene sceneID="4Ej-Bp-DES">
@@ -234,15 +255,15 @@
                 <viewControllerPlaceholder storyboardName="Onboarding" referencedIdentifier="NavigationController" id="SmQ-wO-k3Z" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vjk-gg-iWw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-323" y="299"/>
+            <point key="canvasLocation" x="-302" y="824"/>
         </scene>
         <!--FTProfileMainViewController-->
         <scene sceneID="FHV-5g-0gK">
             <objects>
-                <viewControllerPlaceholder storyboardName="ProfileCustomization" referencedIdentifier="FTProfileMainViewController" id="Aes-Hi-Td7" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="profile" storyboardName="ProfileCustomization" referencedIdentifier="FTProfileMainViewController" id="Aes-Hi-Td7" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w0F-IZ-ZVr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="632.5" y="717"/>
+            <point key="canvasLocation" x="-21" y="797"/>
         </scene>
         <!--FTChangePasswordViewController-->
         <scene sceneID="Cgz-j8-SKm">
@@ -524,18 +545,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaV-sY-9cQ">
-                                <rect key="frame" x="214" y="550" width="172" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="172" id="95l-sU-Tv7"/>
-                                    <constraint firstAttribute="height" constant="30" id="v24-SI-iXc"/>
-                                </constraints>
-                                <state key="normal" title="Sign out"/>
-                                <connections>
-                                    <action selector="signoutPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JyE-rG-HeD"/>
-                                </connections>
-                            </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vYw-PX-NHx">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vYw-PX-NHx">
                                 <rect key="frame" x="0.0" y="67" width="600" height="475"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -590,39 +600,13 @@
                                     <action selector="buttonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m71-YK-DTi"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PCh-vU-dab">
-                                <rect key="frame" x="534" y="550" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="0sl-OZ-7WY"/>
-                                    <constraint firstAttribute="width" constant="46" id="Vil-3b-50s"/>
-                                </constraints>
-                                <state key="normal" title="Profile"/>
-                                <connections>
-                                    <segue destination="Aes-Hi-Td7" kind="show" identifier="profile" id="DUz-Yf-MHx"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBO-dd-xp8">
-                                <rect key="frame" x="460" y="550" width="66" height="30"/>
-                                <state key="normal" title="Password"/>
-                                <connections>
-                                    <segue destination="M4k-fd-yji" kind="show" id="hrx-aW-7G7"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uaV-sY-9cQ" secondAttribute="bottom" constant="20" id="3VG-PI-Las"/>
-                            <constraint firstItem="PCh-vU-dab" firstAttribute="leading" secondItem="PBO-dd-xp8" secondAttribute="trailing" constant="8" id="40j-N5-QZE"/>
-                            <constraint firstItem="PBO-dd-xp8" firstAttribute="centerY" secondItem="PCh-vU-dab" secondAttribute="centerY" id="4iy-Ru-4ND"/>
-                            <constraint firstItem="PCh-vU-dab" firstAttribute="centerY" secondItem="uaV-sY-9cQ" secondAttribute="centerY" id="CLO-lX-R6E"/>
-                            <constraint firstItem="uaV-sY-9cQ" firstAttribute="top" secondItem="vYw-PX-NHx" secondAttribute="bottom" constant="8" id="Gh6-UJ-6A9"/>
                             <constraint firstAttribute="trailing" secondItem="vYw-PX-NHx" secondAttribute="trailing" id="LUh-Rk-Gwg"/>
-                            <constraint firstItem="PCh-vU-dab" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="MJD-qN-yMU"/>
                             <constraint firstItem="CJw-3d-uv2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="Ys1-3g-gMi"/>
-                            <constraint firstItem="PBO-dd-xp8" firstAttribute="height" secondItem="PCh-vU-dab" secondAttribute="height" id="qcj-lk-UcI"/>
                             <constraint firstItem="vYw-PX-NHx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rLY-lM-Ik3"/>
                             <constraint firstItem="CJw-3d-uv2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="shS-ZR-JfK"/>
-                            <constraint firstItem="uaV-sY-9cQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wnn-Ui-Xyz"/>
                             <constraint firstItem="vYw-PX-NHx" firstAttribute="top" secondItem="CJw-3d-uv2" secondAttribute="bottom" constant="8" id="xTR-yV-1iV"/>
                         </constraints>
                     </view>
@@ -638,7 +622,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="249" y="377"/>
+            <point key="canvasLocation" x="528" y="131"/>
         </scene>
         <!--Select Activity View Controller-->
         <scene sceneID="gpz-Yk-Xjr">

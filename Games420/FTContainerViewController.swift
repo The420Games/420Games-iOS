@@ -15,7 +15,7 @@ class FTContainerViewController: SlideMenuController {
         
         SlideMenuOptions.leftViewWidth = 300
         
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FTMainViewController") {
+        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FTHomeViewController") {
             self.mainViewController = controller
         }
         if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FTLeftMenuViewController") {
@@ -28,6 +28,8 @@ class FTContainerViewController: SlideMenuController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
         
         self.addLeftBarButtonWithImage(UIImage(named: "icon_menu")!)
         
