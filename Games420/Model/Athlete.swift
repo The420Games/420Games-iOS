@@ -67,4 +67,39 @@ class Athlete: FTDataObject {
         return ret        
     }
 
+    func fullName() -> String {
+        if (firstName == nil || firstName!.isEmpty) && (lastName == nil || lastName!.isEmpty) {
+            return NSLocalizedString("Name not set", comment: "Name placeholder")
+        }
+        else {
+            return "\(lastName != nil && !lastName!.isEmpty ? lastName! : "")\(lastName != nil && !lastName!.isEmpty ? ", " : "")\(firstName != nil ? firstName! : "")"
+        }
+    }
+    
+    func fullLocality() -> String {
+        
+        var title = ""
+        
+        if country != nil && !country!.isEmpty {
+            title += country!
+        }
+        
+        if state != nil && !state!.isEmpty {
+            if !title.isEmpty {
+                title += ", "
+            }
+            
+            title += state!
+        }
+        
+        if locality != nil && !locality!.isEmpty {
+            if !title.isEmpty {
+                title += ", "
+            }
+            
+            title += locality!
+        }
+        
+        return title.isEmpty ? NSLocalizedString("Not set", comment: "Locality placeholder") : title
+    }
 }

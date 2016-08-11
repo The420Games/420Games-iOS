@@ -13,6 +13,8 @@ class FTContainerViewController: SlideMenuController {
     
     override func awakeFromNib() {
         
+        SlideMenuOptions.leftViewWidth = 300
+        
         if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FTMainViewController") {
             self.mainViewController = controller
         }

@@ -12,6 +12,8 @@ import FBSDKLoginKit
 import Kingfisher
 
 let FTSignedOutNotificationName = "SignedOutNotification"
+let FTSignedInNotificationName = "SignedInNotification"
+let FTUserUpdatedNotificationName = "UserUpdtedNotification"
 
 class FTDataManager: NSObject {
     
@@ -62,6 +64,8 @@ class FTDataManager: NSObject {
         Backendless.sharedInstance().userService.login(email, password: password, response: {(backendlessUser : BackendlessUser!) -> () in
             
             completion?(user: self.currentUser, error: nil)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(FTSignedInNotificationName, object: backendlessUser)
             
             },
                                                        error: {(fault : Fault!) -> () in
@@ -201,6 +205,8 @@ class FTDataManager: NSObject {
             let user = User(backendlessUser: user)
             
             self._currentUser = user
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(FTSignedInNotificationName, object: user)
             
             completionBlock?(user: self.currentUser, error: nil)
             },

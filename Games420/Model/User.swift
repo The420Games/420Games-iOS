@@ -105,6 +105,8 @@ class User: FTDataObject {
             
             completion?(object: user, error: nil)
             
+            NSNotificationCenter.defaultCenter().postNotificationName(FTUserUpdatedNotificationName, object: user)
+            
         }) { (fault) in
             
             completion?(object: nil, error: NSError.errorWithFault(fault))

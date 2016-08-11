@@ -25,4 +25,12 @@ extension UIColor {
     class func ftMidGray() -> UIColor {
         return UIColor(red: 153/255.0, green: 153/255.0, blue: 153/255.0, alpha: 1.0)
     }
+    
+    class func ftMidGray2() -> UIColor {
+        return UIColor(red: 161/255.0, green: 161/255.0, blue: 161/255.0, alpha: 1.0)
+    }
+    
+    class func ftAlmostBlack() -> UIColor {
+        return UIColor(red: 21/255.0, green: 21/255.0, blue: 21/255.0, alpha: 1.0)
+    }
 }

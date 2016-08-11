@@ -21,6 +21,7 @@
 		19B1697D1D5C74A200F4393D /* FTNavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B1697C1D5C74A200F4393D /* FTNavigationItem.swift */; };
 		19B1697F1D5C7ACC00F4393D /* FTButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B1697E1D5C7ACC00F4393D /* FTButton.swift */; };
 		19B169811D5C7DA300F4393D /* FTTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169801D5C7DA300F4393D /* FTTextField.swift */; };
+		19B169831D5CAFCF00F4393D /* FTLeftMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169821D5CAFCF00F4393D /* FTLeftMenuItemCell.swift */; };
 		19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746441D59F2020013883F /* FTPhotoCropViewController.swift */; };
 		19B7466A1D5A0F6C0013883F /* FTChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */; };
 		19B7466D1D5A1CCB0013883F /* ChangePassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */; };
@@ -63,6 +64,7 @@
 		19B1697C1D5C74A200F4393D /* FTNavigationItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTNavigationItem.swift; sourceTree = "<group>"; };
 		19B1697E1D5C7ACC00F4393D /* FTButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTButton.swift; sourceTree = "<group>"; };
 		19B169801D5C7DA300F4393D /* FTTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTTextField.swift; sourceTree = "<group>"; };
+		19B169821D5CAFCF00F4393D /* FTLeftMenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLeftMenuItemCell.swift; sourceTree = "<group>"; };
 		19B746441D59F2020013883F /* FTPhotoCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTPhotoCropViewController.swift; sourceTree = "<group>"; };
 		19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChangePassword.storyboard; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				19E64C471D37FEC10063E3DD /* FTMedicationCell.swift */,
 				19B169711D5B7E3200F4393D /* FTContainerViewController.swift */,
 				19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */,
+				19B169821D5CAFCF00F4393D /* FTLeftMenuItemCell.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				19B1697F1D5C7ACC00F4393D /* FTButton.swift in Sources */,
 				19E64C271D35196B0063E3DD /* FTDataManager.swift in Sources */,
 				19B169811D5C7DA300F4393D /* FTTextField.swift in Sources */,
+				19B169831D5CAFCF00F4393D /* FTLeftMenuItemCell.swift in Sources */,
 				19B169791D5B961500F4393D /* FTColor.swift in Sources */,
 				19B169741D5B7E9E00F4393D /* FTLeftMenuViewController.swift in Sources */,
 				19B7466A1D5A0F6C0013883F /* FTChangePasswordViewController.swift in Sources */,

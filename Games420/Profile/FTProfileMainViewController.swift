@@ -275,37 +275,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: - Populate data
     
-    private func updateNameLabel(firstName: String?, lastName: String?) {
-        
-        nameLabel.text = "\(lastName != nil && !lastName!.isEmpty ? lastName! : "")\(lastName != nil && !lastName!.isEmpty ? ", " : "")\(firstName != nil ? firstName! : "")"
-    }
     
-    private func updateLocalityLabel(country: String?, state: String?, city: String?) {
-        
-        var title = ""
-        
-        if country != nil && !country!.isEmpty {
-            title += country!
-        }
-        
-        if state != nil && !state!.isEmpty {
-            if !title.isEmpty {
-                title += ", "
-            }
-            
-            title += state!
-        }
-        
-        if city != nil && !city!.isEmpty {
-            if !title.isEmpty {
-                title += ", "
-            }
-            
-            title += city!
-        }
-        
-        localityLabel.text = title
-    }
     
     private func updateBirthDay(date: NSDate?) {
         
@@ -332,12 +302,12 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
 
         if let athlete = currentAthlete {
 
-            updateNameLabel(athlete.firstName, lastName: athlete.lastName)
+            nameLabel.text = athlete.fullName()
             
             firstnameTextField.text = athlete.firstName
             lastnameTextField.text = athlete.lastName
             
-            updateLocalityLabel(athlete.country, state: athlete.state, city: athlete.locality)
+            localityLabel.text = athlete.fullLocality()
             
             countryTextField.text = athlete.country
             stateTextField.text = athlete.state
