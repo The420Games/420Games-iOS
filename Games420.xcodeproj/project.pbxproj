@@ -267,8 +267,8 @@
 		19E64C491D380C1F0063E3DD /* Activities */ = {
 			isa = PBXGroup;
 			children = (
-				19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */,
 				1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */,
+				19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */,
 			);
 			name = Activities;
 			sourceTree = "<group>";

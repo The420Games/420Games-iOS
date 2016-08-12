@@ -189,11 +189,141 @@
                         <outlet property="filterSegmentedControl" destination="RoL-L4-Lcl" id="pZA-st-WDM"/>
                         <outlet property="medicationsTableView" destination="zK8-JJ-a2f" id="T3a-li-x9w"/>
                         <segue destination="sf7-3A-Wtw" kind="show" identifier="selectActivity" id="Iuj-ps-ZTx"/>
+                        <segue destination="Bx7-dq-DHM" kind="show" identifier="manualTrack" id="GKl-1i-RZo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oFj-6u-sd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="432" y="453"/>
+        </scene>
+        <!--Manual Activity Track View Controller-->
+        <scene sceneID="JW6-TS-ReD">
+            <objects>
+                <viewController storyboardIdentifier="FTManualActivityTrackViewController" id="Bx7-dq-DHM" customClass="FTManualActivityTrackViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xTA-kk-8JV"/>
+                        <viewControllerLayoutGuide type="bottom" id="ic1-Fx-6iE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EYX-9f-fbF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xvR-7x-G80" customClass="TPKeyboardAvoidingScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1F-vt-ag6">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sie-P5-BqH" userLabel="Type Button">
+                                                <rect key="frame" x="17" y="10" width="566" height="46"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="46" id="tcd-w6-6M5"/>
+                                                </constraints>
+                                                <state key="normal" title="Select type"/>
+                                                <connections>
+                                                    <action selector="typeButtonPressed:" destination="Bx7-dq-DHM" eventType="touchUpInside" id="NYY-HB-qjn"/>
+                                                </connections>
+                                            </button>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Ye-tW-L07" userLabel="Distance Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
+                                                <rect key="frame" x="17" y="76" width="566" height="46"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="textFieldExit:" destination="Bx7-dq-DHM" eventType="editingDidEndOnExit" id="Lzt-WR-DSi"/>
+                                                    <outlet property="delegate" destination="Bx7-dq-DHM" id="lUF-4S-VfB"/>
+                                                </connections>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZVZ-RV-kiE" userLabel="Elevation Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
+                                                <rect key="frame" x="17" y="143" width="566" height="46"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="textFieldExit:" destination="Bx7-dq-DHM" eventType="editingDidEndOnExit" id="1jt-aa-s0L"/>
+                                                    <outlet property="delegate" destination="Bx7-dq-DHM" id="req-Nr-gsU"/>
+                                                </connections>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FIB-92-DxP" userLabel="Name Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
+                                                <rect key="frame" x="17" y="275" width="566" height="46"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                <connections>
+                                                    <action selector="textFieldExit:" destination="Bx7-dq-DHM" eventType="editingDidEndOnExit" id="yaw-yn-CRT"/>
+                                                    <outlet property="delegate" destination="Bx7-dq-DHM" id="8Xz-Kv-JFk"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWO-r7-6MS" userLabel="Date Button">
+                                                <rect key="frame" x="17" y="341" width="566" height="46"/>
+                                                <state key="normal" title="Set Date"/>
+                                                <connections>
+                                                    <action selector="dateButtonTouched:" destination="Bx7-dq-DHM" eventType="touchUpInside" id="K1U-Fy-MGY"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CH6-LP-AmE" userLabel="Duration Button">
+                                                <rect key="frame" x="17" y="209" width="566" height="46"/>
+                                                <state key="normal" title="Set Duration"/>
+                                                <connections>
+                                                    <action selector="durationButtonTouched:" destination="Bx7-dq-DHM" eventType="touchUpInside" id="HCK-dJ-jFF"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Sie-P5-BqH" firstAttribute="leading" secondItem="T1F-vt-ag6" secondAttribute="leading" constant="17" id="2cg-cB-4gX"/>
+                                            <constraint firstItem="CH6-LP-AmE" firstAttribute="height" secondItem="ZVZ-RV-kiE" secondAttribute="height" id="6D1-rq-OSA"/>
+                                            <constraint firstItem="gWO-r7-6MS" firstAttribute="trailing" secondItem="FIB-92-DxP" secondAttribute="trailing" id="83s-cC-Kgk"/>
+                                            <constraint firstItem="FIB-92-DxP" firstAttribute="leading" secondItem="CH6-LP-AmE" secondAttribute="leading" id="8Et-qf-rUn"/>
+                                            <constraint firstItem="7Ye-tW-L07" firstAttribute="leading" secondItem="Sie-P5-BqH" secondAttribute="leading" id="B8O-Bc-rOk"/>
+                                            <constraint firstItem="CH6-LP-AmE" firstAttribute="trailing" secondItem="ZVZ-RV-kiE" secondAttribute="trailing" id="Fb5-aa-oTg"/>
+                                            <constraint firstItem="FIB-92-DxP" firstAttribute="top" secondItem="CH6-LP-AmE" secondAttribute="bottom" constant="20" id="PA4-lz-9f5"/>
+                                            <constraint firstItem="Sie-P5-BqH" firstAttribute="top" secondItem="T1F-vt-ag6" secondAttribute="top" constant="10" id="ScU-Ks-QXy"/>
+                                            <constraint firstItem="7Ye-tW-L07" firstAttribute="top" secondItem="Sie-P5-BqH" secondAttribute="bottom" constant="20" id="TSk-7Z-uxY"/>
+                                            <constraint firstItem="gWO-r7-6MS" firstAttribute="leading" secondItem="FIB-92-DxP" secondAttribute="leading" id="UAs-Er-xpK"/>
+                                            <constraint firstItem="gWO-r7-6MS" firstAttribute="height" secondItem="FIB-92-DxP" secondAttribute="height" id="c6R-bd-TPJ"/>
+                                            <constraint firstItem="CH6-LP-AmE" firstAttribute="leading" secondItem="ZVZ-RV-kiE" secondAttribute="leading" id="cJq-YD-115"/>
+                                            <constraint firstItem="7Ye-tW-L07" firstAttribute="trailing" secondItem="Sie-P5-BqH" secondAttribute="trailing" id="cgJ-Ho-ANh"/>
+                                            <constraint firstAttribute="trailing" secondItem="Sie-P5-BqH" secondAttribute="trailing" constant="17" id="enK-yr-GMb"/>
+                                            <constraint firstItem="ZVZ-RV-kiE" firstAttribute="height" secondItem="7Ye-tW-L07" secondAttribute="height" id="g8n-lo-kLT"/>
+                                            <constraint firstItem="FIB-92-DxP" firstAttribute="trailing" secondItem="CH6-LP-AmE" secondAttribute="trailing" id="j6q-gt-LY9"/>
+                                            <constraint firstItem="ZVZ-RV-kiE" firstAttribute="top" secondItem="7Ye-tW-L07" secondAttribute="bottom" constant="21" id="jmL-ca-Tjj"/>
+                                            <constraint firstItem="ZVZ-RV-kiE" firstAttribute="trailing" secondItem="7Ye-tW-L07" secondAttribute="trailing" id="naT-Gq-WZc"/>
+                                            <constraint firstItem="FIB-92-DxP" firstAttribute="height" secondItem="CH6-LP-AmE" secondAttribute="height" id="qkf-BW-RYX"/>
+                                            <constraint firstItem="gWO-r7-6MS" firstAttribute="top" secondItem="FIB-92-DxP" secondAttribute="bottom" constant="20" id="rM9-C7-DcY"/>
+                                            <constraint firstItem="7Ye-tW-L07" firstAttribute="height" secondItem="Sie-P5-BqH" secondAttribute="height" id="rqu-yj-wyN"/>
+                                            <constraint firstItem="CH6-LP-AmE" firstAttribute="top" secondItem="ZVZ-RV-kiE" secondAttribute="bottom" constant="20" id="uCp-iO-vdn"/>
+                                            <constraint firstItem="ZVZ-RV-kiE" firstAttribute="leading" secondItem="7Ye-tW-L07" secondAttribute="leading" id="ycm-1z-DuW"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="T1F-vt-ag6" secondAttribute="bottom" id="Cdd-CU-QbQ"/>
+                                    <constraint firstItem="T1F-vt-ag6" firstAttribute="centerY" secondItem="xvR-7x-G80" secondAttribute="centerY" id="FM3-UR-M7d"/>
+                                    <constraint firstItem="T1F-vt-ag6" firstAttribute="top" secondItem="xvR-7x-G80" secondAttribute="top" id="HdR-Ki-TRM"/>
+                                    <constraint firstAttribute="trailing" secondItem="T1F-vt-ag6" secondAttribute="trailing" id="Ras-QV-w47"/>
+                                    <constraint firstItem="T1F-vt-ag6" firstAttribute="leading" secondItem="xvR-7x-G80" secondAttribute="leading" id="d3I-VK-DaE"/>
+                                    <constraint firstItem="T1F-vt-ag6" firstAttribute="centerX" secondItem="xvR-7x-G80" secondAttribute="centerX" id="x1b-g1-mL8"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xvR-7x-G80" firstAttribute="leading" secondItem="EYX-9f-fbF" secondAttribute="leading" id="XPs-oF-ueO"/>
+                            <constraint firstItem="xvR-7x-G80" firstAttribute="top" secondItem="EYX-9f-fbF" secondAttribute="top" id="ckZ-94-gt4"/>
+                            <constraint firstItem="ic1-Fx-6iE" firstAttribute="top" secondItem="xvR-7x-G80" secondAttribute="bottom" id="hVk-fM-6Qo"/>
+                            <constraint firstAttribute="trailing" secondItem="xvR-7x-G80" secondAttribute="trailing" id="wD0-QJ-VJL"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="dateButton" destination="gWO-r7-6MS" id="9gK-on-AEv"/>
+                        <outlet property="distanceTextField" destination="7Ye-tW-L07" id="ArV-Ze-Ytl"/>
+                        <outlet property="durationButton" destination="CH6-LP-AmE" id="C3f-7m-BLU"/>
+                        <outlet property="elevationTextField" destination="ZVZ-RV-kiE" id="bxa-XY-haZ"/>
+                        <outlet property="nameTextField" destination="FIB-92-DxP" id="ZFH-X6-XdT"/>
+                        <outlet property="typeButton" destination="Sie-P5-BqH" id="Qqy-Cb-LZW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uTG-vg-nJk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="432" y="1224"/>
         </scene>
         <!--Select Activity View Controller-->
         <scene sceneID="bc3-aA-Hj2">

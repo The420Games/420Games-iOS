@@ -9,6 +9,7 @@
 import Foundation
 
 enum ActivityType: String {
+    
     case Ride = "Ride", Run = "Run", Swim = "Swim", Hike = "Hike", Walk = "Walk"
     static let allValues = [Ride, Run, Swim, Hike, Walk]
     
@@ -47,6 +48,9 @@ class Activity: FTDataObject {
     var elevationGain: NSNumber?
     
     private let ftAthleteProfileImagesPath = "profiles"
+    
+    static let metersInMile = 1609.344
+    static let metersInFoot = 0.3048
     
     override class func dataFromJsonObject(jsonObject: [String: AnyObject]!) -> Activity {
         
@@ -105,6 +109,11 @@ class Activity: FTDataObject {
         return Activity.isMetricSystem() ? NSLocalizedString("km", comment: "km unit title") : NSLocalizedString("miles", comment: "Miles unit title")
     }
     
+    class func elevationUnit() -> String {
+        
+        return Activity.isMetricSystem() ? NSLocalizedString("m", comment: "meter unit title") : NSLocalizedString("feet", comment: "Feet unit title")
+    }
+    
     func verboseDistance() -> String {
         
         let unit = Activity.distanceUnit()
@@ -112,14 +121,26 @@ class Activity: FTDataObject {
         var dist = distance != nil ? distance!.doubleValue : 0.0
         
         if !Activity.isMetricSystem() {
-            dist = dist / 1609.344
+            dist = dist / Activity.metersInMile
         }
         else {
             dist = dist / 1000
         }
         
         return String(format: "%.2f", dist) + " " + unit
+    }
+    
+    func verboseElevation() -> String {
         
+        let unit = Activity.elevationUnit()
+        
+        var elev = elevationGain != nil ? elevationGain!.doubleValue : 0.0
+        
+        if !Activity.isMetricSystem() {
+            elev = elev / Activity.metersInFoot
+        }
+        
+        return String(format: "%.2f", elev) + " " + unit
     }
     
     func verboseDuration(textual: Bool) -> String {
@@ -159,7 +180,8 @@ class Activity: FTDataObject {
                 return title
             }
             else {
-                return "\(hours):\(mins):" + String(format: "%.02f", secs)
+                let title = String(format: "%02.0f", hours) + ":" + String(format: "%02.0f", mins) + ":" + String(format: "%.02d", secs)
+                return title
             }
         }
         else {

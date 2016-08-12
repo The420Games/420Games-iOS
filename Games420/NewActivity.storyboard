@@ -141,7 +141,7 @@
         <!--FTManualActivityTrackViewController-->
         <scene sceneID="40Y-An-Wc4">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FTManualActivityTrackViewController" id="Mmh-ah-Iti" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Medications" referencedIdentifier="FTManualActivityTrackViewController" id="Mmh-ah-Iti" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cgu-1u-p6e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1493.5" y="563"/>

@@ -425,8 +425,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         }
         else if segue.identifier == activityEditSegueId {
             let target = segue.destinationViewController as! FTManualActivityTrackViewController
-            let medication = sender as! Medication
-            target.activity = medication.activity
+            let medication = sender as? Medication
+            target.activity = medication?.activity
             target.medication = medication
         }
     }
