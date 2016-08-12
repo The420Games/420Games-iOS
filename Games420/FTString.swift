@@ -2,7 +2,7 @@
 //  FTString.swift
 //  Games420
 //
-//  Created by Adam Lovastyik on 2016. 08. 02..
+//  Created by Adam Lovastyik on 2016. 08. 12..
 //  Copyright © 2016. ScreamingBox. All rights reserved.
 //
 
@@ -19,5 +19,15 @@ extension String {
         let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         
         return emailTest.evaluateWithObject(self)
+    }
+    
+    func capitalizingFirstLetter() -> String {
+        let first = String(characters.prefix(1)).capitalizedString
+        let other = String(characters.dropFirst())
+        return first + other
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
     }
 }

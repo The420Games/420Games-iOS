@@ -80,12 +80,7 @@ class FTMedicationListCell: UITableViewCell {
             
             if let typeString = activity.type {
                 if let type = ActivityType(rawValue: typeString) {
-                    switch type {
-                    case .Ride: title += NSLocalizedString("biked", comment: "Bike past tense")
-                    case .Run: title += NSLocalizedString("run", comment: "Run past tense")
-                    case .Swim: title += NSLocalizedString("Swam", comment: "Swim past tense")
-                    default: title += "\(type)"
-                    }
+                    title += type.localizedName(true).capitalizingFirstLetter()
                 }
             }
             
@@ -115,5 +110,15 @@ class FTMedicationListCell: UITableViewCell {
         moodImageView.image = UIImage(named: moodStr)
         
         separatorView.hidden = lastItem
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        titleLabel.text = ""
+        dosageLabel.text = ""
+        moodImageView.image = nil
+        durationLabel.text = ""
+        dateLabel.text = ""
     }
 }

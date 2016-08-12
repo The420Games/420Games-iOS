@@ -10,53 +10,90 @@ import UIKit
 
 class FTSelectActivityCell: UITableViewCell {
 
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var separatorView: UIView!
     
-    func setupWithActivity(activity: Activity) {
+    override func awakeFromNib() {
+        
+        super.awakeFromNib()
+        
+        backgroundColor = UIColor.clearColor()
+        contentView.backgroundColor = UIColor.clearColor()
+        
+        titleLabel.font = UIFont.defaultFont(.Medium, size: 16)
+        titleLabel.textColor = UIColor.whiteColor()
+        
+        subtitleLabel.font = UIFont.defaultFont(.Light, size: 13.0)
+        subtitleLabel.textColor = UIColor.whiteColor()
+        
+        separatorView.backgroundColor = UIColor.ftMidGray()
+    }
+    
+    private func populateDate(date: NSDate?) {
+        
+        if date != nil {
+            
+            let calendar = NSCalendar.currentCalendar()
+            let components = calendar.components([.Hour, .Minute, .Year, .Month, .Day], fromDate: date!)
+            let month = components.month
+            let day = components.day
+            
+            let attrDate = NSMutableAttributedString(string: String(format: "%02d", month), attributes: [
+                NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.0)!
+                ])
+            attrDate.appendAttributedString(NSAttributedString(string: "\n"))
+            attrDate.appendAttributedString(NSAttributedString(string: String(format: "%02d", day), attributes: [
+                NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSFontAttributeName: UIFont.defaultFont(.Bold, size: 12.0)!
+                ]))
+            dateLabel.attributedText = attrDate
+        }
+        else {
+            dateLabel.text = ""
+        }
+    }
+    
+    func setupWithActivity(activity: Activity, lastItem: Bool) {
         
         var title = ""
-        if activity.name != nil {
+        if activity.name != nil && !activity.name!.isEmpty  {
             title += activity.name!
         }
-        
-        if activity.type != nil {
-            
-            if !title.isEmpty {
-                title += " "
-            }
-            title += activity.type!
+        else {
+            title += NSLocalizedString("Distance", comment: "Distance") + ":"
         }
         
-        if activity.startDate != nil {
-            
-            if !title.isEmpty {
-                title += " "
-            }
-            
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = .ShortStyle
-            formatter.timeStyle = .ShortStyle
-            
-            title += formatter.stringFromDate(activity.startDate!)
+        if !title.isEmpty {
+            title += " "
         }
         
-        var subTitle = ""
-        if activity.distance != nil {
-            subTitle += "Distance: \(activity.distance!.doubleValue / 1000) km"
-        }
-        
-        if activity.elapsedTime != nil {
-            if !subTitle.isEmpty {
-                subTitle += " "
-            }
-            let hours = (Double)((Int)(activity.elapsedTime!.doubleValue / 3600.0))
-            let mins = (Double)((Int)((activity.elapsedTime!.doubleValue - (hours * 3600.0)) / 60))
-            let secs = (Int)(activity.elapsedTime!.doubleValue - (hours * 3600.0) - (mins * 60.0))
-            subTitle += " duration: \(hours):\(mins):\(secs) "
-        }
+        title += activity.verboseDistance()
         
         titleLabel.text = title
-        subtitleLabel.text = subTitle
+        subtitleLabel.text = NSLocalizedString("Duration", comment: "Duration") + ": " + activity.verboseDuration(true)
+        
+        iconImageView.image = nil
+        if activity.type != nil {
+            if let type = ActivityType(rawValue: activity.type!) {
+                iconImageView.image = type.icon()
+            }
+        }
+        
+        populateDate(activity.startDate)
+        
+        separatorView.hidden = lastItem
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        titleLabel.text = ""
+        subtitleLabel.text = ""
+        iconImageView.image = nil
+        dateLabel.text = ""
     }
 }

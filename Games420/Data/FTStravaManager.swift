@@ -72,11 +72,17 @@ class FTStravaManager: NSObject {
         return false
     }
     
-    func fetchActivities(completion: ((results: [Activity]?, error: NSError?) -> ())?) {
+    func fetchActivities(offset: Int, pageSize: Int, completion: ((results: [Activity]?, error: NSError?) -> ())?) {
         
         let session = NSURLSession(configuration: customURLsessionConfiguration())
         
-        let url = NSURL(string: baseURL + apiPath + athletePath + activitesPath)
+        var urlString = baseURL + apiPath + athletePath + activitesPath
+        
+        if pageSize > 0 {
+            urlString += "?page=\(offset + 1)&per_page=\(pageSize)"
+        }
+        
+        let url = NSURL(string: urlString)
         
         let task = session.dataTaskWithURL(url!) { (data, response, error) in
             if error != nil {

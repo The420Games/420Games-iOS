@@ -12,7 +12,6 @@
 		192CEFC51D537DB3005E5AF4 /* FTProfileMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */; };
 		1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */; };
 		1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */; };
-		1952C18D1D50DFC3008776AA /* FTString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C18C1D50DFC3008776AA /* FTString.swift */; };
 		19B169721D5B7E3200F4393D /* FTContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169711D5B7E3200F4393D /* FTContainerViewController.swift */; };
 		19B169741D5B7E9E00F4393D /* FTLeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */; };
 		19B169771D5B81DB00F4393D /* FTFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169761D5B81DB00F4393D /* FTFont.swift */; };
@@ -26,6 +25,7 @@
 		19B169871D5DB29000F4393D /* Medications.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B169861D5DB29000F4393D /* Medications.storyboard */; };
 		19B169891D5DB2DF00F4393D /* FTMedicationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169881D5DB2DF00F4393D /* FTMedicationsViewController.swift */; };
 		19B1698C1D5DBAF600F4393D /* FTMedicationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B1698B1D5DBAF600F4393D /* FTMedicationListCell.swift */; };
+		19B1698E1D5DFC2400F4393D /* FTString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B1698D1D5DFC2400F4393D /* FTString.swift */; };
 		19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746441D59F2020013883F /* FTPhotoCropViewController.swift */; };
 		19B7466A1D5A0F6C0013883F /* FTChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */; };
 		19B7466D1D5A1CCB0013883F /* ChangePassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */; };
@@ -59,7 +59,6 @@
 		192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTProfileMainViewController.swift; path = Profile/FTProfileMainViewController.swift; sourceTree = "<group>"; };
 		1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTManualActivityTrackViewController.swift; sourceTree = "<group>"; };
 		1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSignupWithEmailViewController.swift; sourceTree = "<group>"; };
-		1952C18C1D50DFC3008776AA /* FTString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTString.swift; path = Extensions/FTString.swift; sourceTree = "<group>"; };
 		19B169711D5B7E3200F4393D /* FTContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTContainerViewController.swift; sourceTree = "<group>"; };
 		19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLeftMenuViewController.swift; sourceTree = "<group>"; };
 		19B169761D5B81DB00F4393D /* FTFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTFont.swift; sourceTree = "<group>"; };
@@ -73,6 +72,7 @@
 		19B169861D5DB29000F4393D /* Medications.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Medications.storyboard; sourceTree = "<group>"; };
 		19B169881D5DB2DF00F4393D /* FTMedicationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationsViewController.swift; sourceTree = "<group>"; };
 		19B1698B1D5DBAF600F4393D /* FTMedicationListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationListCell.swift; sourceTree = "<group>"; };
+		19B1698D1D5DFC2400F4393D /* FTString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTString.swift; sourceTree = "<group>"; };
 		19B746441D59F2020013883F /* FTPhotoCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTPhotoCropViewController.swift; sourceTree = "<group>"; };
 		19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChangePassword.storyboard; sourceTree = "<group>"; };
@@ -139,14 +139,6 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		1952C18B1D50DFAA008776AA /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				1952C18C1D50DFC3008776AA /* FTString.swift */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
 		19B169751D5B81C700F4393D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +147,7 @@
 				19B1697C1D5C74A200F4393D /* FTNavigationItem.swift */,
 				19B1697E1D5C7ACC00F4393D /* FTButton.swift */,
 				19B169801D5C7DA300F4393D /* FTTextField.swift */,
+				19B1698D1D5DFC2400F4393D /* FTString.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -196,7 +189,6 @@
 				19E64C351D368D4B0063E3DD /* View Controllers */,
 				19E64C301D3674A90063E3DD /* Model */,
 				19E64C281D3519700063E3DD /* Data */,
-				1952C18B1D50DFAA008776AA /* Extensions */,
 				19E64C141D3518610063E3DD /* AppDelegate.swift */,
 				19E64C1B1D3518610063E3DD /* Assets.xcassets */,
 				19E64C1D1D3518610063E3DD /* LaunchScreen.storyboard */,
@@ -438,7 +430,6 @@
 				19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */,
 				19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */,
 				19E64C371D368D700063E3DD /* FTSelectActivityViewController.swift in Sources */,
-				1952C18D1D50DFC3008776AA /* FTString.swift in Sources */,
 				19B746711D5B27EE0013883F /* FTMedicationDetailsViewController.swift in Sources */,
 				19E64C3A1D368DB40063E3DD /* FTSelectActivityCell.swift in Sources */,
 				19B169721D5B7E3200F4393D /* FTContainerViewController.swift in Sources */,
@@ -452,6 +443,7 @@
 				19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */,
 				19E64C3C1D379A9D0063E3DD /* Medication.swift in Sources */,
 				19B1697D1D5C74A200F4393D /* FTNavigationItem.swift in Sources */,
+				19B1698E1D5DFC2400F4393D /* FTString.swift in Sources */,
 				1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */,
 				19E64C3E1D379F030063E3DD /* User.swift in Sources */,
 				19B1697F1D5C7ACC00F4393D /* FTButton.swift in Sources */,

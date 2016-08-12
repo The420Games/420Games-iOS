@@ -9,8 +9,30 @@
 import Foundation
 
 enum ActivityType: String {
-    case Ride = "Ride", Run = "Run", Swim = "Swim"
-    static let allValues = [Ride, Run, Swim]
+    case Ride = "Ride", Run = "Run", Swim = "Swim", Hike = "Hike", Walk = "Walk"
+    static let allValues = [Ride, Run, Swim, Hike, Walk]
+    
+    func icon() -> UIImage? {
+        switch self {
+        case .Ride: return UIImage(named: "icon_bike")
+        case .Run: return UIImage(named: "icon_run")
+        case .Swim: return UIImage(named: "icon_swim")
+        case .Hike: return UIImage(named: "icon_hike")
+        case .Walk: return UIImage(named: "icon_walk")
+        default: return nil
+        }
+    }
+    
+    func localizedName(past: Bool) -> String {
+        switch self {
+        case .Ride: return past ? NSLocalizedString("biked", comment: "Bike past tense") : NSLocalizedString("bike", comment: "Bike continous")
+        case .Run: return past ? NSLocalizedString("run", comment: "Run past tense") : NSLocalizedString("run", comment: "Run continous")
+        case .Swim: return past ? NSLocalizedString("Swam", comment: "Swim past tense") : NSLocalizedString("swim", comment: "Swim continous")
+        case .Hike: return past ? NSLocalizedString("hiked", comment: "Hike past tense") : NSLocalizedString("hike", comment: "Hiking continous")
+        case .Walk: return past ? NSLocalizedString("walked", comment: "Walk past tense") : NSLocalizedString("walk", comment: "Walking continous")
+        default: return "\(self)"
+        }
+    }
 }
 
 class Activity: FTDataObject {

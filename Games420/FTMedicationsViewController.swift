@@ -30,8 +30,9 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     private let medicationDetailSegueId = "medicationDetail"
     private let activityEditSegueId = "manualTrack"
     private let medicationEditSegueId = "logActivity"
+    private let selectActivitySegueId = "selectActivity"
     
-    private let pageSize = 10
+    private let pageSize = 20
     private var pageOffset = 0
     private var moreAvailable = false
     private var isFetching = false
@@ -82,13 +83,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         for type in ActivityType.allValues {
             
-            var title: String!
-            switch type {
-            case .Ride: title = NSLocalizedString("BIKE RIDE", comment: "Bike ride title")
-            case .Run: title = NSLocalizedString("RUNNING", comment: "Running title")
-            case .Swim: title = NSLocalizedString("SWIMMING", comment: "Swimming title")
-            default: title = "\(title)"
-            }
+            let title = type.localizedName(false).uppercaseString
             
             filterSegmentedControl.insertSegmentWithTitle(title, atIndex: filterSegmentedControl.numberOfSegments, animated: false)
         }
@@ -131,6 +126,24 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     @IBAction func addMedicationTouched(sender: AnyObject) {
+        
+        let picker = UIAlertController(title: NSLocalizedString("Source", comment: "Select source title"), message: NSLocalizedString("Select tracker app you logged your activity with", comment: "Message source"), preferredStyle: .ActionSheet)
+        
+        picker.addAction(UIAlertAction(title: "Strava", style: .Default, handler: { (action) in
+            self.logActivityWithStrava()
+        }))
+        
+        //        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
+        //        picker.addAction(UIAlertAction(title: "Endomondo", style: .Default, handler: nil))
+        //        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
+        
+        picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .Default, handler: { (action) in
+            self.performSegueWithIdentifier(self.activityEditSegueId, sender: self)
+        }))
+        
+        picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        presentViewController(picker, animated: true, completion: nil)
     }
     
     @IBAction func filterChanged(sender: UISegmentedControl) {
@@ -149,6 +162,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
         
+        pageOffset = 0
         fetchMedications()
     }
     
@@ -240,7 +254,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             
             if let success = notification.userInfo?["success"] as? Bool {
                 if success {
-                    performSegueWithIdentifier("activities", sender: self)
+                    performSegueWithIdentifier(selectActivitySegueId, sender: self)
                 }
             }
         }
@@ -271,6 +285,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     
+                    self.isFetching = false
+                    
                     if hud != nil {
                         hud!.hideAnimated(true)
                     }
@@ -286,10 +302,11 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                         self.medicationsTableView.reloadData()
                         
                         self.pageOffset += 1
+                        
+                        self.moreAvailable = objects!.count >= self.pageSize
                     }
                     else {
                         print("Error fetching Medications: \(error)")
-                        self.moreAvailable = false
                     }
                 })
             }
@@ -376,18 +393,42 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             FTStravaManager.sharedInstance.authorize("games420://games420")
         }
         else {
-            performSegueWithIdentifier("activities", sender: self)
+            performSegueWithIdentifier(selectActivitySegueId, sender: self)
         }
     }
     
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == selectActivitySegueId {
+            (segue.destinationViewController as! FTSelectActivityViewController).activitySelected = {(activity) -> () in
+                
+                self.dismissViewControllerAnimated(true, completion: {
+                    
+                    self.performSegueWithIdentifier(self.medicationEditSegueId, sender: activity)
+                });
+            }
+        }
+        else if segue.identifier == medicationDetailSegueId {
+            (segue.destinationViewController as! FTMedicationDetailsViewController).medication = sender as! Medication
+        }
+        else if segue.identifier == medicationEditSegueId {
+            let target = segue.destinationViewController as! FTLogActivityViewController
+            if let activity = sender as? Activity {
+                target.activity = activity
+            }
+            else if let medication = sender as? Medication {
+                target.medication = medication
+                target.activity = medication.activity
+            }
+        }
+        else if segue.identifier == activityEditSegueId {
+            let target = segue.destinationViewController as! FTManualActivityTrackViewController
+            let medication = sender as! Medication
+            target.activity = medication.activity
+            target.medication = medication
+        }
     }
-    */
 
 }
