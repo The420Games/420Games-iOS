@@ -11,6 +11,7 @@ import UIKit
 class FTHomeViewController: UIViewController {
     
     private let profileSegueId = "profile"
+    private let medicationsSegueId = "medications"
     
     // MARK: - Container Lifecycle
     
@@ -56,6 +57,7 @@ class FTHomeViewController: UIViewController {
                 switch item {
                 case .Profile: performSegueWithIdentifier(profileSegueId, sender: self)
                 case .Main: navigationController?.popToRootViewControllerAnimated(true)
+                case .Workouts: performSegueWithIdentifier(medicationsSegueId, sender: self)
                 default: print("Implement menu for \(item)")
                 }
             }
