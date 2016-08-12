@@ -18,6 +18,8 @@ class FTMedicationListCell: UITableViewCell {
     
     @IBOutlet weak var dateLabel: UILabel!
 
+    @IBOutlet weak var separatorView: UIView!
+    
     override func awakeFromNib() {
         
         super.awakeFromNib()
@@ -33,6 +35,8 @@ class FTMedicationListCell: UITableViewCell {
         
         dosageLabel.font = UIFont.defaultFont(.Light, size: 13.0)
         dosageLabel.textColor = UIColor.whiteColor()
+        
+        separatorView.backgroundColor = UIColor.ftMidGray()
     }
     
     private func populateDate(date: NSDate?) {
@@ -66,7 +70,7 @@ class FTMedicationListCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func setupCell(medication: Medication) {
+    func setupCell(medication: Medication, lastItem: Bool) {
     
         var title = NSLocalizedString("Distance", comment: "Distance prefix")
         
@@ -109,5 +113,7 @@ class FTMedicationListCell: UITableViewCell {
             }
         }
         moodImageView.image = UIImage(named: moodStr)
+        
+        separatorView.hidden = lastItem
     }
 }

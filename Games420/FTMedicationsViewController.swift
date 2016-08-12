@@ -17,15 +17,24 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var filterSegmentedControl: UISegmentedControl!
     
+    private var refreshControl: UIRefreshControl!
+    
     private var medications = [Medication]()
     
     private var waitingForStravaAuthentication = false
     private var stravaAuthenticationHUD: MBProgressHUD?
+    
+    private var activityType: ActivityType? = nil
 
     private let medicationCellId = "medicationCell"
     private let medicationDetailSegueId = "medicationDetail"
     private let activityEditSegueId = "manualTrack"
     private let medicationEditSegueId = "logActivity"
+    
+    private let pageSize = 10
+    private var pageOffset = 0
+    private var moreAvailable = false
+    private var isFetching = false
     
     // MARK: - Controller Lifecycle
 
@@ -46,6 +55,11 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         medicationsTableView.backgroundColor = UIColor.clearColor()
         medicationsTableView.tableFooterView = UIView()
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.ftLimeGreen()
+        refreshControl.addTarget(self, action: #selector(self.refreshValueChanged(_:)), forControlEvents: .ValueChanged)
+        medicationsTableView.addSubview(refreshControl)
     }
     
     private func setupFilter() {
@@ -105,6 +119,12 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     
     // MARK: - Actions
     
+    func refreshValueChanged(sender: AnyObject) {
+        
+        pageOffset = 0
+        fetchMedications()
+    }
+    
     func backButtonPressed(sender: AnyObject) {
         
         navigationController?.popToRootViewControllerAnimated(true)
@@ -114,7 +134,24 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     @IBAction func filterChanged(sender: UISegmentedControl) {
+        
+        if sender.selectedSegmentIndex == 0 {
+            
+            activityType = nil
+        }
+        else {
+            if sender.selectedSegmentIndex < ActivityType.allValues.count {
+                
+                activityType = ActivityType.allValues[sender.selectedSegmentIndex - 1]
+            }
+            else {
+                activityType = nil
+            }
+        }
+        
+        fetchMedications()
     }
+    
     // MARK: - Tableview
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -133,7 +170,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         let medication = medications[indexPath.row]
         
-        cell.setupCell(medication)
+        cell.setupCell(medication, lastItem: indexPath.row == medications.count - 1)
         
         return cell
     }
@@ -144,6 +181,13 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         let medication = medications[indexPath.row]
         performSegueWithIdentifier(medicationDetailSegueId, sender: medication)
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if indexPath.row == medications.count - 1 {
+            fetchMedications()
+        }
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -206,25 +250,49 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     
     private func fetchMedications() {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.label.text = NSLocalizedString("Fetching Activities", comment: "HUD title when fetching activities")
-        hud.mode = .Indeterminate
+        if !isFetching && (pageOffset == 0 || moreAvailable) {
         
-        Medication.findObjects("ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'", order: ["updated desc"]) { (objects, error) in
+            isFetching = true
             
-            dispatch_async(dispatch_get_main_queue(), {
+            var hud: MBProgressHUD?
+            if pageOffset == 0 {
+                hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                hud!.label.text = NSLocalizedString("Fetching Activities", comment: "HUD title when fetching activities")
+                hud!.mode = .Indeterminate
+            }
+            
+            var query = "ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'"
+            
+            if activityType != nil {
+                query += " AND activity.Type = '\(activityType!.rawValue)'"
+            }
+            
+            Medication.findObjects(query, order: ["updated desc"], offset: pageOffset * pageSize, limit: pageSize) { (objects, error) in
                 
-                hud.hideAnimated(true)
-                
-                if objects != nil {
-                    self.medications.removeAll()
-                    self.medications.appendContentsOf(objects as! [Medication])
-                    self.medicationsTableView.reloadData()
-                }
-                else {
-                    print("Error fetching Medications: \(error)")
-                }
-            })
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    if hud != nil {
+                        hud!.hideAnimated(true)
+                    }
+                    
+                    self.refreshControl.endRefreshing()
+                    
+                    if objects != nil {
+                        
+                        if self.pageOffset == 0 {
+                            self.medications.removeAll()
+                        }
+                        self.medications.appendContentsOf(objects as! [Medication])
+                        self.medicationsTableView.reloadData()
+                        
+                        self.pageOffset += 1
+                    }
+                    else {
+                        print("Error fetching Medications: \(error)")
+                        self.moreAvailable = false
+                    }
+                })
+            }
         }
     }
     
