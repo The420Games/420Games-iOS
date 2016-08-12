@@ -80,28 +80,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="66.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zx8-oV-WjR" userLabel="Dosage View">
-                                                    <rect key="frame" x="25" y="11" width="44" height="44"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xc4-pN-pNa" userLabel="Mood Image View">
+                                                    <rect key="frame" x="17" y="11" width="43" height="43"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="44" id="Lde-0Q-FCK"/>
-                                                        <constraint firstAttribute="height" constant="44" id="Mwb-Rl-FQa"/>
+                                                        <constraint firstAttribute="width" constant="43" id="7fp-Qm-bPI"/>
+                                                        <constraint firstAttribute="height" constant="43" id="nbg-ZQ-hma"/>
                                                     </constraints>
-                                                </view>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance ran 10 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkC-gl-E9a" userLabel="Title Label">
-                                                    <rect key="frame" x="91" y="0.0" width="163" height="21"/>
+                                                    <rect key="frame" x="71" y="2" width="163" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration: 32 minutes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOv-hh-6Ah" userLabel="Duration Label">
-                                                    <rect key="frame" x="91" y="23" width="160" height="21"/>
+                                                    <rect key="frame" x="71" y="23" width="160" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dosage: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBy-uD-7IR" userLabel="Dosage Label">
-                                                    <rect key="frame" x="91" y="45" width="75" height="21"/>
+                                                    <rect key="frame" x="71" y="44" width="75" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -132,20 +131,27 @@
                                                 <constraint firstItem="4lR-rF-pkD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uOv-hh-6Ah" secondAttribute="trailing" constant="10" id="7Nm-ez-nxD"/>
                                                 <constraint firstItem="uOv-hh-6Ah" firstAttribute="centerY" secondItem="Ifl-2h-E0K" secondAttribute="centerY" id="9rT-qt-32L"/>
                                                 <constraint firstItem="zkC-gl-E9a" firstAttribute="leading" secondItem="uOv-hh-6Ah" secondAttribute="leading" id="EEW-qx-GIr"/>
+                                                <constraint firstItem="xc4-pN-pNa" firstAttribute="centerY" secondItem="Ifl-2h-E0K" secondAttribute="centerY" id="Izm-yI-8jv"/>
                                                 <constraint firstAttribute="trailing" secondItem="4lR-rF-pkD" secondAttribute="trailing" constant="16" id="JRR-1q-Ppy"/>
-                                                <constraint firstItem="uOv-hh-6Ah" firstAttribute="top" secondItem="zkC-gl-E9a" secondAttribute="bottom" constant="2" id="PLO-Th-M2J"/>
+                                                <constraint firstItem="uOv-hh-6Ah" firstAttribute="top" secondItem="zkC-gl-E9a" secondAttribute="bottom" id="PLO-Th-M2J"/>
                                                 <constraint firstItem="4lR-rF-pkD" firstAttribute="centerY" secondItem="Ifl-2h-E0K" secondAttribute="centerY" id="Rf7-99-h1p"/>
                                                 <constraint firstItem="4lR-rF-pkD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zkC-gl-E9a" secondAttribute="trailing" constant="10" id="SOk-ZO-Fwq"/>
-                                                <constraint firstItem="cBy-uD-7IR" firstAttribute="top" secondItem="uOv-hh-6Ah" secondAttribute="bottom" constant="1" id="Tnp-Fa-bdh"/>
+                                                <constraint firstItem="cBy-uD-7IR" firstAttribute="top" secondItem="uOv-hh-6Ah" secondAttribute="bottom" id="Tnp-Fa-bdh"/>
                                                 <constraint firstItem="cBy-uD-7IR" firstAttribute="leading" secondItem="uOv-hh-6Ah" secondAttribute="leading" id="UfV-fs-gy7"/>
+                                                <constraint firstItem="uOv-hh-6Ah" firstAttribute="leading" secondItem="xc4-pN-pNa" secondAttribute="trailing" constant="11" id="YMI-7A-Ctf"/>
                                                 <constraint firstItem="5lb-bC-c81" firstAttribute="centerY" secondItem="4lR-rF-pkD" secondAttribute="centerY" constant="2" id="YeN-f2-6Ci"/>
                                                 <constraint firstItem="5lb-bC-c81" firstAttribute="centerX" secondItem="4lR-rF-pkD" secondAttribute="centerX" id="cDO-jH-oc3"/>
-                                                <constraint firstItem="uOv-hh-6Ah" firstAttribute="leading" secondItem="zx8-oV-WjR" secondAttribute="trailing" constant="22" id="hLC-Fj-Qwz"/>
-                                                <constraint firstItem="zx8-oV-WjR" firstAttribute="leading" secondItem="Ifl-2h-E0K" secondAttribute="leading" constant="25" id="kBD-gK-MEj"/>
-                                                <constraint firstItem="zx8-oV-WjR" firstAttribute="centerY" secondItem="Ifl-2h-E0K" secondAttribute="centerY" id="n7O-wk-VCf"/>
                                                 <constraint firstItem="4lR-rF-pkD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cBy-uD-7IR" secondAttribute="trailing" constant="10" id="qy1-ck-VaH"/>
+                                                <constraint firstItem="xc4-pN-pNa" firstAttribute="leading" secondItem="Ifl-2h-E0K" secondAttribute="leading" constant="17" id="uga-oD-TdK"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="5lb-bC-c81" id="3vF-8y-EzI"/>
+                                            <outlet property="dosageLabel" destination="cBy-uD-7IR" id="NNU-fa-ytT"/>
+                                            <outlet property="durationLabel" destination="uOv-hh-6Ah" id="Kbj-fp-hL9"/>
+                                            <outlet property="moodImageView" destination="xc4-pN-pNa" id="JVu-9P-psd"/>
+                                            <outlet property="titleLabel" destination="zkC-gl-E9a" id="bmA-QJ-Sqx"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

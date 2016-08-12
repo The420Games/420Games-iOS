@@ -68,4 +68,80 @@ class Activity: FTDataObject {
     override var description: String {
         return "[\(self.dynamicType): activityId=\(activityId), name=\(name), type=\(type), distance=\(distance), startDate=\(startDate), elapsedTime=\(elapsedTime), source=\(source)]\n"
     }
+    
+    class func isMetricSystem() -> Bool {
+        
+        if let value = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem) as? NSNumber {
+            return value.boolValue
+        }
+        
+        return false
+    }
+    
+    class func distanceUnit() -> String {
+        
+        return Activity.isMetricSystem() ? NSLocalizedString("km", comment: "km unit title") : NSLocalizedString("miles", comment: "Miles unit title")
+    }
+    
+    func verboseDistance() -> String {
+        
+        let unit = Activity.distanceUnit()
+        
+        var dist = distance != nil ? distance!.doubleValue : 0.0
+        
+        if !Activity.isMetricSystem() {
+            dist = dist / 1609.344
+        }
+        else {
+            dist = dist / 1000
+        }
+        
+        return String(format: "%.2f", dist) + " " + unit
+        
+    }
+    
+    func verboseDuration(textual: Bool) -> String {
+        
+        if elapsedTime != nil && elapsedTime!.doubleValue != 0.0 {
+            
+            let hours = (Double)((Int)(elapsedTime!.doubleValue / 3600.0))
+            let mins = (Double)((Int)((elapsedTime!.doubleValue - (hours * 3600.0)) / 60))
+            let secs = (Int)(elapsedTime!.doubleValue - (hours * 3600.0) - (mins * 60.0))
+            
+            var title = ""
+            
+            if textual {
+                
+                if hours > 0 {
+                    title += String(format: "%.0f ", hours) + NSLocalizedString("hours", comment: "Hours")
+                }
+                
+                if mins > 0 || (hours > 0 && secs > 0) {
+                
+                    if !title.isEmpty {
+                        title += " "
+                    }
+                    
+                    title += String(format: "%.0f ", mins) + NSLocalizedString("mins", comment: "Minutes short")
+                }
+                
+                if secs > 0 {
+                    
+                    if !title.isEmpty {
+                        title += " "
+                    }
+                    
+                    title += String(format: "%.02d", secs) + " " + NSLocalizedString("secs", comment: "Seconds short")
+                }
+                
+                return title
+            }
+            else {
+                return "\(hours):\(mins):" + String(format: "%.02f", secs)
+            }
+        }
+        else {
+            return ""
+        }
+    }
 }
