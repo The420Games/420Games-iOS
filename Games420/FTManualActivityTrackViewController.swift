@@ -116,11 +116,19 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         navigationItem.rightBarButtonItem = item
     }
     
+    private func endEditing() {
+        
+        distanceTextField.resignFirstResponder()
+        nameTextField.resignFirstResponder()
+        elevationTextField.resignFirstResponder()
+    }
+    
     // MARK: - Actions
     
     func nextButtonPressed(sender: AnyObject) {
         
-        self.editing = false
+        endEditing()
+        
         if validData() {
             performSegueWithIdentifier(medicationSegueId, sender: self)
         }
@@ -133,10 +141,13 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     
     func backButtonPressed(sender: AnyObject) {
         
+        endEditing()
         navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func typeButtonPressed(sender: AnyObject) {
+        
+        endEditing()
         
         var types = [AnyObject]()
         var typeIndex = 0
@@ -164,6 +175,8 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func dateButtonTouched(sender: AnyObject) {
         
+        endEditing()
+        
         let datePicker = ActionSheetDatePicker(title: NSLocalizedString("Select activity date", comment: "Activity date picker tite"), datePickerMode: UIDatePickerMode.DateAndTime, selectedDate: self.activity.startDate != nil ? self.activity.startDate : NSDate(), doneBlock: {
             picker, value, index in
             
@@ -183,9 +196,11 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func durationButtonTouched(sender: AnyObject) {
         
-        var hour: Double = -1
-        var min: Double = -1
-        var sec: Int = -1
+        endEditing()
+        
+        var hour: Double = 0
+        var min: Double = 0
+        var sec: Int = 0
         if let time = activity.elapsedTime {
             hour = (Double)((Int)(time.doubleValue / 3600.0))
             min = (Double)((Int)((time.doubleValue - (hour * 3600.0)) / 60))

@@ -50,6 +50,15 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         fetchMedications()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        if medicationsTableView.editing {
+            medicationsTableView.setEditing(false, animated: false)
+        }
+    }
+    
     // MARK: - UI Customization
     
     private func setupTableView() {
@@ -400,6 +409,10 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if medicationsTableView.editing {
+            medicationsTableView.setEditing(false, animated: true)
+        }
         
         if segue.identifier == selectActivitySegueId {
             (segue.destinationViewController as! FTSelectActivityViewController).activitySelected = {(activity) -> () in

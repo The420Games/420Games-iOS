@@ -8,6 +8,7 @@
 
 import UIKit
 import MBProgressHUD
+import ActionSheetPicker_3_0
 
 class FTLogActivityViewController: UIViewController {
     
@@ -144,44 +145,80 @@ class FTLogActivityViewController: UIViewController {
         }
     }
     
+    private func endEditing() {
+        
+        dosageTextField.resignFirstResponder()
+    }
+    
     // MARK: - Actions
+    
+    @IBAction func textfieldDidExit(sender: FTTextField) {
+        
+        sender.resignFirstResponder()
+    }
     
     func saveButtonPressed(sender: AnyObject) {
     
+        endEditing()
         submitMedication()
     }
     
     func backButtonPressed(sender: AnyObject) {
         
+        endEditing()
         navigationController?.popViewControllerAnimated(true)
     }
 
     @IBAction func typeButtonPressed(sender: AnyObject) {
         
-        let picker = UIAlertController(title: NSLocalizedString("Select type", comment: "Medication type picker title"), message: nil, preferredStyle: .ActionSheet)
-        for type in MedicationType.allValues {
-            picker.addAction(UIAlertAction(title: "\(type)", style: .Default, handler: { (action) in
-                self.medication.type = type.rawValue
-                self.typeButton.setTitle("\(type)", forState: .Normal)
-            }))
-        }
-        picker.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel title"), style: .Cancel, handler: nil))
+        endEditing()
         
-        presentViewController(picker, animated: true, completion: nil)
+        var rows = [AnyObject]()
+        var index = 0
+        var i = 0
+        for type in MedicationType.allValues {
+            rows.append(type.localizedString().capitalizingFirstLetter())
+            if medication.type != nil && medication.type! == type.rawValue {
+                index = i
+            }
+            i += 1
+        }
+        
+        let picker = ActionSheetStringPicker(title: NSLocalizedString("Select type", comment: "Medication type picker title"), rows: rows, initialSelection: index, doneBlock: { (picker, index, value) in
+            
+            self.medication.type = MedicationType.allValues[index].rawValue
+            self.typeButton.setTitle(value as? String, forState: .Normal)
+            }, cancelBlock: { (picker) in
+                //
+            }, origin: sender)
+        
+        picker.showActionSheetPicker()
     }
     
     @IBAction func moodButtonPressed(sender: AnyObject) {
         
-        let picker = UIAlertController(title: NSLocalizedString("Select mood", comment: "Mood index picker title"), message: nil, preferredStyle: .ActionSheet)
-        for mood in MedicationMoodIndex.allValues {
-            picker.addAction(UIAlertAction(title: "\(mood)", style: .Default, handler: { (action) in
-                self.medication.mood = NSNumber(integer: mood.rawValue)
-                self.moodButton.setTitle("\(mood)", forState: .Normal)
-            }))
-        }
-        picker.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel title"), style: .Cancel, handler: nil))
+        endEditing()
         
-        presentViewController(picker, animated: true, completion: nil)
+        var rows = [AnyObject]()
+        var index = 0
+        var i = 0
+        for type in MedicationMoodIndex.allValues {
+            rows.append(type.localizedString().capitalizingFirstLetter())
+            if medication.mood != nil && medication.mood!.integerValue == type.rawValue {
+                index = i
+            }
+            i += 1
+        }
+        
+        let picker = ActionSheetStringPicker(title: NSLocalizedString("Select mood", comment: "Mood index picker title"), rows: rows, initialSelection: index, doneBlock: { (picker, index, value) in
+            
+            self.medication.mood = MedicationMoodIndex.allValues[index].rawValue
+            self.moodButton.setTitle(value as? String, forState: .Normal)
+            }, cancelBlock: { (picker) in
+                //
+            }, origin: sender)
+        
+        picker.showActionSheetPicker()
     }
     
     // MARK: - Data integration
