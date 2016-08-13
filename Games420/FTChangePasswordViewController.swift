@@ -11,14 +11,17 @@ import MBProgressHUD
 
 class FTChangePasswordViewController: UIViewController {
 
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var retypeTextField: UITextField!
+    @IBOutlet weak var passwordTextField: FTTextField!
+    @IBOutlet weak var retypeTextField: FTTextField!
+    @IBOutlet weak var changeButton: UIButton!
+    
+    // MARK: - Controller lifecycle
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        addDoneButton()
+        setupUI()
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,31 +29,49 @@ class FTChangePasswordViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    class func controller() -> FTChangePasswordViewController {
-        
-        let controller = FTChangePasswordViewController(nibName: "FTChangePasswordViewController", bundle: nil)
-        
-        return controller
-    }
-    
     // MARK: - UI Customizations
+    
+    private func setupUI() {
         
-    private func addDoneButton() {
+        navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonTouched(_:)))
         
-        let item = UIBarButtonItem(title: NSLocalizedString("Done", comment: "Done button title"), style: .Done, target: self, action: #selector(self.doneButtonTouched(_:)))
-        navigationItem.rightBarButtonItem = item
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
+        
+        navigationItem.title = NSLocalizedString("Change password", comment: "Change password navigation title")
+        
+        changeButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("CHANGE PASSWORD", comment: "Chanage password button title"))
+        
+        passwordTextField.ft_setup()
+        passwordTextField.ft_setPlaceholder(NSLocalizedString("NEW PASSWORD", comment: "New password placeholder"))
+        
+        retypeTextField.ft_setup()
+        retypeTextField.ft_setPlaceholder(NSLocalizedString("RETYPE PASSWORD", comment: "Retype password placeholder"))
     }
     
     // MARK: - Actions
     
-    func doneButtonTouched(sender: AnyObject) {
+    @IBAction func changeButtonTouched(sender: AnyObject) {
+        
+        endEditing()
         
         if validData() {
             changePassword(passwordTextField.text!)
         }
     }
     
+    @IBAction func textfieldDidExit(sender: FTTextField) {
+        
+        sender.resignFirstResponder()
+    }
+    
+    func backButtonTouched(sender: AnyObject) {
+        
+        dismiss()
+    }
+    
     private func dismiss() {
+        
+        endEditing()
         
         if let navController = navigationController {
             navController.popViewControllerAnimated(true)
@@ -58,6 +79,12 @@ class FTChangePasswordViewController: UIViewController {
         else if presentingViewController != nil {
             dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+    
+    private func endEditing() {
+        
+        passwordTextField.resignFirstResponder()
+        retypeTextField.resignFirstResponder()
     }
     
     // MARK: - Data integration
