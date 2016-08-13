@@ -16,23 +16,34 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     @IBOutlet weak var profileImageView: UIImageView!
     
+    @IBOutlet weak var nameTitleLabel: UILabel!
+    @IBOutlet weak var localityTitleLabel: UILabel!
+    @IBOutlet weak var genderTitleLabel: UILabel!
+    @IBOutlet weak var birthdateTitleLabel: UILabel!
+    @IBOutlet weak var bioTitleLabel: UILabel!
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var localityLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var birthdayLabel: UILabel!
     @IBOutlet weak var bioLabel: UILabel!
     
+    @IBOutlet var horizontalLines: [UIView]!
+    
     @IBOutlet weak var editHolderView: UIView!
     
-    @IBOutlet weak var firstnameTextField: UITextField!
-    @IBOutlet weak var lastnameTextField: UITextField!
-    @IBOutlet weak var countryTextField: UITextField!
-    @IBOutlet weak var stateTextField: UITextField!
-    @IBOutlet weak var cityTextField: UITextField!
+    @IBOutlet weak var firstnameTextField: FTTextField!
+    @IBOutlet weak var lastnameTextField: FTTextField!
+    @IBOutlet weak var countryTextField: FTTextField!
+    @IBOutlet weak var stateTextField: FTTextField!
+    @IBOutlet weak var cityTextField: FTTextField!
     
     @IBOutlet weak var genderButton: UIButton!
     @IBOutlet weak var birthdayButton: UIButton!
     @IBOutlet weak var bioTextView: UITextView!
+    
+    @IBOutlet weak var stravaButton: UIButton!
+    @IBOutlet weak var facebookButton: UIButton!
     
     private var _edit = false
     var edit : Bool {
@@ -46,11 +57,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                 self.editHolderView.hidden = !newValue
                 
                 if let rightItem = self.navigationItem.rightBarButtonItem {
-                    rightItem.title = edit ? saveTitle : editTitle
-                }
-                
-                if let leftItem = self.navigationItem.leftBarButtonItem {
-                    leftItem.title = edit ? cancelTitle : backTitle
+                    rightItem.image = UIImage(named: edit ? "btn_save" : "btn_edit")
                 }
             }
         }
@@ -82,15 +89,13 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     private let cropSegueId = "cropPhoto"
 
+    // MARK: - Controller lifecycle
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
-        editHolderView.hidden = !edit
-        
-        addRightButtonItem()
-        
-        addLeftButtonItem()
+        setupUI()
         
         populateData(FTDataManager.sharedInstance.currentUser?.athlete)
         
@@ -109,17 +114,130 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+        
+        setupProfilePicture()
+    }
+    
     // MARK:  - UI Customization
+    
+    private func setupProfilePicture() {
+        
+        profileImageView.clipsToBounds = true
+        profileImageView.layer.cornerRadius = profileImageView.bounds.size.width / 2
+        profileImageView.layer.borderColor = UIColor.ftLimeGreen().CGColor
+        profileImageView.layer.borderWidth = profileImageView.bounds.size.width / 20
+    }
+    
+    private func setupTitleLabels() {
+        
+        let titleFont = UIFont.defaultFont(.Light, size: 13.5)
+        let titleColor = UIColor.whiteColor()
+        
+        nameTitleLabel.font = titleFont
+        nameTitleLabel.textColor = titleColor
+        nameTitleLabel.text = NSLocalizedString("NAME", comment: "Name title label")
+        
+        localityTitleLabel.font = titleFont
+        localityTitleLabel.textColor = titleColor
+        localityTitleLabel.text = NSLocalizedString("LOCATION", comment: "Location title label")
+        
+        genderTitleLabel.font = titleFont
+        genderTitleLabel.textColor = titleColor
+        genderTitleLabel.text = NSLocalizedString("GENDER", comment: "Gender title label")
+        
+        birthdateTitleLabel.font = titleFont
+        birthdateTitleLabel.textColor = titleColor
+        birthdateTitleLabel.text = NSLocalizedString("BIRTHDAY", comment: "Birthday title label")
+        
+        bioTitleLabel.font = titleFont
+        bioTitleLabel.textColor = titleColor
+        bioTitleLabel.text = NSLocalizedString("BIRTHDAY", comment: "Birthday title label")
+    }
+    
+    private func setupDataLabels() {
+        
+        let font = UIFont.defaultFont(.Bold, size: 14.5)
+        let color = UIColor.whiteColor()
+        
+        nameLabel.font = font
+        nameLabel.textColor = color
+        
+        localityLabel.font = font
+        localityLabel.textColor = color
+        
+        genderLabel.font = font
+        genderLabel.textColor = color
+        
+        bioLabel.font = font
+        bioLabel.textColor = color
+    }
+    
+    private func setupButons() {
+        
+        let bColor = UIColor.ftLimeGreen()
+        
+        genderButton.ft_setupButton(bColor, title: genderTitle)
+        birthdayButton.ft_setupButton(bColor, title: bDayTitle)
+        
+        facebookButton.ft_setupButton(UIColor.ftFacebookBlue(), title: NSLocalizedString("COMPLETE WITH FACEBOOK", comment: "Complete with facebook title"))
+        
+        stravaButton.ft_setupButton(UIColor.ftStravaOrange(), title: NSLocalizedString("COMPLETE WITH STRAVA", comment: "Complete with Strava title"))
+    }
+    
+    private func setupTextFields() {
+        
+        firstnameTextField.ft_setup()
+        firstnameTextField.ft_setPlaceholder(NSLocalizedString("FIRST NAME", comment: "First name placeholder"))
+        
+        lastnameTextField.ft_setup()
+        lastnameTextField.ft_setPlaceholder(NSLocalizedString("LAST NAME", comment: "Last name placeholder"))
+        
+        countryTextField.ft_setup()
+        countryTextField.ft_setPlaceholder(NSLocalizedString("COUNTRY", comment: "Country placeholder"))
+        
+        stateTextField.ft_setup()
+        stateTextField.ft_setPlaceholder(NSLocalizedString("ST", comment: "State placeholder"))
+        
+        cityTextField.ft_setup()
+        cityTextField.ft_setPlaceholder(NSLocalizedString("CITY", comment: "City placeholder"))
+    }
+    
+    private func setupUI() {
+        
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
+        editHolderView.backgroundColor = UIColor.ftMainBackgroundColor()
+        
+        editHolderView.hidden = !edit
+        
+        addRightButtonItem()
+        
+        addLeftButtonItem()
+        
+        for line in horizontalLines {
+            line.backgroundColor = UIColor.ftMidGray()
+        }
+        
+        setupTitleLabels()
+        
+        setupDataLabels()
+        
+        setupButons()
+        
+        setupTextFields()
+    }
     
     private func addRightButtonItem() {
         
-        let barButtonItem = UIBarButtonItem(title: edit ? saveTitle : editTitle, style: .Plain, target: self, action: #selector(self.rightBarButtonItemPressed(_:)))
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: edit ? "btn_save" : "btn_edit"), style: .Plain, target: self, action: #selector(self.rightBarButtonItemPressed(_:)))
         navigationItem.rightBarButtonItem = barButtonItem
     }
     
     private func addLeftButtonItem() {
         
-        let barButtonItem = UIBarButtonItem(title: edit ? cancelTitle : backTitle, style: .Plain, target: self, action: #selector(self.leftBarButtonItemPressed(_:)))
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "btn_back"), style: .Plain, target: self, action: #selector(self.leftBarButtonItemPressed(_:)))
         
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = barButtonItem

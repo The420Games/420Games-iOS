@@ -33,4 +33,8 @@ extension UIColor {
     class func ftAlmostBlack() -> UIColor {
         return UIColor(red: 21/255.0, green: 21/255.0, blue: 21/255.0, alpha: 1.0)
     }
+    
+    class func ftStravaOrange() -> UIColor {
+        return UIColor(red: 252/255.0, green: 76/255.0, blue: 2/255.0, alpha: 1.0)
+    }
 }
