@@ -18,7 +18,7 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
     
     var completionBlock: ((croppedPhoto: UIImage) -> ())?
     
-    var overlayBounds: CGRect!
+    // MARK: - Controller lifecycle
 
     override func viewDidLoad() {
         
@@ -26,25 +26,44 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
 
         // Do any additional setup after loading the view.
         
-        photoImageView.image = originalPhoto
-        setupScrollView()
+        setupUI()
         
-        addDoneButton()
+        photoImageView.image = originalPhoto
     }
     
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
         
-        overlayBounds = overlayView.bounds
+        setupOverlay()
     }
 
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     // MARK: - UI Customizations
+    
+    private func setupUI() {
+        
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
+        
+        navigationItem.title = NSLocalizedString("Set photo", comment: "Set profile photo navigation title")
+        
+        setupScrollView()
+        
+        addDoneButton()
+        
+        navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonTouched(_:)))
+    }
+    
+    private func setupOverlay() {
+        
+        overlayView.clipsToBounds = true
+        overlayView.layer.cornerRadius = overlayView.bounds.size.width / 2
+    }
     
     private func setupScrollView() {
         
@@ -61,6 +80,11 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
     }
     
     // MARK: - Actions
+    
+    func backButtonTouched(sender: AnyObject) {
+        
+        navigationController?.popViewControllerAnimated(true)
+    }
     
     func doneButtonTouched(sender: AnyObject) {
         
