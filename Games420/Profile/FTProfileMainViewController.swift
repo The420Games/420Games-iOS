@@ -44,6 +44,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     @IBOutlet weak var stravaButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
+    @IBOutlet weak var passwordButton: UIButton!
     
     private var _edit = false
     var edit : Bool {
@@ -55,6 +56,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             if self.view != nil || self.isViewLoaded() {
                 
                 self.editHolderView.hidden = !newValue
+                self.passwordButton.hidden = newValue
                 
                 if let rightItem = self.navigationItem.rightBarButtonItem {
                     rightItem.image = UIImage(named: edit ? "btn_save" : "btn_edit")
@@ -154,7 +156,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         
         bioTitleLabel.font = titleFont
         bioTitleLabel.textColor = titleColor
-        bioTitleLabel.text = NSLocalizedString("BIRTHDAY", comment: "Birthday title label")
+        bioTitleLabel.text = NSLocalizedString("BIO", comment: "Bio title label")
     }
     
     private func setupDataLabels() {
@@ -171,6 +173,9 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         genderLabel.font = font
         genderLabel.textColor = color
         
+        birthdayLabel.font = font
+        birthdayLabel.textColor = color
+        
         bioLabel.font = font
         bioLabel.textColor = color
     }
@@ -181,6 +186,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         
         genderButton.ft_setupButton(bColor, title: genderTitle)
         birthdayButton.ft_setupButton(bColor, title: bDayTitle)
+        passwordButton.ft_setupButton(bColor, title: NSLocalizedString("CHANGE PASSWORD", comment: "Change password title"))
         
         facebookButton.ft_setupButton(UIColor.ftFacebookBlue(), title: NSLocalizedString("COMPLETE WITH FACEBOOK", comment: "Complete with facebook title"))
         
@@ -205,6 +211,21 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         cityTextField.ft_setPlaceholder(NSLocalizedString("CITY", comment: "City placeholder"))
     }
     
+    private func setupBioTextView() {
+        
+        bioTextView.backgroundColor = UIColor.clearColor()
+        bioTextView.clipsToBounds = true
+        bioTextView.layer.borderWidth = 1.0
+        bioTextView.layer.borderColor = UIColor.ftMidGray().CGColor
+        bioTextView.layer.cornerRadius = 5.0
+        
+        bioTextView.tintColor = UIColor.whiteColor()
+        bioTextView.textColor = UIColor.whiteColor()
+        bioTextView.font = UIFont.defaultFont(.Light, size: 13.0)
+        
+        bioTextView.keyboardAppearance = .Dark
+    }
+    
     private func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
@@ -227,6 +248,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         setupButons()
         
         setupTextFields()
+        
+        setupBioTextView()
     }
     
     private func addRightButtonItem() {
@@ -271,16 +294,27 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     @IBAction func genderButtonTouched(sender: AnyObject) {
         
-        let picker = UIAlertController(title: NSLocalizedString("Select Gender", comment: "gender picker title"), message: nil, preferredStyle: .ActionSheet)
-        for gender in GenderType.allValues {
-            picker.addAction(UIAlertAction(title: "\(gender)", style: .Default, handler: { (action) in
-                self.gender = gender.rawValue
-                self.genderButton.setTitle("\(gender)", forState: .Normal)
-            }))
+        var rows = [AnyObject]()
+        var index = 0
+        var i = 0
+        for g in GenderType.allValues {
+            rows.append(g.localizedString().capitalizingFirstLetter())
+            if gender == g.rawValue {
+                index = i
+            }
+            i += 1
         }
-        picker.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel title"), style: .Cancel, handler: nil))
         
-        presentViewController(picker, animated: true, completion: nil)
+        let picker = ActionSheetStringPicker(title: NSLocalizedString("Select Gender", comment: "gender picker title"), rows: rows, initialSelection: index, doneBlock: { (picker, index, value) in
+            
+            self.gender = value as? String
+            self.genderButton.setTitle(GenderType.allValues[index].localizedString().capitalizingFirstLetter(), forState: .Normal)
+            
+            }, cancelBlock: { (picker) in
+                
+            }, origin: sender)
+
+        picker.showActionSheetPicker()
     }
     
     @IBAction func birthdateButtonTouched(sender: AnyObject) {
@@ -798,7 +832,6 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                     }
                 }
             })
-            
         })
     }
     

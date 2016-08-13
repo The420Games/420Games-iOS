@@ -297,14 +297,6 @@
             </objects>
             <point key="canvasLocation" x="380.5" y="244"/>
         </scene>
-        <!--FTChangePasswordViewController-->
-        <scene sceneID="Cgz-j8-SKm">
-            <objects>
-                <viewControllerPlaceholder storyboardName="ChangePassword" referencedIdentifier="FTChangePasswordViewController" id="M4k-fd-yji" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ud8-Ps-noj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="29" y="785"/>
-        </scene>
     </scenes>
     <resources>
         <image name="icon_location" width="12" height="17"/>

@@ -9,8 +9,19 @@
 import Foundation
 
 enum GenderType : String {
+    
     case Male = "M", Female = "F", NotProvided = ""
     static let allValues = [Male, Female, NotProvided]
+    
+    func localizedString() -> String {
+        
+        switch self {
+        case .Male: return NSLocalizedString("Male", comment: "Male title")
+        case .Female: return NSLocalizedString("Female", comment: "Female title")
+        case .NotProvided: return NSLocalizedString("Not provided", comment: "Not provided")
+        default: return "\(self)"
+        }
+    }
 }
 
 class Athlete: FTDataObject {
