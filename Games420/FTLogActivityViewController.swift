@@ -11,17 +11,20 @@ import MBProgressHUD
 
 class FTLogActivityViewController: UIViewController {
     
-    
+    @IBOutlet weak var activityImageView: UIImageView!
     @IBOutlet weak var activityLabel: UILabel!
+    
     @IBOutlet weak var typeButton: UIButton!
-    @IBOutlet weak var dosageTextField: UITextField!
+    
+    @IBOutlet weak var dosageTextField: FTTextField!
+    
     @IBOutlet weak var moodButton: UIButton!
     
     var activity: Activity?
     var medication: Medication!
     
-    private let typePlaceholderLabel = NSLocalizedString("Select medication type", comment: "Medication type placeholder")
-    private let moodPLaceHolderLabel = NSLocalizedString("Select mood", comment: "Mood placeholder")
+    private let typePlaceholderLabel = NSLocalizedString("SET MEDICATION TYPE", comment: "Medication type placeholder")
+    private let moodPLaceHolderLabel = NSLocalizedString("SET MOOD", comment: "Mood placeholder")
     
     override func viewDidLoad() {
         
@@ -30,8 +33,6 @@ class FTLogActivityViewController: UIViewController {
         title = NSLocalizedString("Log activity", comment: "Log activity title")
         
         setupUI()
-        
-        loadActivityDetails()
         
         if medication == nil {
 
@@ -42,71 +43,82 @@ class FTLogActivityViewController: UIViewController {
             activity = medication.activity
         }
         
-        loadMedicationDetails()
+        loadActivityDetails()
         
+        loadMedicationDetails()
     }
     
     // MARK: - UI Customization
     
     private func setupUI() {
         
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
+        
+        navigationItem.title = NSLocalizedString("Add medication", comment: "Add medication navigation title")
+        
+        navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonPressed(_:)))
+        
+        addSaveButton()
+        
+        activityLabel.textColor = UIColor.whiteColor()
+        activityLabel.font = UIFont.defaultFont(.Medium, size: 15.0)
         activityLabel.text = NSLocalizedString("Activity", comment: "Activity details placeholder")
         
-        dosageTextField.placeholder = NSLocalizedString("Enter dosage", comment: "Dosage placeholder")
+        dosageTextField.ft_setup()
+        dosageTextField.ft_setPlaceholder(NSLocalizedString("ENTER DOSAGE", comment: "Dosage placeholder"))
         
-        moodButton.setTitle(moodPLaceHolderLabel, forState: .Normal)
-        
-        typeButton.setTitle(typePlaceholderLabel, forState: .Normal)
+        moodButton.ft_setupButton(UIColor.ftLimeGreen(), title: moodPLaceHolderLabel)
+
+        typeButton.ft_setupButton(UIColor.ftLimeGreen(), title: typePlaceholderLabel)
         
         dosageTextField.text = nil
+    }
+    
+    private func addSaveButton() {
+    
+        let item = UIBarButtonItem(image: UIImage(named: "btn_save"), style: .Done, target: self, action: #selector(self.saveButtonPressed(_:)))
+        navigationItem.rightBarButtonItem = item
     }
     
     private func loadActivityDetails() {
         
         if activity != nil {
             
+            if activity!.type != nil {
+                
+                if let type = ActivityType(rawValue: activity!.type!) {
+                    activityImageView.image = type.icon()
+                }
+            }
+            
             var title = ""
+            
             if activity!.name != nil {
                 title += activity!.name!
             }
-            
-            if activity!.type != nil {
+            else if activity!.type != nil {
                 
-                if !title.isEmpty {
-                    title += " "
+                if let type = ActivityType(rawValue: activity!.type!) {
+                    
+                    title += type.localizedName(true).capitalizingFirstLetter()
                 }
-                title += "(" + activity!.type! + ")"
             }
             
+            title += " " + activity!.verboseDistance()
+            
+            title += "\n"
+            
+            title += activity!.verboseDuration(true)
+            
             if activity!.startDate != nil {
-                
-                if !title.isEmpty {
-                    title += " "
-                }
-                
+            
                 let formatter = NSDateFormatter()
                 formatter.dateStyle = .ShortStyle
                 formatter.timeStyle = .ShortStyle
                 
-                title += "at " + formatter.stringFromDate(activity!.startDate!)
-            }
-            
-            if activity!.distance != nil {
+                title += " " + NSLocalizedString("at", comment: "Time prefix") + " "
                 
-                if !title.isEmpty {
-                    title += " "
-                }
-                title += "Distance: \(activity!.distance!.doubleValue / 1000) km"
-            }
-            
-            if activity!.elapsedTime != nil {
-                if !title.isEmpty {
-                    title += " "
-                }
-                let hours = (Double)((Int)(activity!.elapsedTime!.doubleValue / 3600.0))
-                let mins = (Double)((Int)((activity!.elapsedTime!.doubleValue - (hours * 3600.0)) / 60))
-                let secs = (Int)(activity!.elapsedTime!.doubleValue - (hours * 3600.0) - (mins * 60.0))
-                title += " duration: \(hours):\(mins):\(secs) "
+                title += formatter.stringFromDate(activity!.startDate!)
             }
             
             activityLabel.text = title
@@ -133,6 +145,16 @@ class FTLogActivityViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    func saveButtonPressed(sender: AnyObject) {
+    
+        submitMedication()
+    }
+    
+    func backButtonPressed(sender: AnyObject) {
+        
+        navigationController?.popViewControllerAnimated(true)
+    }
 
     @IBAction func typeButtonPressed(sender: AnyObject) {
         
@@ -160,11 +182,6 @@ class FTLogActivityViewController: UIViewController {
         picker.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel title"), style: .Cancel, handler: nil))
         
         presentViewController(picker, animated: true, completion: nil)
-    }
-    
-    @IBAction func submitButtonPressed(sender: AnyObject) {
-        
-        submitMedication()
     }
     
     // MARK: - Data integration

@@ -319,6 +319,7 @@
                         <outlet property="elevationTextField" destination="ZVZ-RV-kiE" id="bxa-XY-haZ"/>
                         <outlet property="nameTextField" destination="FIB-92-DxP" id="ZFH-X6-XdT"/>
                         <outlet property="typeButton" destination="Sie-P5-BqH" id="Qqy-Cb-LZW"/>
+                        <segue destination="zNq-DP-UGo" kind="show" identifier="logActivity" id="G0J-sE-uLO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uTG-vg-nJk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -432,14 +433,128 @@
                     </view>
                     <connections>
                         <outlet property="activitiesTableView" destination="fFW-L1-FR4" id="oc5-sb-OrJ"/>
+                        <segue destination="zNq-DP-UGo" kind="show" identifier="logActivity" id="VyQ-JR-KkJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2x-cU-yzC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1201" y="453"/>
         </scene>
+        <!--Log Activity View Controller-->
+        <scene sceneID="Aj9-S0-Bia">
+            <objects>
+                <viewController storyboardIdentifier="FTLogActivityViewController" id="zNq-DP-UGo" customClass="FTLogActivityViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qM4-rZ-mo1"/>
+                        <viewControllerLayoutGuide type="bottom" id="ffd-t5-RuV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Dtw-bU-GGb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SZE-5j-fKQ" customClass="TPKeyboardAvoidingScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c1J-cM-Alr" userLabel="Holder">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QEX-wY-859" userLabel="Activity Type Icon Image View">
+                                                <rect key="frame" x="17" y="17" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="AqL-Wb-cuY"/>
+                                                    <constraint firstAttribute="width" constant="50" id="YKY-8z-uVA"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qA-TD-SBc">
+                                                <rect key="frame" x="75" y="31.5" width="103" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qn0-oX-rqf" userLabel="Medication type Button">
+                                                <rect key="frame" x="17" y="92" width="566" height="46"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="46" id="MGO-p8-QIj"/>
+                                                </constraints>
+                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Select medication type"/>
+                                                <connections>
+                                                    <action selector="typeButtonPressed:" destination="zNq-DP-UGo" eventType="touchUpInside" id="Vib-2r-PlY"/>
+                                                </connections>
+                                            </button>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.5" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oBP-k2-l6A" userLabel="Dosage TextField" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
+                                                <rect key="frame" x="17" y="163" width="566" height="46"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="done"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="zNq-DP-UGo" id="q8P-OF-tSU"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ob4-yr-lcj" userLabel="Mood Button">
+                                                <rect key="frame" x="17" y="234" width="566" height="46"/>
+                                                <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="Select mood"/>
+                                                <connections>
+                                                    <action selector="moodButtonPressed:" destination="zNq-DP-UGo" eventType="touchUpInside" id="r8H-nY-VO5"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="qn0-oX-rqf" firstAttribute="top" secondItem="QEX-wY-859" secondAttribute="bottom" constant="25" id="2M0-d5-pF7"/>
+                                            <constraint firstItem="oBP-k2-l6A" firstAttribute="top" secondItem="qn0-oX-rqf" secondAttribute="bottom" constant="25" id="2tA-85-HPk"/>
+                                            <constraint firstItem="oBP-k2-l6A" firstAttribute="leading" secondItem="qn0-oX-rqf" secondAttribute="leading" id="6ys-Ae-dBK"/>
+                                            <constraint firstItem="ob4-yr-lcj" firstAttribute="height" secondItem="oBP-k2-l6A" secondAttribute="height" id="9pF-d7-TdJ"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9qA-TD-SBc" secondAttribute="trailing" constant="17" id="GqA-ef-g1f"/>
+                                            <constraint firstItem="QEX-wY-859" firstAttribute="top" secondItem="c1J-cM-Alr" secondAttribute="top" constant="17" id="HgU-r0-py4"/>
+                                            <constraint firstItem="ob4-yr-lcj" firstAttribute="leading" secondItem="oBP-k2-l6A" secondAttribute="leading" id="KmS-59-F3S"/>
+                                            <constraint firstItem="ob4-yr-lcj" firstAttribute="trailing" secondItem="oBP-k2-l6A" secondAttribute="trailing" id="LgA-ue-n3f"/>
+                                            <constraint firstItem="oBP-k2-l6A" firstAttribute="height" secondItem="qn0-oX-rqf" secondAttribute="height" id="NIq-Oj-lpe"/>
+                                            <constraint firstItem="oBP-k2-l6A" firstAttribute="trailing" secondItem="qn0-oX-rqf" secondAttribute="trailing" id="OtM-QB-3ke"/>
+                                            <constraint firstItem="QEX-wY-859" firstAttribute="leading" secondItem="c1J-cM-Alr" secondAttribute="leading" constant="17" id="VkX-yf-Vkm"/>
+                                            <constraint firstItem="9qA-TD-SBc" firstAttribute="centerY" secondItem="QEX-wY-859" secondAttribute="centerY" id="WWe-NL-mbH"/>
+                                            <constraint firstItem="ob4-yr-lcj" firstAttribute="top" secondItem="oBP-k2-l6A" secondAttribute="bottom" constant="25" id="bw6-Gc-5Da"/>
+                                            <constraint firstItem="qn0-oX-rqf" firstAttribute="leading" secondItem="c1J-cM-Alr" secondAttribute="leading" constant="17" id="iCt-cn-3cM"/>
+                                            <constraint firstAttribute="trailing" secondItem="qn0-oX-rqf" secondAttribute="trailing" constant="17" id="kXM-Bj-Pwc"/>
+                                            <constraint firstItem="9qA-TD-SBc" firstAttribute="leading" secondItem="QEX-wY-859" secondAttribute="trailing" constant="8" id="qjo-xw-mtt"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="c1J-cM-Alr" firstAttribute="leading" secondItem="SZE-5j-fKQ" secondAttribute="leading" id="07h-eT-df2"/>
+                                    <constraint firstAttribute="trailing" secondItem="c1J-cM-Alr" secondAttribute="trailing" id="1Xt-vA-3Vg"/>
+                                    <constraint firstAttribute="bottom" secondItem="c1J-cM-Alr" secondAttribute="bottom" id="7wD-sm-Hyy"/>
+                                    <constraint firstItem="c1J-cM-Alr" firstAttribute="top" secondItem="SZE-5j-fKQ" secondAttribute="top" id="AkS-r0-m5Z"/>
+                                    <constraint firstItem="c1J-cM-Alr" firstAttribute="centerY" secondItem="SZE-5j-fKQ" secondAttribute="centerY" id="GYV-s1-e51"/>
+                                    <constraint firstItem="c1J-cM-Alr" firstAttribute="centerX" secondItem="SZE-5j-fKQ" secondAttribute="centerX" id="Zp3-al-P6O"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="SZE-5j-fKQ" secondAttribute="trailing" id="Gpg-wv-NOG"/>
+                            <constraint firstItem="SZE-5j-fKQ" firstAttribute="top" secondItem="Dtw-bU-GGb" secondAttribute="top" id="LDd-2K-zkj"/>
+                            <constraint firstItem="SZE-5j-fKQ" firstAttribute="leading" secondItem="Dtw-bU-GGb" secondAttribute="leading" id="eXa-54-3ZE"/>
+                            <constraint firstItem="ffd-t5-RuV" firstAttribute="top" secondItem="SZE-5j-fKQ" secondAttribute="bottom" id="sDY-Yw-kOt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityImageView" destination="QEX-wY-859" id="C9P-DQ-T9P"/>
+                        <outlet property="activityLabel" destination="9qA-TD-SBc" id="nhr-FF-dWZ"/>
+                        <outlet property="dosageTextField" destination="oBP-k2-l6A" id="iVV-7W-ikH"/>
+                        <outlet property="moodButton" destination="ob4-yr-lcj" id="L7F-Uh-TjI"/>
+                        <outlet property="typeButton" destination="qn0-oX-rqf" id="rLS-Tf-ql5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bzo-a7-c8E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2009" y="453"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bg_calendar" width="38" height="43"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="VyQ-JR-KkJ"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -139,7 +139,7 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     @IBAction func typeButtonPressed(sender: AnyObject) {
         
         var types = [AnyObject]()
-        var typeIndex = -1
+        var typeIndex = 0
         var i = 0
         for type in ActivityType.allValues {
             types.append(type.localizedName(false).capitalizingFirstLetter())

@@ -133,7 +133,7 @@
         <!--FTLogActivityViewController-->
         <scene sceneID="F48-yK-J3T">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FTLogActivityViewController" id="4yp-Ia-3pP" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Medications" referencedIdentifier="FTLogActivityViewController" id="4yp-Ia-3pP" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HcA-bq-QsH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1466.5" y="231"/>
