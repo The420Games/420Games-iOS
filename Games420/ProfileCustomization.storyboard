@@ -41,8 +41,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="atU-1P-12G" userLabel="Holder">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_photo" translatesAutoresizingMaskIntoConstraints="NO" id="9s9-hj-M4Y" userLabel="Profile Image View">
-                                                <rect key="frame" x="114" y="0.0" width="186" height="186.5"/>
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="default_photo" translatesAutoresizingMaskIntoConstraints="NO" id="9s9-hj-M4Y" userLabel="Profile Image View">
+                                                <rect key="frame" x="114" y="0.0" width="186" height="187"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="9s9-hj-M4Y" secondAttribute="height" multiplier="1:1" id="Hk9-tR-7Cz"/>
@@ -58,7 +58,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User full name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGz-Ta-uuf" userLabel="Name Label">
-                                                <rect key="frame" x="91" y="218" width="110.5" height="21"/>
+                                                <rect key="frame" x="91" y="218" width="111" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -70,7 +70,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wlg-jW-AVn">
-                                                <rect key="frame" x="17" y="351" width="61.5" height="21"/>
+                                                <rect key="frame" x="17" y="351" width="62" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -100,13 +100,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Birthday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZY-9j-1Ng" userLabel="Birthday Label">
-                                                <rect key="frame" x="91" y="420" width="64.5" height="21"/>
+                                                <rect key="frame" x="91" y="420" width="65" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E8I-pe-BEj" userLabel="Bio Label">
-                                                <rect key="frame" x="91" y="481" width="24.5" height="21"/>
+                                                <rect key="frame" x="91" y="481" width="25" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -141,7 +141,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h4P-bD-5ee" userLabel="Edit holder">
-                                                <rect key="frame" x="91" y="202" width="323" height="533.5"/>
+                                                <rect key="frame" x="91" y="202" width="323" height="534"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yG5-jh-grk" userLabel="First Name Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="129" height="46"/>
@@ -152,7 +152,7 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Country" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="02p-es-ZSc" userLabel="Country Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="62" width="96.5" height="46"/>
+                                                        <rect key="frame" x="0.0" y="62" width="97" height="46"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="46" id="uNO-0s-8IV"/>
                                                         </constraints>
@@ -160,7 +160,7 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DQj-19-1f5" userLabel="State Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                        <rect key="frame" x="101.5" y="62" width="40" height="46"/>
+                                                        <rect key="frame" x="102" y="62" width="40" height="46"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="40" id="t4O-wu-JjR"/>
                                                         </constraints>
@@ -168,7 +168,7 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Ey-NH-SKi" userLabel="City Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                        <rect key="frame" x="146.5" y="62" width="159.5" height="46"/>
+                                                        <rect key="frame" x="147" y="62" width="159" height="46"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>

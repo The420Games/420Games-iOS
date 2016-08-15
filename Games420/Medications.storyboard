@@ -22,6 +22,14 @@
             </objects>
             <point key="canvasLocation" x="-248" y="448"/>
         </scene>
+        <!--FTMedicationDetailsViewController-->
+        <scene sceneID="VRt-Hq-f3n">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewActivity" referencedIdentifier="FTMedicationDetailsViewController" id="FUs-jw-YIL" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xiq-GO-2yQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="970" y="-120"/>
+        </scene>
         <!--Medications View Controller-->
         <scene sceneID="krX-L6-D2z">
             <objects>
@@ -127,7 +135,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3iT-9X-Zsh" userLabel="Horizontal line">
-                                                    <rect key="frame" x="71" y="66" width="529" height="0.5"/>
+                                                    <rect key="frame" x="71" y="66" width="529" height="1"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="0.5" id="kas-i8-4Iw"/>
@@ -191,6 +199,7 @@
                         <segue destination="sf7-3A-Wtw" kind="show" identifier="selectActivity" id="Iuj-ps-ZTx"/>
                         <segue destination="Bx7-dq-DHM" kind="show" identifier="manualTrack" id="GKl-1i-RZo"/>
                         <segue destination="zNq-DP-UGo" kind="show" identifier="logActivity" id="LdS-PT-x3a"/>
+                        <segue destination="FUs-jw-YIL" kind="show" identifier="medicationDetail" id="vx3-tA-ctd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oFj-6u-sd3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -358,7 +367,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance: 2 miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="81H-Pg-4xU" userLabel="Title label">
-                                                    <rect key="frame" x="77" y="11" width="130.5" height="21"/>
+                                                    <rect key="frame" x="77" y="11" width="131" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -377,7 +386,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x29-DC-Bx6" userLabel="Date label">
-                                                    <rect key="frame" x="546" y="25" width="20.5" height="21"/>
+                                                    <rect key="frame" x="546" y="25" width="21" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -466,7 +475,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qA-TD-SBc">
-                                                <rect key="frame" x="75" y="31.5" width="103" height="21"/>
+                                                <rect key="frame" x="75" y="32" width="103" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
