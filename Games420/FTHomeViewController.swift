@@ -13,7 +13,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     @IBOutlet weak var topTitleLabel: UILabel!
     @IBOutlet weak var topSubtitleLabel: UILabel!
-        
+    
     @IBOutlet weak var pieChart: XYPieChart!
     
     @IBOutlet weak var pieInnerHolderView: UIView!
@@ -23,9 +23,20 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     @IBOutlet weak var moodCollectionView: UICollectionView!
     
+    @IBOutlet weak var bottomHorizontalLine: UIView!
+    @IBOutlet weak var bottomHorizontalLineHeight: NSLayoutConstraint!
+    @IBOutlet weak var bottomTitleLabel: UILabel!
+    @IBOutlet weak var bottomSubtitleLabel: UILabel!
+    
+    @IBOutlet weak var lineChartHolder: UIView!
+    
+//    private var lineChart: LineChartView!
+    
     private let profileSegueId = "profile"
     private let medicationsSegueId = "medications"
     private let moodCellId = "moodCell"
+    
+//    private var activityDistances = [ChartDataEntry]()
     
     private lazy var moodValues: [MedicationMoodIndex: Int] = {
        
@@ -62,11 +73,9 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         
         setupUI()
         
-        pieChart.reloadData()
-        
         fetchMedications()
         
-        populuatePieLabelsData()
+        populatePieLabelsData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,6 +83,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         super.viewDidLayoutSubviews()
         
         setupPieInnerHolder()
+        
+        setupLineChart()
     }
     
     deinit {
@@ -139,6 +150,26 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         moodCollectionView.backgroundColor = UIColor.clearColor()
     }
     
+    private func setupLineChart() {
+        
+//        lineChart = LineChartView(frame: CGRect(x: 0, y: 0, width: lineChartHolder.bounds.size.width, height: lineChartHolder.bounds.size.height))
+//        lineChart.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+//        lineChartHolder.addSubview(lineChart)
+//        lineChart.backgroundColor = UIColor.clearColor()
+//        lineChartHolder.backgroundColor = UIColor.clearColor()
+    }
+    
+    private func setupLineChartLabels() {
+        
+        bottomTitleLabel.font = UIFont.defaultFont(.Bold, size: 15.0)
+        bottomTitleLabel.textColor = UIColor.whiteColor()
+        bottomTitleLabel.text = NSLocalizedString("DISTANCE", comment: "Distance top title")
+        
+        bottomSubtitleLabel.font = UIFont.defaultFont(.Light, size: 13.0)
+        bottomSubtitleLabel.textColor = UIColor.whiteColor()
+        bottomSubtitleLabel.text = ""
+    }
+    
     private func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
@@ -147,7 +178,12 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         
         setupCollectionView()
         
+        bottomHorizontalLine.backgroundColor = UIColor.ftMidGray()
+        bottomHorizontalLineHeight.constant = 0.5
+        
         setupTopTitleLabels()
+        
+        setupLineChartLabels()
     }
 
     // MARK: - Notifications
@@ -249,13 +285,23 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     // MARK: - Data integration
     
-    private func populuatePieLabelsData() {
+    private func populatePieLabelsData() {
         
         let formatter = NSDateFormatter()
         let name = formatter.monthSymbols[currentMonth]
         pieMonthLabel.text = name.uppercaseString
         
         pieYearLabel.text = "\(currentYear)"
+    }
+    
+    private func populateLineChartLabelsData() {
+        
+        let unit = Activity.distanceUnit()
+        
+//        bottomSubtitleLabel.text = String(format: NSLocalizedString("Past %d activities (%@)", comment: "Monthly distance format"), activityDistances.count, unit)
+    }
+    
+    private func populateLineChartData() {
     }
     
     private func fetchMedications() {
@@ -307,6 +353,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                         values[index] = 0
                     }
                     
+//                    var distances = [ChartDataEntry]()
+                    
                     for medication in objects as! [Medication] {
                         
                         if medication.mood != nil {
@@ -318,6 +366,18 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                                 }
                             }
                         }
+                        
+                        var index = 0
+                        if medication.activity != nil {
+                            
+                            if medication.activity!.distance != nil {
+                                
+//                                let entry = ChartDataEntry(value: medication.activity!.distance!.doubleValue, xIndex: index)
+//                                distances.append(entry)
+                                
+                                index += 1
+                            }
+                        }
                     }
                     
                     dispatch_async(dispatch_get_main_queue(), {
@@ -327,6 +387,10 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                         
                         self.pieChart.reloadData()
                         self.moodCollectionView.reloadData()
+                        
+//                        self.activityDistances = distances
+                        self.populateLineChartLabelsData()
+                        self.populateLineChartData()
                     })
                 }
             }
