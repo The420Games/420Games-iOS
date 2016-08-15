@@ -39,6 +39,19 @@ enum MedicationMoodIndex: Int {
         default: return "\(self)"
         }
     }
+    
+    func colorValue() -> UIColor {
+        
+        switch self {
+        case .Poor: return UIColor.ftMoodColorValue0()
+        case .Average: return UIColor.ftMoodColorValue1()
+        case .Good: return UIColor.ftMoodColorValue2()
+        case .Great: return UIColor.ftMoodColorValue3()
+        case .High: return UIColor.ftMoodColorValue4()
+        case .Stoned: return UIColor.ftMoodColorValue5()
+        default: return UIColor.blackColor()
+        }
+    }
 }
 
 class Medication: FTDataObject {

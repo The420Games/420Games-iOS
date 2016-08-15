@@ -37,4 +37,28 @@ extension UIColor {
     class func ftStravaOrange() -> UIColor {
         return UIColor(red: 252/255.0, green: 76/255.0, blue: 2/255.0, alpha: 1.0)
     }
+    
+    class func ftMoodColorValue5() -> UIColor {
+        return UIColor(red: 141/255.0, green: 198/255.0, blue: 63/255.0, alpha: 1.0)
+    }
+    
+    class func ftMoodColorValue4() -> UIColor {
+        return UIColor(red: 173/255.0, green: 217/255.0, blue: 113/255.0, alpha: 1.0)
+    }
+    
+    class func ftMoodColorValue3() -> UIColor {
+        return UIColor(red: 159/255.0, green: 199/255.0, blue: 103/255.0, alpha: 1.0)
+    }
+    
+    class func ftMoodColorValue2() -> UIColor {
+        return UIColor(red: 164/255.0, green: 199/255.0, blue: 115/255.0, alpha: 1.0)
+    }
+    
+    class func ftMoodColorValue1() -> UIColor {
+        return UIColor(red: 175/255.0, green: 199/255.0, blue: 141/255.0, alpha: 1.0)
+    }
+    
+    class func ftMoodColorValue0() -> UIColor {
+        return UIColor(red: 186/255.0, green: 199/255.0, blue: 167/255.0, alpha: 1.0)
+    }
 }

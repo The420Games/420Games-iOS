@@ -12,4 +12,5 @@ target 'Games420' do
     pod 'Crashlytics'
     pod 'ActionSheetPicker-3.0'
     pod 'SlideMenuControllerSwift'
+    pod 'XYPieChart'
 end

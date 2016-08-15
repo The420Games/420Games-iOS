@@ -26,6 +26,7 @@
 		19B169891D5DB2DF00F4393D /* FTMedicationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169881D5DB2DF00F4393D /* FTMedicationsViewController.swift */; };
 		19B1698C1D5DBAF600F4393D /* FTMedicationListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B1698B1D5DBAF600F4393D /* FTMedicationListCell.swift */; };
 		19B1698E1D5DFC2400F4393D /* FTString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B1698D1D5DFC2400F4393D /* FTString.swift */; };
+		19B169901D61E41900F4393D /* FTMoodValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B1698F1D61E41900F4393D /* FTMoodValueCell.swift */; };
 		19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746441D59F2020013883F /* FTPhotoCropViewController.swift */; };
 		19B7466A1D5A0F6C0013883F /* FTChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */; };
 		19B7466D1D5A1CCB0013883F /* ChangePassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */; };
@@ -73,6 +74,7 @@
 		19B169881D5DB2DF00F4393D /* FTMedicationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationsViewController.swift; sourceTree = "<group>"; };
 		19B1698B1D5DBAF600F4393D /* FTMedicationListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationListCell.swift; sourceTree = "<group>"; };
 		19B1698D1D5DFC2400F4393D /* FTString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTString.swift; sourceTree = "<group>"; };
+		19B1698F1D61E41900F4393D /* FTMoodValueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMoodValueCell.swift; sourceTree = "<group>"; };
 		19B746441D59F2020013883F /* FTPhotoCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTPhotoCropViewController.swift; sourceTree = "<group>"; };
 		19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChangePassword.storyboard; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */,
 				19B169821D5CAFCF00F4393D /* FTLeftMenuItemCell.swift */,
 				19B169841D5CF78700F4393D /* FTHomeViewController.swift */,
+				19B1698F1D61E41900F4393D /* FTMoodValueCell.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */,
 				19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */,
 				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,
+				19B169901D61E41900F4393D /* FTMoodValueCell.swift in Sources */,
 				19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */,
 				192CEFC51D537DB3005E5AF4 /* FTProfileMainViewController.swift in Sources */,
 				19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */,
