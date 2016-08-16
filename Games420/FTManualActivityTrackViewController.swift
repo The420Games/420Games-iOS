@@ -244,15 +244,15 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
             
             var duration = 0
             
-            if let hour = values[0] as? NSString {
+            if let hour = values.objectAtIndex(0) as? NSString {
                 duration += hour.integerValue * 3600
             }
             
-            if let min = values[1] as? NSString {
+            if let min = values.objectAtIndex(1) as? NSString {
                 duration += min.integerValue * 60
             }
             
-            if let sec = values[2] as? NSString {
+            if let sec = values.objectAtIndex(2) as? NSString {
                 duration += sec.integerValue
             }
             
