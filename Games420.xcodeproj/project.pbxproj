@@ -48,7 +48,7 @@
 		19E64C421D379FF50063E3DD /* FTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C411D379FF50063E3DD /* FTError.swift */; };
 		19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */; };
 		19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */; };
-		19EAB5791D622A7D0030414D /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EAB5781D622A7D0030414D /* LineChart.swift */; };
+		19EAB57B1D634E1B0030414D /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EAB57A1D634E1B0030414D /* LineChart.swift */; };
 		A94C973365D81BA8CDDB4995 /* Pods_Games420.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C8624F85B315546460893B4 /* Pods_Games420.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,7 +96,7 @@
 		19E64C411D379FF50063E3DD /* FTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTError.swift; path = Data/FTError.swift; sourceTree = "<group>"; };
 		19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTOnboardingViewController.swift; sourceTree = "<group>"; };
 		19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLogActivityViewController.swift; sourceTree = "<group>"; };
-		19EAB5781D622A7D0030414D /* LineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChart.swift; path = "Swift-LineChart/linechart/LineChart.swift"; sourceTree = "<group>"; };
+		19EAB57A1D634E1B0030414D /* LineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		5BC5FF388B87F8921C768337 /* Pods-Games420.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Games420.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Games420/Pods-Games420.debug.xcconfig"; sourceTree = "<group>"; };
 		6C8624F85B315546460893B4 /* Pods_Games420.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Games420.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BF4BB0CE89AFC4806BC2C6 /* Pods-Games420.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Games420.release.xcconfig"; path = "Pods/Target Support Files/Pods-Games420/Pods-Games420.release.xcconfig"; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 		19EAB5771D622A690030414D /* Swift-LineChart */ = {
 			isa = PBXGroup;
 			children = (
-				19EAB5781D622A7D0030414D /* LineChart.swift */,
+				19EAB57A1D634E1B0030414D /* LineChart.swift */,
 			);
 			name = "Swift-LineChart";
 			sourceTree = "<group>";
@@ -434,6 +434,7 @@
 				192CEFC01D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift in Sources */,
 				19B1698C1D5DBAF600F4393D /* FTMedicationListCell.swift in Sources */,
 				1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */,
+				19EAB57B1D634E1B0030414D /* LineChart.swift in Sources */,
 				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,
 				19B169901D61E41900F4393D /* FTMoodValueCell.swift in Sources */,
 				19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */,
@@ -450,7 +451,6 @@
 				19E64C421D379FF50063E3DD /* FTError.swift in Sources */,
 				19B169891D5DB2DF00F4393D /* FTMedicationsViewController.swift in Sources */,
 				19B169851D5CF78700F4393D /* FTHomeViewController.swift in Sources */,
-				19EAB5791D622A7D0030414D /* LineChart.swift in Sources */,
 				19B746731D5B2B590013883F /* FTMedicationDetailCell.swift in Sources */,
 				19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */,
 				19E64C3C1D379A9D0063E3DD /* Medication.swift in Sources */,
