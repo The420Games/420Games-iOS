@@ -30,7 +30,6 @@
 		19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746441D59F2020013883F /* FTPhotoCropViewController.swift */; };
 		19B7466A1D5A0F6C0013883F /* FTChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */; };
 		19B7466D1D5A1CCB0013883F /* ChangePassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */; };
-		19B7466F1D5B27520013883F /* NewActivity.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19B7466E1D5B27520013883F /* NewActivity.storyboard */; };
 		19B746711D5B27EE0013883F /* FTMedicationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746701D5B27EE0013883F /* FTMedicationDetailsViewController.swift */; };
 		19B746731D5B2B590013883F /* FTMedicationDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746721D5B2B590013883F /* FTMedicationDetailCell.swift */; };
 		19E64C151D3518610063E3DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C141D3518610063E3DD /* AppDelegate.swift */; };
@@ -77,7 +76,6 @@
 		19B746441D59F2020013883F /* FTPhotoCropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTPhotoCropViewController.swift; sourceTree = "<group>"; };
 		19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChangePassword.storyboard; sourceTree = "<group>"; };
-		19B7466E1D5B27520013883F /* NewActivity.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewActivity.storyboard; sourceTree = "<group>"; };
 		19B746701D5B27EE0013883F /* FTMedicationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationDetailsViewController.swift; sourceTree = "<group>"; };
 		19B746721D5B2B590013883F /* FTMedicationDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationDetailCell.swift; sourceTree = "<group>"; };
 		19E64C111D3518610063E3DD /* Games420.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Games420.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,7 +130,6 @@
 				19E64C181D3518610063E3DD /* Main.storyboard */,
 				192CEFC11D53757B005E5AF4 /* ProfileCustomization.storyboard */,
 				19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */,
-				19B7466E1D5B27520013883F /* NewActivity.storyboard */,
 				19B1697A1D5B96D300F4393D /* Onboarding.storyboard */,
 				19B169861D5DB29000F4393D /* Medications.storyboard */,
 			);
@@ -370,7 +367,6 @@
 			files = (
 				192CEFC21D53757B005E5AF4 /* ProfileCustomization.storyboard in Resources */,
 				19B169871D5DB29000F4393D /* Medications.storyboard in Resources */,
-				19B7466F1D5B27520013883F /* NewActivity.storyboard in Resources */,
 				19B7466D1D5A1CCB0013883F /* ChangePassword.storyboard in Resources */,
 				19E64C1F1D3518610063E3DD /* LaunchScreen.storyboard in Resources */,
 				19B1697B1D5B96D300F4393D /* Onboarding.storyboard in Resources */,

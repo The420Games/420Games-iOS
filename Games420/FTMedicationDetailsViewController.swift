@@ -10,39 +10,191 @@ import UIKit
 import MBProgressHUD
 
 class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
+    @IBOutlet weak var detailsTableView: UITableView!
+    
+    @IBOutlet weak var deleteButton: UIButton!
+    
     var medication: Medication!
     
     private let cellId = "medicationCell"
     
     enum FTMedicationDetailSection: Int {
         case activity = 0, medication
+        
+        func title() -> String {
+            
+            switch self {
+            case .activity: return NSLocalizedString("ACTIVITY", comment: "Activity section title")
+            case .medication: return NSLocalizedString("MEDICATION", comment: "Medication section title")
+            }
+        }
     }
     
     enum FTMedicationActivityTitle: Int {
         case type = 0, date, distance, duration, elevation, source
         static let count = 6
+        
+        func title() -> String {
+            
+            switch self {
+            case .type: return NSLocalizedString("Type:", comment: "Activity type title")
+            case .date: return NSLocalizedString("Date:", comment: "Activity date title")
+            case .distance: return NSLocalizedString("Distance:", comment: "Activity distance title")
+            case .duration: return NSLocalizedString("Duration:", comment: "Activity duration title")
+            case .elevation: return NSLocalizedString("Elevation:", comment: "Activity elevation title")
+            case .source: return NSLocalizedString("Source:", comment: "Activity source title")
+            }
+        }
+        
+        func value(activity: Activity) -> String {
+            
+            switch self {
+            case .type:
+                if activity.type != nil {
+                    if let type = ActivityType(rawValue: activity.type!) {
+                        return type.localizedName(false)
+                    }
+                }
+            case .date:
+                if activity.startDate != nil {
+                    
+                    let formatter = NSDateFormatter()
+                    formatter.dateStyle = .MediumStyle
+                    formatter.timeStyle = .MediumStyle
+                    
+                    return formatter.stringFromDate(activity.startDate!)
+                }
+                
+            case .distance: return activity.verboseDistance()
+                
+            case .elevation: return activity.verboseElevation()
+            case .duration: return activity.verboseDuration(true)
+            case .source:
+                if activity.source != nil {
+                    return activity.source!
+                }
+            }
+            
+            return ""
+        }
+        
+        func valueIcon(activity: Activity!) -> UIImage? {
+            
+            switch self {
+            case .type:
+                if activity.type != nil {
+                    if let type = ActivityType(rawValue: activity.type!) {
+                        return type.icon()
+                    }
+                }
+            default: return nil
+            }
+            
+            return nil
+        }
     }
     
     enum FTMedicationTitle: Int {
         case type = 0, dosage, mood
         static let count = 3
+        
+        func title() -> String {
+        
+            switch self {
+            case .type: return NSLocalizedString("Medication type:", comment: "Medication type title")
+            case .dosage: return NSLocalizedString("Dosage: ", comment: "Dosage title")
+            case .mood: return NSLocalizedString("Mood:", comment: "Mood title")
+            }
+        }
+        
+        func value(medication: Medication) -> String {
+            
+            switch self {
+            case .type:
+                if medication.type != nil {
+                    if let type = MedicationType(rawValue: medication.type!) {
+                        return type.localizedString()
+                    }
+                }
+            case .dosage:
+                if medication.dosage != nil {
+                    return medication.dosage!.stringValue
+                }
+            case .mood:
+                if medication.mood != nil {
+                    if let mood = MedicationMoodIndex(rawValue: medication.mood!.integerValue) {
+                        return mood.localizedString()
+                    }
+                }
+            }
+            
+            return ""
+        }
+        
+        func valueIcon(medication: Medication) -> UIImage? {
+            
+            switch self {
+            case .mood:
+                if medication.mood != nil {
+                    return UIImage(named: "icon_mood-\(medication.mood!.integerValue)")
+                }
+            default: return nil
+            }
+            
+            return nil
+        }
     }
     
     private let activityEditSegueId = "editActivity"
     private let medicationEditSegueId = "editMedication"
     
+    private let firstHeaderPadding: CGFloat = 15.0
+    private let headerheight: CGFloat = 30.0
+    
     // MARK: - Controller LifeCycle
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setupUI()
+        
+        detailsTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - UI Customization
+    
+    private func addEditButton() {
+        
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "btn_edit"), style: .Plain, target: self, action: #selector(self.editTouched(_:)))
+        navigationItem.rightBarButtonItem = barButtonItem
+    }
+    
+    private func setupTableView() {
+        
+        detailsTableView.backgroundColor = UIColor.clearColor()
+        detailsTableView.tableHeaderView = UIView()
+    }
+    
+    private func setupUI() {
+        
+        view.backgroundColor = UIColor.ftMainBackgroundColor()
+        
+        navigationItem.title = NSLocalizedString("Medication", comment: "Medication detail navigation title")
+        
+        addEditButton()
+        
+        navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonPressed(_:)))
+        
+        setupTableView()
+        
+        deleteButton.ft_setupButton(UIColor.ftMidGray(), title: NSLocalizedString("DELETE MEDICATION & ACTIVITY", comment: "Delete medication button title"))
     }
     
     // MARK: - TableView
@@ -73,42 +225,74 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         
         var title = ""
         var value = ""
+        var icon: UIImage?
         
         if medication.activity == nil {
-            title = medicationPropertyTitle(indexPath.row)
-            value = medicationPropertyValue(medication, index: indexPath.row)
+            
+            if let medicationTitle = FTMedicationTitle(rawValue: indexPath.row) {
+                title = medicationTitle.title()
+                value = medicationTitle.value(medication)
+                icon = medicationTitle.valueIcon(medication)
+            }
         }
         else {
+            
             if let sectionType =  FTMedicationDetailSection(rawValue: indexPath.section) {
                 switch sectionType {
                 case .activity:
-                    title = activityPropertyTitle(indexPath.row)
-                    value = activityPropertyValue(medication.activity!, index: indexPath.row)
+                    if let acivityTitle = FTMedicationActivityTitle(rawValue: indexPath.row) {
+                        title = acivityTitle.title()
+                        value = acivityTitle.value(medication.activity!)
+                        icon = acivityTitle.valueIcon(medication.activity!)
+                    }
                 case .medication:
-                    title = medicationPropertyTitle(indexPath.row)
-                    value = medicationPropertyValue(medication, index: indexPath.row)
+                    if let medicationTitle = FTMedicationTitle(rawValue: indexPath.row) {
+                        title = medicationTitle.title()
+                        value = medicationTitle.value(medication)
+                        icon = medicationTitle.valueIcon(medication)
+                    }
                 }
             }
         }
         
-        cell.configureCell(title, value: value)
+        cell.configureCell(title, value: value, icon: icon)
         
         return cell
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let holder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: headerheight))
+        holder.backgroundColor = UIColor.clearColor()
+        holder.autoresizingMask = .FlexibleWidth
+        
+        let label = UILabel(frame: CGRect(x: 17, y: 0, width: holder.frame.size.width - 34, height: holder.frame.size.height - firstHeaderPadding))
+        label.backgroundColor = UIColor.clearColor()
+        label.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        
+        label.font = UIFont.defaultFont(.Bold, size: 15.0)
+        label.textColor = UIColor.whiteColor()
+        
+        holder.addSubview(label)
         
         if let sectionType = FTMedicationDetailSection(rawValue: section) {
-            switch sectionType {
-            case .activity: return NSLocalizedString("Activity", comment: "Activity section title")
-            case .medication: return NSLocalizedString("Medication", comment: "Medication section title")
-            }
+            label.text = sectionType.title()
         }
         
-        return nil
+        return holder
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return headerheight
     }
     
     // MARK: - Actions
+    
+    func backButtonPressed(sender: AnyObject) {
+        
+        navigationController?.popViewControllerAnimated(true)
+    }
     
     @IBAction func deleteTouched(sender: AnyObject) {
         
@@ -123,7 +307,7 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    @IBAction func editTouched(sender: AnyObject) {
+    func editTouched(sender: AnyObject) {
         
         if medication.activity != nil && medication.activity!.source != nil {
             performSegueWithIdentifier(medicationEditSegueId, sender: self)
@@ -134,107 +318,6 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
     }
     
     // MARK: - Data integration
-    
-    private func medicationPropertyValue(medication: Medication, index: Int) -> String {
-        
-        if let titleType = FTMedicationTitle(rawValue: index) {
-            switch titleType {
-            case .type:
-                if medication.type != nil {
-                    if let type = MedicationType(rawValue: medication.type!) {
-                        return "\(type)"
-                    }
-                }
-            case .dosage:
-                if medication.dosage != nil {
-                    return medication.dosage!.stringValue
-                }
-            case .mood:
-                if medication.mood != nil {
-                    if let mood = MedicationMoodIndex(rawValue: medication.mood!.integerValue) {
-                        return "\(mood)"
-                    }
-                }
-            }
-        }
-        
-        return ""
-    }
-    
-    private func medicationPropertyTitle(index: Int) -> String {
-        
-        if let titleType = FTMedicationTitle(rawValue: index) {
-            switch titleType {
-            case .type: return NSLocalizedString("Medication type:", comment: "Medication type title")
-            case .dosage: return NSLocalizedString("Dosage: ", comment: "Dosage title")
-            case .mood: return NSLocalizedString("Mood:", comment: "Mood title")
-            }
-        }
-        
-        return ""
-    }
-    
-    private func activityPropertyValue(activity: Activity, index: Int) -> String {
-        
-        if let activityTitle = FTMedicationActivityTitle(rawValue: index) {
-            switch activityTitle {
-            case .type:
-                if activity.type != nil {
-                    if let type = ActivityType(rawValue: activity.type!) {
-                        return "\(type)"
-                    }
-                }
-            case .date:
-                if activity.startDate != nil {
-                    
-                    let formatter = NSDateFormatter()
-                    formatter.dateStyle = .ShortStyle
-                    formatter.timeStyle = .ShortStyle
-                    
-                    return formatter.stringFromDate(activity.startDate!)
-                }
-                
-            case .distance:
-                if activity.distance != nil {
-                    return "\(activity.distance!.doubleValue / 1000) km"
-                }
-                
-            case .elevation:
-                if activity.elevationGain != nil {
-                    return activity.elevationGain!.stringValue
-                }
-            case .duration:
-                if activity.elapsedTime != nil {
-                    let hours = (Double)((Int)(activity.elapsedTime!.doubleValue / 3600.0))
-                    let mins = (Double)((Int)((activity.elapsedTime!.doubleValue - (hours * 3600.0)) / 60))
-                    let secs = (Int)(activity.elapsedTime!.doubleValue - (hours * 3600.0) - (mins * 60.0))
-                    return "\(hours):\(mins):\(secs)"
-                }
-            case .source:
-                if activity.source != nil {
-                    return activity.source!
-                }
-            }
-        }
-        
-        return ""
-    }
-    
-    private func activityPropertyTitle(index: Int) -> String {
-        
-        if let activityTitle = FTMedicationActivityTitle(rawValue: index) {
-            switch activityTitle {
-            case .type: return NSLocalizedString("Activity type:", comment: "Activity type title")
-            case .date: return NSLocalizedString("Date:", comment: "Date title")
-            case .distance: return NSLocalizedString("Distance:", comment: "Distance title")
-            case .elevation: return NSLocalizedString("Total elevation gain:", comment: "Elevation title")
-            case .duration: return NSLocalizedString("Duration:", comment: "Duration title")
-            case .source: return NSLocalizedString("Source:", comment: "Source title")
-            }
-        }
-        
-        return ""
-    }
     
     private func deleteMedication(medication: Medication) {
         
@@ -263,6 +346,8 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
             medication.deleteInBackgroundWithBlock { (success, error) in
                 
                 dispatch_async(dispatch_get_main_queue(), {
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationDeletedNotificationName, object: self)
                     
                     hud.hideAnimated(true)
                     
