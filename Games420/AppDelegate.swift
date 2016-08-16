@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Crashlytics.startWithAPIKey(crashlyticsKey)
         
+        FTAnalytics.initAnalytics()
+        
         FTStravaManager.sharedInstance.appID = stravaAppId
         FTStravaManager.sharedInstance.clientSecret = stravaClientSecret
         

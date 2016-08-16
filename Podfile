@@ -15,4 +15,5 @@ target 'Games420' do
     pod 'XYPieChart'
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'Mixpanel'
 end

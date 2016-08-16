@@ -13,6 +13,7 @@
 		1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */; };
 		1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */; };
 		1983844D1D637CBD008F3613 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1983844C1D637CBD008F3613 /* Crashlytics.framework */; };
+		198384501D638101008F3613 /* FTAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1983844F1D638101008F3613 /* FTAnalytics.swift */; };
 		19B169721D5B7E3200F4393D /* FTContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169711D5B7E3200F4393D /* FTContainerViewController.swift */; };
 		19B169741D5B7E9E00F4393D /* FTLeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */; };
 		19B169771D5B81DB00F4393D /* FTFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B169761D5B81DB00F4393D /* FTFont.swift */; };
@@ -63,6 +64,7 @@
 		1952C1871D4A4EF0008776AA /* FTManualActivityTrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTManualActivityTrackViewController.swift; sourceTree = "<group>"; };
 		1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSignupWithEmailViewController.swift; sourceTree = "<group>"; };
 		1983844C1D637CBD008F3613 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		1983844F1D638101008F3613 /* FTAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTAnalytics.swift; sourceTree = "<group>"; };
 		19B169711D5B7E3200F4393D /* FTContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTContainerViewController.swift; sourceTree = "<group>"; };
 		19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLeftMenuViewController.swift; sourceTree = "<group>"; };
 		19B169761D5B81DB00F4393D /* FTFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTFont.swift; sourceTree = "<group>"; };
@@ -146,6 +148,14 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
+		1983844E1D6380E9008F3613 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				1983844F1D638101008F3613 /* FTAnalytics.swift */,
+			);
+			name = Analytics;
+			sourceTree = "<group>";
+		};
 		19B169751D5B81C700F4393D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,7 +183,6 @@
 		19E64C081D3518610063E3DD = {
 			isa = PBXGroup;
 			children = (
-				1983844C1D637CBD008F3613 /* Crashlytics.framework */,
 				19E64C131D3518610063E3DD /* Games420 */,
 				19E64C121D3518610063E3DD /* Products */,
 				BFC95062948E14BC1EC183A4 /* Pods */,
@@ -192,6 +201,7 @@
 		19E64C131D3518610063E3DD /* Games420 */ = {
 			isa = PBXGroup;
 			children = (
+				1983844E1D6380E9008F3613 /* Analytics */,
 				19EAB5761D622A610030414D /* Third Party */,
 				19B169751D5B81C700F4393D /* Extensions */,
 				192CEFC61D537E4B005E5AF4 /* UI */,
@@ -310,6 +320,7 @@
 		1CFC921D0215E7BCDAD0DE11 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1983844C1D637CBD008F3613 /* Crashlytics.framework */,
 				6C8624F85B315546460893B4 /* Pods_Games420.framework */,
 			);
 			name = Frameworks;
@@ -490,6 +501,7 @@
 				19B746731D5B2B590013883F /* FTMedicationDetailCell.swift in Sources */,
 				19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */,
 				19E64C3C1D379A9D0063E3DD /* Medication.swift in Sources */,
+				198384501D638101008F3613 /* FTAnalytics.swift in Sources */,
 				19B1697D1D5C74A200F4393D /* FTNavigationItem.swift in Sources */,
 				19B1698E1D5DFC2400F4393D /* FTString.swift in Sources */,
 				1952C1881D4A4EF0008776AA /* FTManualActivityTrackViewController.swift in Sources */,
