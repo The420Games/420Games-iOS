@@ -8,6 +8,8 @@
 
 import UIKit
 
+let FTTutorialSeenDefaultsKey = "TutorialFinished"
+
 class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     @IBOutlet weak var pageControl: UIPageControl!
@@ -36,6 +38,13 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        persistTutorialSeenStatus()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -78,6 +87,32 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
         
         pageControl.numberOfPages = numberOfPages
         pageControl.currentPage = currentPageIndex
+    }
+    
+    // MARK: - Persistence
+    
+    private func persistTutorialSeenStatus() {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        if (defaults.objectForKey(FTTutorialSeenDefaultsKey) as? Bool) != nil {
+            //Tutorial seen already set
+        } else {
+            
+            defaults.setBool(true, forKey: FTTutorialSeenDefaultsKey)
+            defaults.synchronize()
+        }
+    }
+    
+    class func isTutorialSeen() ->Bool {
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        if let value = defaults.objectForKey(FTTutorialSeenDefaultsKey) as? NSNumber {
+            return value.boolValue
+        }
+        
+        return false
     }
     
     // MARK: - Actions

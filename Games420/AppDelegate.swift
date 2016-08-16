@@ -14,12 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    // Strava app properties
+    private let stravaAppId = "12445"
+    private let stravaClientSecret = "ba8db7f558bc1704ea5394c1a47d167d44f1e359"
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        FTStravaManager.sharedInstance.appID = "12445"
-        FTStravaManager.sharedInstance.clientSecret = "ba8db7f558bc1704ea5394c1a47d167d44f1e359"
+        FTStravaManager.sharedInstance.appID = stravaAppId
+        FTStravaManager.sharedInstance.clientSecret = stravaClientSecret
         
         FTDataManager.initBackend()
         

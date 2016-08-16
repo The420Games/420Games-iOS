@@ -16,6 +16,8 @@ class FTOnboardingViewController: UIViewController {
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var tutorialButton: UIButton!
     
+    private let tutorialSegueId = "tutorial"
+    
     // MARK: - Controller lifecycle
     
     override func viewDidLoad() {
@@ -30,7 +32,12 @@ class FTOnboardingViewController: UIViewController {
         super.viewDidAppear(animated)
         
         if FTDataManager.sharedInstance.currentUser != nil {
+            
             dismissViewControllerAnimated(true, completion: nil)
+        }
+        else if !FTTutorialMainViewController.isTutorialSeen() {
+            
+            performSegueWithIdentifier(tutorialSegueId, sender: self)
         }
     }
     
