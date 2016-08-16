@@ -50,6 +50,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         manageForStravaNotification(true)
         
+        manageForMedicationNotification(true)
+        
         if !shouldAddNewActivityOnShow {
             fetchMedications()
         }
@@ -75,7 +77,18 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             
             addMedication()
         }
+        else if medications.count == 0 {
+            
+            fetchMedications()
+        }
     }
+    
+    deinit {
+        
+        manageForStravaNotification(false)
+        manageForMedicationNotification(false)
+    }
+    
     // MARK: - UI Customization
     
     private func setupTableView() {
@@ -299,6 +312,21 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         }
     }
     
+    private func manageForMedicationNotification(signup: Bool) {
+        
+        if signup {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.medicationSavedNotificationReceived(_:)), name: FTMedicationSavedNotificationName, object: nil)
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTMedicationSavedNotificationName, object: nil)
+        }
+    }
+    
+    func medicationSavedNotificationReceived(notification: NSNotification) {
+        
+        fetchMedications()
+    }
+    
     // MARK: - Backend integration
     
     private func fetchMedications() {
@@ -383,6 +411,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                     hud.hideAnimated(true)
                     
                     if success {
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationDeletedNotificationName, object: self)
                         
                         if let index = self.medications.indexOf(medication) {
                             self.medications.removeAtIndex(index)

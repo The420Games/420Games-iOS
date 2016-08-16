@@ -272,6 +272,8 @@ class FTLogActivityViewController: UIViewController {
                     
                     if success {
                         self.navigationController?.popToRootViewControllerAnimated(true)
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationSavedNotificationName, object: self, userInfo: ["medicaton": self.medication])
                     }
                     else {
                         print("Error saving Medication: \(error)")

@@ -8,6 +8,9 @@
 
 import Foundation
 
+let FTMedicationSavedNotificationName = "FTMedicationSavedNotification"
+let FTMedicationDeletedNotificationName = "FTMedicationDeletedNotification"
+
 enum MedicationType: String {
     case Smoke = "Smoke", Vape = "Vape", Edible = "Edible"
     static let allValues = [Smoke, Vape, Edible]

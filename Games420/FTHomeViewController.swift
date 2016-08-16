@@ -84,7 +84,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     self.topTitleLabel.hidden = true
                     self.topSubtitleLabel.hidden = true
                     self.bottomTitleLabel.hidden = true
-                    self.bottomTitleLabel.hidden = true
+                    self.bottomSubtitleLabel.hidden = true
                     self.bottomHorizontalLine.hidden = true
                 case .NoActivities:
                     self.statusLabel.text = NSLocalizedString("No activities found... Do you want to add one?", comment: "Home screen status label title no data")
@@ -96,7 +96,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     self.topTitleLabel.hidden = true
                     self.topSubtitleLabel.hidden = true
                     self.bottomTitleLabel.hidden = true
-                    self.bottomTitleLabel.hidden = true
+                    self.bottomSubtitleLabel.hidden = true
                     self.bottomHorizontalLine.hidden = true
                 case .Normal:
                     self.statusLabel.hidden = true
@@ -107,7 +107,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     self.topTitleLabel.hidden = false
                     self.topSubtitleLabel.hidden = false
                     self.bottomTitleLabel.hidden = false
-                    self.bottomTitleLabel.hidden = false
+                    self.bottomSubtitleLabel.hidden = false
                     self.bottomHorizontalLine.hidden = false
                 }
             }
@@ -129,6 +129,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         
         manageForMenuNotification(true)
         
+        manageForMedicationNotification(true)
+        
         setupUI()
         
         status = .NoActivities
@@ -143,13 +145,13 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         super.viewDidLayoutSubviews()
         
         setupPieInnerHolder()
-        
-//        setupLineChart()
     }
     
     deinit {
         
         manageForMenuNotification(false)
+        
+        manageForMedicationNotification(false)
     }
     
     // MARK: - UI Customization
@@ -322,6 +324,23 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         }
     }
     
+    private func manageForMedicationNotification(signup: Bool) {
+        
+        if signup {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.medicationChangedNotificationReceived(_:)), name: FTMedicationSavedNotificationName, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.medicationChangedNotificationReceived(_:)), name: FTMedicationDeletedNotificationName, object: nil)
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTMedicationSavedNotificationName, object: nil)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTMedicationDeletedNotificationName, object: nil)
+        }
+    }
+    
+    func medicationChangedNotificationReceived(notification: NSNotification) {
+        
+        fetchMedications()
+    }
+    
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -459,7 +478,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
 
             var query = "ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'"
             
-            query += " AND activity.startDate >= \(startDate!.timeIntervalSince1970) AND activity.startDate <= \(finishDate!.timeIntervalSince1970)"
+            query += " AND activity.startDate >= \(startDate!.timeIntervalSince1970 * 1000) AND activity.startDate <= \(finishDate!.timeIntervalSince1970 * 1000)"
             
             Medication.findObjects(query, order: ["created desc"], offset: 0, limit: 100) { (objects, error) in
                 

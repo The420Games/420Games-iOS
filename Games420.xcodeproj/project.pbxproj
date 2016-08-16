@@ -34,7 +34,6 @@
 		19B746711D5B27EE0013883F /* FTMedicationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746701D5B27EE0013883F /* FTMedicationDetailsViewController.swift */; };
 		19B746731D5B2B590013883F /* FTMedicationDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B746721D5B2B590013883F /* FTMedicationDetailCell.swift */; };
 		19E64C151D3518610063E3DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C141D3518610063E3DD /* AppDelegate.swift */; };
-		19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C161D3518610063E3DD /* FTMainViewController.swift */; };
 		19E64C1A1D3518610063E3DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C181D3518610063E3DD /* Main.storyboard */; };
 		19E64C1C1D3518610063E3DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C1B1D3518610063E3DD /* Assets.xcassets */; };
 		19E64C1F1D3518610063E3DD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19E64C1D1D3518610063E3DD /* LaunchScreen.storyboard */; };
@@ -49,7 +48,6 @@
 		19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C3F1D379F3F0063E3DD /* Athlete.swift */; };
 		19E64C421D379FF50063E3DD /* FTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C411D379FF50063E3DD /* FTError.swift */; };
 		19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */; };
-		19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C471D37FEC10063E3DD /* FTMedicationCell.swift */; };
 		19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */; };
 		19EAB5791D622A7D0030414D /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EAB5781D622A7D0030414D /* LineChart.swift */; };
 		A94C973365D81BA8CDDB4995 /* Pods_Games420.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C8624F85B315546460893B4 /* Pods_Games420.framework */; };
@@ -84,7 +82,6 @@
 		19B746721D5B2B590013883F /* FTMedicationDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationDetailCell.swift; sourceTree = "<group>"; };
 		19E64C111D3518610063E3DD /* Games420.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Games420.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19E64C141D3518610063E3DD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		19E64C161D3518610063E3DD /* FTMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMainViewController.swift; sourceTree = "<group>"; };
 		19E64C191D3518610063E3DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		19E64C1B1D3518610063E3DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		19E64C1E1D3518610063E3DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -100,7 +97,6 @@
 		19E64C3F1D379F3F0063E3DD /* Athlete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Athlete.swift; path = Model/Athlete.swift; sourceTree = "<group>"; };
 		19E64C411D379FF50063E3DD /* FTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTError.swift; path = Data/FTError.swift; sourceTree = "<group>"; };
 		19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTOnboardingViewController.swift; sourceTree = "<group>"; };
-		19E64C471D37FEC10063E3DD /* FTMedicationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTMedicationCell.swift; sourceTree = "<group>"; };
 		19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLogActivityViewController.swift; sourceTree = "<group>"; };
 		19EAB5781D622A7D0030414D /* LineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChart.swift; path = "Swift-LineChart/linechart/LineChart.swift"; sourceTree = "<group>"; };
 		5BC5FF388B87F8921C768337 /* Pods-Games420.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Games420.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Games420/Pods-Games420.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,7 +119,6 @@
 		192CEFC31D537D86005E5AF4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				19E64C491D380C1F0063E3DD /* Activities */,
 				19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */,
 				192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */,
 				19B746441D59F2020013883F /* FTPhotoCropViewController.swift */,
@@ -228,6 +223,7 @@
 		19E64C351D368D4B0063E3DD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				19E64C491D380C1F0063E3DD /* Activities */,
 				19B1698A1D5DBACE00F4393D /* Medications */,
 				192CEFC31D537D86005E5AF4 /* Profile */,
 				19E64C461D37D40D0063E3DD /* Main */,
@@ -259,8 +255,6 @@
 		19E64C461D37D40D0063E3DD /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				19E64C161D3518610063E3DD /* FTMainViewController.swift */,
-				19E64C471D37FEC10063E3DD /* FTMedicationCell.swift */,
 				19B169711D5B7E3200F4393D /* FTContainerViewController.swift */,
 				19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */,
 				19B169821D5CAFCF00F4393D /* FTLeftMenuItemCell.swift */,
@@ -444,13 +438,11 @@
 				192CEFC01D536AF9005E5AF4 /* FTSigninWithEmailViewController.swift in Sources */,
 				19B1698C1D5DBAF600F4393D /* FTMedicationListCell.swift in Sources */,
 				1952C18A1D50DCBC008776AA /* FTSignupWithEmailViewController.swift in Sources */,
-				19E64C171D3518610063E3DD /* FTMainViewController.swift in Sources */,
 				19E64C321D3674C90063E3DD /* FTDataObject.swift in Sources */,
 				19B169901D61E41900F4393D /* FTMoodValueCell.swift in Sources */,
 				19B746451D59F2020013883F /* FTPhotoCropViewController.swift in Sources */,
 				192CEFC51D537DB3005E5AF4 /* FTProfileMainViewController.swift in Sources */,
 				19E64C401D379F3F0063E3DD /* Athlete.swift in Sources */,
-				19E64C481D37FEC10063E3DD /* FTMedicationCell.swift in Sources */,
 				19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */,
 				19E64C371D368D700063E3DD /* FTSelectActivityViewController.swift in Sources */,
 				19B746711D5B27EE0013883F /* FTMedicationDetailsViewController.swift in Sources */,

@@ -10,6 +10,8 @@ import UIKit
 import Kingfisher
 import MBProgressHUD
 
+let FTSlideMenuItemSelectedNotificationName = "SlideMenuItemSelectedNotification"
+
 enum FTSlideMenuItem: Int {
     case Main = 0, Workouts, Profile, FAQ, Terms, Tutorial
     static let count = 6
