@@ -8,6 +8,7 @@
 
 import UIKit
 import FBSDKCoreKit
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,9 +18,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Strava app properties
     private let stravaAppId = "12445"
     private let stravaClientSecret = "ba8db7f558bc1704ea5394c1a47d167d44f1e359"
-
+    
+    // Crashlytics
+    private let crashlyticsKey = "9262728633b65016e91793183538bd01458e01ec"
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
         // Override point for customization after application launch.
+        
+        Crashlytics.startWithAPIKey(crashlyticsKey)
         
         FTStravaManager.sharedInstance.appID = stravaAppId
         FTStravaManager.sharedInstance.clientSecret = stravaClientSecret
