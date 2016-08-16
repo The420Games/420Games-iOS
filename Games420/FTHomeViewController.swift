@@ -38,6 +38,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     private let profileSegueId = "profile"
     private let medicationsSegueId = "medications"
+    private let tutorialSegueId = "tutorial"
+    
     private let moodCellId = "moodCell"
     
     private var activityDistances: [CGFloat]!
@@ -318,6 +320,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                 case .Profile: performSegueWithIdentifier(profileSegueId, sender: self)
                 case .Main: navigationController?.popToRootViewControllerAnimated(true)
                 case .Workouts: performSegueWithIdentifier(medicationsSegueId, sender: self)
+                case .Tutorial: performSegueWithIdentifier(tutorialSegueId, sender: self)
                 default: print("Implement menu for \(item)")
                 }
             }

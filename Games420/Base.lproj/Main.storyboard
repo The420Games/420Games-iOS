@@ -70,10 +70,10 @@
                                             <constraint firstAttribute="width" constant="90" id="cfM-bi-iLe"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="Kiu-gS-csr" userLabel="Location icon">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="Kiu-gS-csr" userLabel="Location icon">
                                         <rect key="frame" x="105" y="81" width="12" height="17"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User location" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m07-vv-SFI">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="User location" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m07-vv-SFI">
                                         <rect key="frame" x="120" y="79" width="102" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -490,6 +490,7 @@
                         <outlet property="topTitleLabel" destination="bm4-Ki-LUO" id="NFr-DK-cV3"/>
                         <segue destination="Aes-Hi-Td7" kind="show" identifier="profile" id="k9O-Le-PIX"/>
                         <segue destination="n2X-Xw-2KY" kind="show" identifier="medications" id="1P2-3J-sYq"/>
+                        <segue destination="ccU-dw-TCn" kind="show" identifier="tutorial" id="6hr-xS-4wb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxd-SR-akg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -511,6 +512,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w0F-IZ-ZVr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="378" y="368"/>
+        </scene>
+        <!--FTTutorialMainViewController-->
+        <scene sceneID="cBK-Yf-A5S">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Tutorial" referencedIdentifier="FTTutorialMainViewController" id="ccU-dw-TCn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6F8-oQ-Qp3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="381.5" y="482"/>
         </scene>
         <!--FTMedicationsViewController-->
         <scene sceneID="FYT-rl-axl">
