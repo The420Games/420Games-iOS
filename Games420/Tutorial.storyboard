@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="XpW-d7-rIB">
+            <objects>
+                <navigationController id="eXy-pW-BQ7" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2jR-Pg-opu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="UpI-Yd-6fU" kind="relationship" relationship="rootViewController" id="9Gt-Q6-zbV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="20c-hM-Ow7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-85" y="410"/>
+        </scene>
+        <!--Tutorial Main View Controller-->
+        <scene sceneID="PbY-zg-4Mn">
+            <objects>
+                <viewController storyboardIdentifier="FTTutorialMainViewController" id="UpI-Yd-6fU" customClass="FTTutorialMainViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ceo-d8-cDC"/>
+                        <viewControllerLayoutGuide type="bottom" id="iQK-nc-XTv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zOm-8g-2WJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="qfm-K3-vZq">
+                                <rect key="frame" x="281" y="563" width="39" height="37"/>
+                            </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fDL-zm-9GU" userLabel="Back Button">
+                                <rect key="frame" x="0.0" y="20" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="HsC-7d-fHB"/>
+                                    <constraint firstAttribute="width" constant="40" id="ko5-gA-aKT"/>
+                                </constraints>
+                                <state key="normal" image="btn_back"/>
+                                <connections>
+                                    <action selector="backButtonTouched:" destination="UpI-Yd-6fU" eventType="touchUpInside" id="5AI-QD-C2l"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fDL-zm-9GU" firstAttribute="top" secondItem="zOm-8g-2WJ" secondAttribute="top" constant="20" id="11I-Ew-mUc"/>
+                            <constraint firstItem="fDL-zm-9GU" firstAttribute="leading" secondItem="zOm-8g-2WJ" secondAttribute="leading" id="Sua-34-YpW"/>
+                            <constraint firstItem="iQK-nc-XTv" firstAttribute="top" secondItem="qfm-K3-vZq" secondAttribute="bottom" id="nhw-OZ-che"/>
+                            <constraint firstItem="qfm-K3-vZq" firstAttribute="centerX" secondItem="zOm-8g-2WJ" secondAttribute="centerX" id="qEW-e7-lQi"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="8Yr-Qm-VRI"/>
+                    <connections>
+                        <outlet property="pageControl" destination="qfm-K3-vZq" id="UyM-AU-jdb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4XK-5g-Ba8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="612" y="412"/>
+        </scene>
+        <!--Tutorial Single Page View Controller-->
+        <scene sceneID="ERa-R6-H0P">
+            <objects>
+                <viewController storyboardIdentifier="FTTutorialSinglePageViewController" id="1T1-Dg-Tf2" customClass="FTTutorialSinglePageViewController" customModule="Games420" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="T9a-Xa-RI3"/>
+                        <viewControllerLayoutGuide type="bottom" id="5Wq-8K-Ntq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="YQu-Qe-KSI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mzK-Lo-IfE" userLabel="Background Image View">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some motivation text in multiple lines" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Bq-aU-1tB" userLabel="Text Label">
+                                <rect key="frame" x="158" y="289" width="284" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="4Bq-aU-1tB" secondAttribute="trailing" constant="17" id="HYg-Bb-ATd"/>
+                            <constraint firstItem="4Bq-aU-1tB" firstAttribute="top" relation="greaterThanOrEqual" secondItem="T9a-Xa-RI3" secondAttribute="bottom" constant="17" id="Hec-wW-ze5"/>
+                            <constraint firstItem="mzK-Lo-IfE" firstAttribute="leading" secondItem="YQu-Qe-KSI" secondAttribute="leading" id="UBU-A9-bF0"/>
+                            <constraint firstItem="5Wq-8K-Ntq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="4Bq-aU-1tB" secondAttribute="bottom" constant="17" id="VDm-db-c0o"/>
+                            <constraint firstItem="mzK-Lo-IfE" firstAttribute="top" secondItem="YQu-Qe-KSI" secondAttribute="top" id="Vfg-Bf-OPL"/>
+                            <constraint firstAttribute="trailing" secondItem="mzK-Lo-IfE" secondAttribute="trailing" id="ZPA-Ek-Bmx"/>
+                            <constraint firstItem="5Wq-8K-Ntq" firstAttribute="top" secondItem="mzK-Lo-IfE" secondAttribute="bottom" id="c5z-3Z-ZtK"/>
+                            <constraint firstItem="4Bq-aU-1tB" firstAttribute="centerY" secondItem="YQu-Qe-KSI" secondAttribute="centerY" id="h6q-sD-rd4"/>
+                            <constraint firstItem="4Bq-aU-1tB" firstAttribute="centerX" secondItem="YQu-Qe-KSI" secondAttribute="centerX" id="n6P-zV-WBe"/>
+                            <constraint firstItem="4Bq-aU-1tB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="YQu-Qe-KSI" secondAttribute="leadingMargin" constant="17" id="uDC-Uc-pfy"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backgroundImageView" destination="mzK-Lo-IfE" id="iK3-0b-Rqq"/>
+                        <outlet property="textLabel" destination="4Bq-aU-1tB" id="m2Y-to-Q7b"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H2X-8b-aZl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="612" y="1100"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="btn_back" width="16" height="24"/>
+    </resources>
+</document>

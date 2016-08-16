@@ -51,13 +51,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3f-bI-KGk" userLabel="Review tutorial Button">
-                                <rect key="frame" x="199.5" y="549" width="201" height="36"/>
+                                <rect key="frame" x="200" y="549" width="201" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="MZ2-Eq-mRp"/>
                                 </constraints>
                                 <state key="normal" title="REVIEW TUTORIAL" image="btn_play"/>
                                 <connections>
                                     <action selector="tutorialButtonPressed:" destination="caW-ut-zkU" eventType="touchUpInside" id="qDN-cv-28g"/>
+                                    <segue destination="t1c-Py-ldh" kind="show" id="RLs-Sa-Mox"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcZ-FK-9LU">
@@ -149,7 +150,7 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F7O-Ao-yfk" userLabel="Sign up Button">
-                                                <rect key="frame" x="17" y="368.5" width="566" height="47"/>
+                                                <rect key="frame" x="17" y="369" width="566" height="47"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="47" id="G0H-0I-pc2"/>
                                                 </constraints>
@@ -159,7 +160,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password hint label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4q-Q0-MPY">
-                                                <rect key="frame" x="17" y="282" width="147.5" height="20.5"/>
+                                                <rect key="frame" x="17" y="282" width="148" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -172,7 +173,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms hint Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V7g-Oh-AUy">
-                                                <rect key="frame" x="49" y="321.5" width="127" height="21"/>
+                                                <rect key="frame" x="49" y="322" width="127" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -247,6 +248,14 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1213" y="159"/>
+        </scene>
+        <!--FTTutorialMainViewController-->
+        <scene sceneID="kTu-da-0oU">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Tutorial" referencedIdentifier="FTTutorialMainViewController" id="t1c-Py-ldh" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n2Z-MN-oRP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="503.5" y="929"/>
         </scene>
         <!--Signin With Email View Controller-->
         <scene sceneID="pmq-UB-rry">
@@ -355,6 +364,6 @@
         <image name="btn_play" width="46" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kho-QS-3RT"/>
+        <segue reference="fNh-B5-49U"/>
     </inferredMetricsTieBreakers>
 </document>

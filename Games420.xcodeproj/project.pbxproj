@@ -49,6 +49,9 @@
 		19E64C451D37A7D20063E3DD /* FTOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */; };
 		19E64C4B1D380C3D0063E3DD /* FTLogActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */; };
 		19EAB57B1D634E1B0030414D /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EAB57A1D634E1B0030414D /* LineChart.swift */; };
+		19EAB57E1D634ECB0030414D /* FTTutorialMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EAB57D1D634ECB0030414D /* FTTutorialMainViewController.swift */; };
+		19EAB5801D634EFB0030414D /* FTTutorialSinglePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EAB57F1D634EFB0030414D /* FTTutorialSinglePageViewController.swift */; };
+		19EAB5821D634F110030414D /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19EAB5811D634F110030414D /* Tutorial.storyboard */; };
 		A94C973365D81BA8CDDB4995 /* Pods_Games420.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C8624F85B315546460893B4 /* Pods_Games420.framework */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +100,9 @@
 		19E64C441D37A7D20063E3DD /* FTOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTOnboardingViewController.swift; sourceTree = "<group>"; };
 		19E64C4A1D380C3D0063E3DD /* FTLogActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLogActivityViewController.swift; sourceTree = "<group>"; };
 		19EAB57A1D634E1B0030414D /* LineChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
+		19EAB57D1D634ECB0030414D /* FTTutorialMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTTutorialMainViewController.swift; sourceTree = "<group>"; };
+		19EAB57F1D634EFB0030414D /* FTTutorialSinglePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTTutorialSinglePageViewController.swift; sourceTree = "<group>"; };
+		19EAB5811D634F110030414D /* Tutorial.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Tutorial.storyboard; sourceTree = "<group>"; };
 		5BC5FF388B87F8921C768337 /* Pods-Games420.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Games420.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Games420/Pods-Games420.debug.xcconfig"; sourceTree = "<group>"; };
 		6C8624F85B315546460893B4 /* Pods_Games420.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Games420.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BF4BB0CE89AFC4806BC2C6 /* Pods-Games420.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Games420.release.xcconfig"; path = "Pods/Target Support Files/Pods-Games420/Pods-Games420.release.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +138,7 @@
 				19B7466C1D5A1CCB0013883F /* ChangePassword.storyboard */,
 				19B1697A1D5B96D300F4393D /* Onboarding.storyboard */,
 				19B169861D5DB29000F4393D /* Medications.storyboard */,
+				19EAB5811D634F110030414D /* Tutorial.storyboard */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -220,6 +227,7 @@
 		19E64C351D368D4B0063E3DD /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				19EAB57C1D634E900030414D /* Tutorial */,
 				19E64C491D380C1F0063E3DD /* Activities */,
 				19B1698A1D5DBACE00F4393D /* Medications */,
 				192CEFC31D537D86005E5AF4 /* Profile */,
@@ -284,6 +292,15 @@
 				19EAB57A1D634E1B0030414D /* LineChart.swift */,
 			);
 			name = "Swift-LineChart";
+			sourceTree = "<group>";
+		};
+		19EAB57C1D634E900030414D /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				19EAB57D1D634ECB0030414D /* FTTutorialMainViewController.swift */,
+				19EAB57F1D634EFB0030414D /* FTTutorialSinglePageViewController.swift */,
+			);
+			name = Tutorial;
 			sourceTree = "<group>";
 		};
 		1CFC921D0215E7BCDAD0DE11 /* Frameworks */ = {
@@ -371,6 +388,7 @@
 				19E64C1F1D3518610063E3DD /* LaunchScreen.storyboard in Resources */,
 				19B1697B1D5B96D300F4393D /* Onboarding.storyboard in Resources */,
 				19E64C1C1D3518610063E3DD /* Assets.xcassets in Resources */,
+				19EAB5821D634F110030414D /* Tutorial.storyboard in Resources */,
 				19E64C1A1D3518610063E3DD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,10 +479,12 @@
 				19B1697F1D5C7ACC00F4393D /* FTButton.swift in Sources */,
 				19E64C271D35196B0063E3DD /* FTDataManager.swift in Sources */,
 				19B169811D5C7DA300F4393D /* FTTextField.swift in Sources */,
+				19EAB5801D634EFB0030414D /* FTTutorialSinglePageViewController.swift in Sources */,
 				19B169831D5CAFCF00F4393D /* FTLeftMenuItemCell.swift in Sources */,
 				19B169791D5B961500F4393D /* FTColor.swift in Sources */,
 				19B169741D5B7E9E00F4393D /* FTLeftMenuViewController.swift in Sources */,
 				19B7466A1D5A0F6C0013883F /* FTChangePasswordViewController.swift in Sources */,
+				19EAB57E1D634ECB0030414D /* FTTutorialMainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

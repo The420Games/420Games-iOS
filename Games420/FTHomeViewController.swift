@@ -443,7 +443,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     private func fetchMedications() {
         
-        if status != .Loading {
+        if status != .Loading && FTDataManager.sharedInstance.currentUser != nil {
             
             status = .Loading
             
