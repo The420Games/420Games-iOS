@@ -37,6 +37,9 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     private var moreAvailable = false
     private var isFetching = false
     
+    var shouldAddNewActivityOnShow = false
+    private var wasAddingMedicaton = false
+    
     // MARK: - Controller Lifecycle
 
     override func viewDidLoad() {
@@ -47,7 +50,9 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         manageForStravaNotification(true)
         
-        fetchMedications()
+        if !shouldAddNewActivityOnShow {
+            fetchMedications()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -59,6 +64,18 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        if shouldAddNewActivityOnShow {
+            
+            shouldAddNewActivityOnShow = false
+            wasAddingMedicaton = true
+            
+            addMedication()
+        }
+    }
     // MARK: - UI Customization
     
     private func setupTableView() {
@@ -136,23 +153,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBAction func addMedicationTouched(sender: AnyObject) {
         
-        let picker = UIAlertController(title: NSLocalizedString("Source", comment: "Select source title"), message: NSLocalizedString("Select tracker app you logged your activity with", comment: "Message source"), preferredStyle: .ActionSheet)
-        
-        picker.addAction(UIAlertAction(title: "Strava", style: .Default, handler: { (action) in
-            self.logActivityWithStrava()
-        }))
-        
-        //        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
-        //        picker.addAction(UIAlertAction(title: "Endomondo", style: .Default, handler: nil))
-        //        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
-        
-        picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .Default, handler: { (action) in
-            self.performSegueWithIdentifier(self.activityEditSegueId, sender: self)
-        }))
-        
-        picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        
-        presentViewController(picker, animated: true, completion: nil)
+        addMedication()
     }
     
     @IBAction func filterChanged(sender: UISegmentedControl) {
@@ -173,6 +174,35 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         pageOffset = 0
         fetchMedications()
+    }
+    
+    private func addMedication() {
+        
+        let picker = UIAlertController(title: NSLocalizedString("Source", comment: "Select source title"), message: NSLocalizedString("Select tracker app you logged your activity with", comment: "Message source"), preferredStyle: .ActionSheet)
+        
+        picker.addAction(UIAlertAction(title: "Strava", style: .Default, handler: { (action) in
+            self.wasAddingMedicaton = false
+            self.logActivityWithStrava()
+        }))
+        
+        //        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
+        //        picker.addAction(UIAlertAction(title: "Endomondo", style: .Default, handler: nil))
+        //        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
+        
+        picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .Default, handler: { (action) in
+            self.wasAddingMedicaton = false
+            self.performSegueWithIdentifier(self.activityEditSegueId, sender: self)
+        }))
+        
+        picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+            
+            if self.medications.count == 0 && self.wasAddingMedicaton {
+                self.wasAddingMedicaton = false
+                self.fetchMedications()
+            }
+        }))
+        
+        presentViewController(picker, animated: true, completion: nil)
     }
     
     // MARK: - Tableview

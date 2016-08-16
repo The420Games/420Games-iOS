@@ -238,7 +238,23 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b2m-qj-6Bi" userLabel="Top">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
                                 <subviews>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="24V-Q9-jxP" userLabel="Pie Chart" customClass="XYPieChart">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fetching Activities..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7S-as-tb4" userLabel="Status Label">
+                                        <rect key="frame" x="223" y="68" width="155" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2X-9h-3Gh" userLabel="Log Activity Button">
+                                        <rect key="frame" x="17" y="99" width="566" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="46" id="ddX-q6-FAC"/>
+                                        </constraints>
+                                        <state key="normal" title="Add New Activity"/>
+                                        <connections>
+                                            <action selector="addActivityButtonTouched:" destination="NCb-3d-kRZ" eventType="touchUpInside" id="1LH-B5-j7J"/>
+                                        </connections>
+                                    </button>
+                                    <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="24V-Q9-jxP" userLabel="Pie Chart" customClass="XYPieChart">
                                         <rect key="frame" x="212" y="30" width="176" height="176"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KNJ-E9-bX9" userLabel="Holder">
@@ -304,14 +320,21 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="P7S-as-tb4" firstAttribute="centerX" secondItem="b2m-qj-6Bi" secondAttribute="centerX" id="Dyc-Qn-OFt"/>
                                     <constraint firstItem="24V-Q9-jxP" firstAttribute="centerX" relation="greaterThanOrEqual" secondItem="i4V-Ce-yJ4" secondAttribute="trailing" constant="15" id="HRX-MU-hfK"/>
                                     <constraint firstItem="24V-Q9-jxP" firstAttribute="centerX" secondItem="b2m-qj-6Bi" secondAttribute="centerX" id="QUr-rd-cEB"/>
+                                    <constraint firstItem="P7S-as-tb4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="b2m-qj-6Bi" secondAttribute="leading" constant="17" id="VQ2-0t-4gS"/>
                                     <constraint firstAttribute="bottom" secondItem="24V-Q9-jxP" secondAttribute="bottom" constant="10" id="cjb-Y1-5Qj"/>
                                     <constraint firstItem="bm4-Ki-LUO" firstAttribute="leading" secondItem="b2m-qj-6Bi" secondAttribute="leading" constant="17" id="dhP-VU-gDU"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="P7S-as-tb4" secondAttribute="trailing" constant="17" id="eey-L3-6Ov"/>
+                                    <constraint firstItem="P7S-as-tb4" firstAttribute="centerY" secondItem="b2m-qj-6Bi" secondAttribute="centerY" constant="-30" id="fQD-yw-Tq0"/>
                                     <constraint firstItem="24V-Q9-jxP" firstAttribute="top" secondItem="b2m-qj-6Bi" secondAttribute="top" constant="30" id="ivY-ca-6ua"/>
+                                    <constraint firstAttribute="trailing" secondItem="l2X-9h-3Gh" secondAttribute="trailing" constant="17" id="jUc-dc-8gr"/>
+                                    <constraint firstItem="l2X-9h-3Gh" firstAttribute="top" secondItem="P7S-as-tb4" secondAttribute="bottom" constant="10" id="ofy-LI-iyW"/>
                                     <constraint firstItem="bm4-Ki-LUO" firstAttribute="top" secondItem="b2m-qj-6Bi" secondAttribute="top" id="tjU-IO-ZNv"/>
                                     <constraint firstItem="i4V-Ce-yJ4" firstAttribute="top" secondItem="bm4-Ki-LUO" secondAttribute="bottom" constant="-1" id="u6o-W0-cg7"/>
                                     <constraint firstItem="i4V-Ce-yJ4" firstAttribute="leading" secondItem="bm4-Ki-LUO" secondAttribute="leading" id="xzc-a0-Wpa"/>
+                                    <constraint firstItem="l2X-9h-3Gh" firstAttribute="leading" secondItem="b2m-qj-6Bi" secondAttribute="leading" constant="17" id="z3W-Zf-PaP"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hb4-pe-q5j" userLabel="Middle">
@@ -450,6 +473,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addActivityButton" destination="l2X-9h-3Gh" id="DT0-jB-ASr"/>
                         <outlet property="bottomHorizontalLine" destination="iWb-uI-u6s" id="RQY-ky-pP7"/>
                         <outlet property="bottomHorizontalLineHeight" destination="NJC-Uq-Ncj" id="PGC-Ol-18Y"/>
                         <outlet property="bottomSubtitleLabel" destination="4Iu-N0-yzc" id="daj-rb-Wf5"/>
@@ -461,6 +485,7 @@
                         <outlet property="pieMonthLabel" destination="1f9-Pf-YXD" id="YPO-ld-7FC"/>
                         <outlet property="pieTextHolderView" destination="0QV-DF-LkD" id="oBa-ex-ubI"/>
                         <outlet property="pieYearLabel" destination="tlN-SO-ajZ" id="qHO-wQ-HCo"/>
+                        <outlet property="statusLabel" destination="P7S-as-tb4" id="JHE-ib-dF0"/>
                         <outlet property="topSubtitleLabel" destination="i4V-Ce-yJ4" id="NN4-Of-E8t"/>
                         <outlet property="topTitleLabel" destination="bm4-Ki-LUO" id="NFr-DK-cV3"/>
                         <segue destination="Aes-Hi-Td7" kind="show" identifier="profile" id="k9O-Le-PIX"/>

@@ -11,6 +11,10 @@ import XYPieChart
 
 class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    @IBOutlet weak var statusLabel: UILabel!
+    
+    @IBOutlet weak var addActivityButton: UIButton!
+    
     @IBOutlet weak var topTitleLabel: UILabel!
     @IBOutlet weak var topSubtitleLabel: UILabel!
     
@@ -62,9 +66,62 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         return calendar.component(.Year, fromDate: NSDate())
     }()
     
-    private var isFetching = false
+    enum FTHomeScreenStatus {
+        case Loading, NoActivities, Normal
+    }
+    
+    var status: FTHomeScreenStatus  {
+        didSet {
+            if self.isViewLoaded() {
+                switch self.status {
+                case .Loading:
+                    self.statusLabel.text = NSLocalizedString("Fetching data...", comment: "Home screen status label title fetching data")
+                    self.statusLabel.hidden = false
+                    self.addActivityButton.hidden = true
+                    self.pieChart.hidden = true
+                    self.moodCollectionView.hidden = true
+                    self.lineChartHolder.hidden = true
+                    self.topTitleLabel.hidden = true
+                    self.topSubtitleLabel.hidden = true
+                    self.bottomTitleLabel.hidden = true
+                    self.bottomTitleLabel.hidden = true
+                    self.bottomHorizontalLine.hidden = true
+                case .NoActivities:
+                    self.statusLabel.text = NSLocalizedString("No activities found... Do you want to add one?", comment: "Home screen status label title no data")
+                    self.statusLabel.hidden = false
+                    self.addActivityButton.hidden = false
+                    self.pieChart.hidden = true
+                    self.moodCollectionView.hidden = true
+                    self.lineChartHolder.hidden = true
+                    self.topTitleLabel.hidden = true
+                    self.topSubtitleLabel.hidden = true
+                    self.bottomTitleLabel.hidden = true
+                    self.bottomTitleLabel.hidden = true
+                    self.bottomHorizontalLine.hidden = true
+                case .Normal:
+                    self.statusLabel.hidden = true
+                    self.addActivityButton.hidden = true
+                    self.pieChart.hidden = false
+                    self.moodCollectionView.hidden = false
+                    self.lineChartHolder.hidden = false
+                    self.topTitleLabel.hidden = false
+                    self.topSubtitleLabel.hidden = false
+                    self.bottomTitleLabel.hidden = false
+                    self.bottomTitleLabel.hidden = false
+                    self.bottomHorizontalLine.hidden = false
+                }
+            }
+        }
+    }
     
     // MARK: - Container Lifecycle
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        status = .NoActivities
+        
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         
@@ -73,6 +130,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         manageForMenuNotification(true)
         
         setupUI()
+        
+        status = .NoActivities
         
         fetchMedications()
         
@@ -94,6 +153,14 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     }
     
     // MARK: - UI Customization
+    
+    private func setupStatusViews() {
+        
+        statusLabel.font = UIFont.defaultFont(.Medium, size: 15.0)
+        statusLabel.textColor = UIColor.whiteColor()
+        
+        addActivityButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("ADD NEW ACTIVITY", comment: "Add new activity button title on home screen"))
+    }
     
     private func setupPieChart() {
         
@@ -127,7 +194,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     private func setupPieLabels() {
         
-        let monthSize = max(pieTextHolderView.bounds.size.width * 0.126, 11.0)
+        let monthSize = max(pieTextHolderView.bounds.size.width * 0.15, 11.0)
         pieMonthLabel.font = UIFont.defaultFont(.Bold, size: monthSize)
         pieMonthLabel.textColor = UIColor.whiteColor()
         
@@ -206,6 +273,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
+        setupStatusViews()
+        
         setupPieChart()
         
         setupCollectionView()
@@ -216,6 +285,13 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         setupTopTitleLabels()
         
         setupLineChartLabels()
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func addActivityButtonTouched(sender: AnyObject) {
+        
+        performSegueWithIdentifier(medicationsSegueId, sender: NSNumber(bool: true))
     }
 
     // MARK: - Notifications
@@ -242,6 +318,19 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                 case .Workouts: performSegueWithIdentifier(medicationsSegueId, sender: self)
                 default: print("Implement menu for \(item)")
                 }
+            }
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == medicationsSegueId {
+            
+            if let addNewMedication = sender as? NSNumber {
+                
+                (segue.destinationViewController as! FTMedicationsViewController).shouldAddNewActivityOnShow = addNewMedication.boolValue
             }
         }
     }
@@ -320,7 +409,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     private func populatePieLabelsData() {
         
         let formatter = NSDateFormatter()
-        let name = formatter.monthSymbols[currentMonth]
+        let name = formatter.monthSymbols[currentMonth - 1]
         pieMonthLabel.text = name.uppercaseString
         
         pieYearLabel.text = "\(currentYear)"
@@ -335,9 +424,9 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     private func fetchMedications() {
         
-        if !isFetching {
+        if status != .Loading {
             
-            isFetching = true
+            status = .Loading
             
             var nextMonth = currentMonth + 1
             var nextYear = currentYear
@@ -370,11 +459,20 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
 
             var query = "ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'"
             
-            //query += " AND activity.startDate >= \(startDate!.timeIntervalSince1970) AND activity.startDate <= \(finishDate!.timeIntervalSince1970)"
+            query += " AND activity.startDate >= \(startDate!.timeIntervalSince1970) AND activity.startDate <= \(finishDate!.timeIntervalSince1970)"
             
-            Medication.findObjects(query, order: ["updated desc"], offset: 0, limit: 100) { (objects, error) in
+            Medication.findObjects(query, order: ["created desc"], offset: 0, limit: 100) { (objects, error) in
                 
                 if objects != nil {
+                    
+                    let sortedMedications = (objects as! [Medication]).sort({ (medication1, medication2) -> Bool in
+                        if medication1.activity != nil && medication2.activity != nil {
+                            if medication1.activity!.startDate != nil && medication2.activity!.startDate != nil {
+                                return medication1.activity!.startDate!.compare(medication2.activity!.startDate!) == .OrderedAscending
+                            }
+                        }
+                        return false
+                    })
                 
                     var values = [MedicationMoodIndex: Int]()
                     var xLabels = [String]()
@@ -391,7 +489,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     
                     let calendar = NSCalendar.currentCalendar()
                     
-                    for medication in objects as! [Medication] {
+                    for medication in sortedMedications {
                         
                         if medication.mood != nil {
                             
@@ -426,7 +524,12 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        self.isFetching = false
+                        if objects != nil && objects!.count > 0 {
+                            self.status = .Normal
+                        }
+                        else {
+                            self.status = .NoActivities
+                        }
                         self.moodValues = values
                         
                         self.pieChart.reloadData()
@@ -441,6 +544,9 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                             self.setupLineChart()
                         }
                     })
+                }
+                else {
+                    self.status = .NoActivities
                 }
             }
         }

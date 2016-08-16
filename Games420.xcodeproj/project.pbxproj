@@ -123,6 +123,7 @@
 		192CEFC31D537D86005E5AF4 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				19E64C491D380C1F0063E3DD /* Activities */,
 				19B746681D5A0F6C0013883F /* FTChangePasswordViewController.swift */,
 				192CEFC41D537DB3005E5AF4 /* FTProfileMainViewController.swift */,
 				19B746441D59F2020013883F /* FTPhotoCropViewController.swift */,
@@ -229,7 +230,6 @@
 			children = (
 				19B1698A1D5DBACE00F4393D /* Medications */,
 				192CEFC31D537D86005E5AF4 /* Profile */,
-				19E64C491D380C1F0063E3DD /* Activities */,
 				19E64C461D37D40D0063E3DD /* Main */,
 				19E64C431D37A7BC0063E3DD /* Onboarding */,
 				19E64C381D368D970063E3DD /* Select activity */,
