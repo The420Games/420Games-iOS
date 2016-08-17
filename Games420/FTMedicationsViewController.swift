@@ -475,7 +475,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         }
         
         if segue.identifier == selectActivitySegueId {
-            (segue.destinationViewController as! FTSelectActivityViewController).activitySelected = {(activity) -> () in
+            ((segue.destinationViewController as! UINavigationController).viewControllers.first as! FTSelectActivityViewController).activitySelected = {(activity) -> () in
                 
                 self.dismissViewControllerAnimated(true, completion: {
                     

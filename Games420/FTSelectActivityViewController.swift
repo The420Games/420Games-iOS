@@ -46,15 +46,6 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
         setupTablewView()
-        
-        addCancelButton()
-    }
-    
-    private func addCancelButton() {
-        
-        let cancelItem = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .Plain, target: self, action: #selector(self.cancelPressed(_:)))
-        
-        self.navigationItem.rightBarButtonItem = cancelItem
     }
     
     private func setupTablewView() {
@@ -74,18 +65,13 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
     
     func backButtonPressed(sender: AnyObject) {
         
-        navigationController?.popViewControllerAnimated(true)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func refreshValueChanged(sender: AnyObject) {
         
         pageOffset = 0
         fetchActivities()
-    }
-    
-    func cancelPressed(sender: AnyObject) {
-        
-        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - Tableview
