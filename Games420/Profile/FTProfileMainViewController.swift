@@ -500,11 +500,11 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
         else {
             
-            nameLabel.text = ""
+            nameLabel.text = NSLocalizedString("Name not set", comment: "Name placeholder")
             firstnameTextField.text = nil
             lastnameTextField.text = nil
             
-            localityLabel.text = ""
+            localityLabel.text = NSLocalizedString("Location not set", comment: "Location placeholder")
             countryTextField.text = nil
             stateTextField.text = nil
             cityTextField.text = nil

@@ -168,17 +168,24 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private func populateUserData() {
         
+        let defaultPhoto = UIImage(named: "default_photo")
+        
         if let athlete = FTDataManager.sharedInstance.currentUser?.athlete {
             
             if let url = FTDataManager.sharedInstance.imageUrlForProperty(athlete.profileImage, path: Athlete.profileImagePath) {
-                profileImageView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "default_photo") , optionsInfo: .None, progressBlock: nil, completionHandler: nil)
+                profileImageView.kf_setImageWithURL(url, placeholderImage: defaultPhoto , optionsInfo: .None, progressBlock: nil, completionHandler: nil)
             }
             else {
-                profileImageView.image = UIImage(named: "default_photo")
+                profileImageView.image = defaultPhoto
             }
             
             userNameLabel.text = athlete.fullName()
             userLocationLabel.text = athlete.fullLocality()
+        }
+        else {
+            profileImageView.image = defaultPhoto
+            userNameLabel.text = NSLocalizedString("Name not set", comment: "Name placeholder")
+            userLocationLabel.text = NSLocalizedString("Location not set", comment: "Location placeholder")
         }
     }
     
