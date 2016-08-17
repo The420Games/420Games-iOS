@@ -132,6 +132,8 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
                 
                 if success && error == nil {
                     
+                    FTAnalytics.trackEvent(.SignUp, data: ["mode": "Email"])
+                    
                     let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
                     hud.label.text = NSLocalizedString("Success", comment: "HUD title when signing up with Email succeeded")
                     hud.detailsLabel.text = NSLocalizedString("Check your email for instructions", comment: "HUD subtitle when email signup succeeded")

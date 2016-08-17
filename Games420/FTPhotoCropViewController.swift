@@ -36,6 +36,8 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLayoutSubviews()
         
         setupOverlay()
+        
+        FTAnalytics.trackEvent(.EditProfilePhoto, data: nil)
     }
 
     override func didReceiveMemoryWarning() {

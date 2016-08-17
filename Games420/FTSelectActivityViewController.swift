@@ -33,6 +33,8 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
         setupUI()
         
         fetchActivities()
+        
+        FTAnalytics.trackEvent(.ActivityPicker, data: ["source": "Strava"])
     }
     
     // MARK: - UI Customization
@@ -105,6 +107,8 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        
+        FTAnalytics.trackEvent(.SelectActivity, data: nil)
         
         activitySelected?(activity: activities[indexPath.row])
     }

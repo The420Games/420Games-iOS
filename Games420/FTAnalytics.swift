@@ -10,7 +10,33 @@ import UIKit
 import Mixpanel
 
 enum FTEvent: String {
-    case Test = "test"
+    case OnBoarding = "OnBoarding",
+    SignUp = "SignUp",
+    SignIn = "SignIn",
+    PasswordReset = "Password Reset",
+    Home = "Home Screen",
+    MenuItemSelected = "Menu Item Selected",
+    NewActivityFromHome = "New Activity From Home Screen",
+    Profile = "Profile Screen",
+    EditProfile = "Edit Profile",
+    SubmitProfile = "Submit Profile",
+    EditProfilePhoto = "Edit Profile Photo",
+    Medications = "Medications list",
+    MedicationsFilterChange = "Filter medications",
+    NewMedication = "New medication",
+    DeleteMedication = "Delete Medication",
+    EditMedication = "Edit Medication",
+    MedicationDetail = "Medication Detail Screen",
+    ManualActivity = "Manual Activity Screen",
+    SelectActivityType = "Select Activity Type",
+    CreateMedication = "Create/Edit Medication Screen",
+    SelectMedicationType = "Select Medication Type",
+    SelectMood = "Select Mood",
+    SubmitMedication = "Submit Medication",
+    ActivityPicker = "Activity Picker Screen",
+    SelectActivity = "Select Activity",
+    Tutorial = "Tutorial Screen",
+    SignOut = "Sign Out"
 }
 
 class FTAnalytics: NSObject {
@@ -25,5 +51,10 @@ class FTAnalytics: NSObject {
     class func trackEvent(event: FTEvent, data: [String: AnyObject]?) {
         
         Mixpanel.sharedInstance().track(event.rawValue, properties: data)
+    }
+    
+    class func identifyUser(userId: String) {
+        
+        Mixpanel.sharedInstance().identify(userId)
     }
 }

@@ -140,6 +140,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         fetchMedications()
         
         populatePieLabelsData()
+        
+        FTAnalytics.trackEvent(.Home, data: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -295,6 +297,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     @IBAction func addActivityButtonTouched(sender: AnyObject) {
         
+        FTAnalytics.trackEvent(.NewActivityFromHome, data: nil)
         performSegueWithIdentifier(medicationsSegueId, sender: NSNumber(bool: true))
     }
 

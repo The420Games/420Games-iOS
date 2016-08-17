@@ -104,6 +104,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         populateData(FTDataManager.sharedInstance.currentUser?.athlete)
         
         fetchAthlete()
+        
+        FTAnalytics.trackEvent(.Profile, data: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -274,6 +276,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         
         if !edit {
             edit  = true
+            FTAnalytics.trackEvent(.EditProfile, data: nil)
         }
         else if validData() {
             updateAthlete()
@@ -385,6 +388,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }))
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .Cancel, handler: nil))
+        
+        alert.view.tintColor = UIColor.ftLimeGreen()
         
         presentViewController(alert, animated: true, completion: nil)
     }
@@ -599,6 +604,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                     hud.hideAnimated(true)
                     
                     if object != nil && error == nil {
+                        
+                        FTAnalytics.trackEvent(.SubmitProfile, data: nil)
                         
                         let needsUpdateUser = FTDataManager.sharedInstance.currentUser!.athlete == nil
                         

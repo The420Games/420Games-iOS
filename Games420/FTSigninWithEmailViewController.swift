@@ -161,6 +161,8 @@ class FTSigninWithEmailViewController: UIViewController {
                 hud.hideAnimated(true)
                 
                 if user != nil {
+                    
+                    FTAnalytics.trackEvent(.SignIn, data: ["mode": "Email"])
 
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }
@@ -200,6 +202,8 @@ class FTSigninWithEmailViewController: UIViewController {
                 hud.hideAnimated(true)
                 
                 if success {
+                    
+                    FTAnalytics.trackEvent(.PasswordReset, data: nil)
                     
                     let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
                     hud.label.text = NSLocalizedString("Success", comment: "HUD title when password reset succeeded")

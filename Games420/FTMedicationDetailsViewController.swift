@@ -161,6 +161,8 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         setupUI()
         
         detailsTableView.reloadData()
+        
+        FTAnalytics.trackEvent(.MedicationDetail, data: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -304,10 +306,14 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel title"), style: .Cancel, handler: nil))
         
+        alert.view.tintColor = UIColor.ftLimeGreen()
+        
         presentViewController(alert, animated: true, completion: nil)
     }
     
     func editTouched(sender: AnyObject) {
+        
+        FTAnalytics.trackEvent(.EditMedication, data: nil)
         
         if medication.activity != nil && medication.activity!.source != nil {
             performSegueWithIdentifier(medicationEditSegueId, sender: self)
@@ -353,6 +359,7 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
                     
                     if success {
                         
+                        FTAnalytics.trackEvent(.DeleteMedication, data: nil)
                         self.navigationController?.popViewControllerAnimated(true)
                     }
                     else {

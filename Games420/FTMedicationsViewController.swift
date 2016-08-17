@@ -55,6 +55,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         if !shouldAddNewActivityOnShow {
             fetchMedications()
         }
+        
+        FTAnalytics.trackEvent(.Medications, data: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -185,6 +187,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
         
+        FTAnalytics.trackEvent(.MedicationsFilterChange, data: ["filter": sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)!])
+        
         pageOffset = 0
         fetchMedications()
     }
@@ -196,6 +200,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         picker.addAction(UIAlertAction(title: "Strava", style: .Default, handler: { (action) in
             self.wasAddingMedicaton = false
             self.logActivityWithStrava()
+            FTAnalytics.trackEvent(.NewMedication, data: ["source": "Strava"])
         }))
         
         //        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
@@ -205,6 +210,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .Default, handler: { (action) in
             self.wasAddingMedicaton = false
             self.performSegueWithIdentifier(self.activityEditSegueId, sender: self)
+            FTAnalytics.trackEvent(.NewMedication, data: ["source": "Manual"])
         }))
         
         picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
@@ -214,6 +220,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                 self.fetchMedications()
             }
         }))
+        
+        picker.view.tintColor = UIColor.ftLimeGreen()
         
         presentViewController(picker, animated: true, completion: nil)
     }
@@ -412,6 +420,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                     
                     if success {
                         
+                        FTAnalytics.trackEvent(.DeleteMedication, data: nil)
+                        
                         NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationDeletedNotificationName, object: self)
                         
                         if let index = self.medications.indexOf(medication) {
@@ -439,6 +449,8 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     private func editMedication(medication: Medication) {
+        
+        FTAnalytics.trackEvent(.EditMedication, data: nil)
         
         if medication.activity != nil && medication.activity!.source != nil {
             performSegueWithIdentifier(medicationEditSegueId, sender: medication)

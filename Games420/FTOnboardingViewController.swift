@@ -25,6 +25,8 @@ class FTOnboardingViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        
+        FTAnalytics.trackEvent(.OnBoarding, data: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -80,6 +82,9 @@ class FTOnboardingViewController: UIViewController {
                 hud.hideAnimated(true)
                 
                 if user != nil && error == nil {
+                    
+                    FTAnalytics.trackEvent(.SignIn, data: ["mode": "Facebook"])
+                    
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
                 else {

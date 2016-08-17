@@ -40,6 +40,13 @@ class FTTutorialSinglePageViewController: UIViewController {
         populateData()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        FTAnalytics.trackEvent(.Tutorial, data: ["page": pageIndex])
+    }
+    
     // MARK: - UI Customization
     
     private func setupUI() {

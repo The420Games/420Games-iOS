@@ -67,6 +67,8 @@ class FTDataManager: NSObject {
             
             NSNotificationCenter.defaultCenter().postNotificationName(FTSignedInNotificationName, object: backendlessUser)
             
+            FTAnalytics.identifyUser(backendlessUser.objectId!)
+            
             },
                                                        error: {(fault : Fault!) -> () in
                                                         
@@ -207,6 +209,8 @@ class FTDataManager: NSObject {
             self._currentUser = user
             
             NSNotificationCenter.defaultCenter().postNotificationName(FTSignedInNotificationName, object: user)
+            
+            FTAnalytics.identifyUser(user.objectId!)
             
             completionBlock?(user: self.currentUser, error: nil)
             },

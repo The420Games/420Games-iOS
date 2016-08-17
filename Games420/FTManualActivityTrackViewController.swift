@@ -51,6 +51,8 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         setupUI()
         
         loadActivityDetails()
+        
+        FTAnalytics.trackEvent(.ManualActivity, data: nil)
     }
     
     private func setupUI() {
@@ -165,6 +167,8 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
             let type = ActivityType.allValues[index]
             self.activity.type = type.rawValue
             self.typeButton.setTitle(value as? String, forState: .Normal)
+            
+            FTAnalytics.trackEvent(.SelectActivityType, data: ["type": "\(type)"])
             
             }, cancelBlock: { (picker) in
                 //

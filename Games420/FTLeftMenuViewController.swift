@@ -15,6 +15,30 @@ let FTSlideMenuItemSelectedNotificationName = "SlideMenuItemSelectedNotification
 enum FTSlideMenuItem: Int {
     case Main = 0, Workouts, Profile, FAQ, Terms, Tutorial
     static let count = 6
+    
+    func title() -> String {
+        
+        switch self {
+        case .Main: return NSLocalizedString("HOME", comment: "Home menu item title")
+        case .Workouts: return NSLocalizedString("WORKOUTS", comment: "Workouts menu item title")
+        case .Profile: return NSLocalizedString("PROFILE", comment: "Profile menu item title")
+        case .FAQ: return NSLocalizedString("FAQ", comment: "FAQ menu item title")
+        case .Terms: return NSLocalizedString("TERMS & CONDITIONS", comment: "Terms menu item title")
+        case .Tutorial: return NSLocalizedString("TUTORIAL", comment: "Tutorial menu item title")
+        }
+    }
+    
+    func icon() -> UIImage? {
+        
+        switch self {
+        case .Main: return UIImage(named: "icon_home")
+        case .Workouts: return UIImage(named: "icon_activities")
+        case .Profile: return UIImage(named: "icon_settings")
+        case .FAQ: return UIImage(named: "icon_faq")
+        case .Terms: return UIImage(named: "icon_terms")
+        case .Tutorial: return UIImage(named: "icon_tutorial")
+        }
+    }
 }
 
 class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -110,6 +134,8 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
             
             dispatch_async(dispatch_get_main_queue(), {
                 
+                FTAnalytics.trackEvent(.SignOut, data: nil)
+                
                 hud.hideAnimated(true)
                 
                 self.slideMenuController()?.closeLeft()
@@ -156,30 +182,6 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    private func menuItemTitle(item: FTSlideMenuItem) -> String {
-        
-        switch item {
-        case .Main: return NSLocalizedString("HOME", comment: "Home menu item title")
-        case .Workouts: return NSLocalizedString("WORKOUTS", comment: "Workouts menu item title")
-        case .Profile: return NSLocalizedString("PROFILE", comment: "Profile menu item title")
-        case .FAQ: return NSLocalizedString("FAQ", comment: "FAQ menu item title")
-        case .Terms: return NSLocalizedString("TERMS & CONDITIONS", comment: "Terms menu item title")
-        case .Tutorial: return NSLocalizedString("TUTORIAL", comment: "Tutorial menu item title")
-        }
-    }
-    
-    private func menuItemIcon(item: FTSlideMenuItem) -> UIImage? {
-        
-        switch item {
-        case .Main: return UIImage(named: "icon_home")
-        case .Workouts: return UIImage(named: "icon_activities")
-        case .Profile: return UIImage(named: "icon_settings")
-        case .FAQ: return UIImage(named: "icon_faq")
-        case .Terms: return UIImage(named: "icon_terms")
-        case .Tutorial: return UIImage(named: "icon_tutorial")
-        }
-    }
-    
     // MARK: - Tableview
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -197,7 +199,7 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         let cell = tableView.dequeueReusableCellWithIdentifier(menuCellId, forIndexPath: indexPath) as! FTLeftMenuItemCell
         
         if let item = FTSlideMenuItem(rawValue: indexPath.row) {
-            cell.setupCell(menuItemIcon(item)!, title: menuItemTitle(item), lastItem: indexPath.row == FTSlideMenuItem.count - 1)
+            cell.setupCell(item.icon(), title: item.title(), lastItem: indexPath.row == FTSlideMenuItem.count - 1)
         }
         
         return cell
@@ -209,6 +211,7 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         
         if let item = FTSlideMenuItem(rawValue: indexPath.row) {
             NSNotificationCenter.defaultCenter().postNotificationName(FTSlideMenuItemSelectedNotificationName, object: self, userInfo: ["itemIndex": item.rawValue])
+            FTAnalytics.trackEvent(.MenuItemSelected, data: ["item": "\(item)"])
         }
         
         slideMenuController()?.closeLeft()

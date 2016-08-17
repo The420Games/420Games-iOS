@@ -27,7 +27,7 @@ class FTLeftMenuItemCell: UITableViewCell {
         backgroundColor = UIColor.clearColor()
     }
     
-    func setupCell(icon: UIImage, title: String, lastItem: Bool) {
+    func setupCell(icon: UIImage?, title: String, lastItem: Bool) {
         
         iconImageView.image = icon
         titleLabel.text = title

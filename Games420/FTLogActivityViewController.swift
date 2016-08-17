@@ -47,6 +47,8 @@ class FTLogActivityViewController: UIViewController {
         loadActivityDetails()
         
         loadMedicationDetails()
+        
+        FTAnalytics.trackEvent(.CreateMedication, data: nil)
     }
     
     // MARK: - UI Customization
@@ -186,8 +188,12 @@ class FTLogActivityViewController: UIViewController {
         
         let picker = ActionSheetStringPicker(title: NSLocalizedString("Select type", comment: "Medication type picker title"), rows: rows, initialSelection: index, doneBlock: { (picker, index, value) in
             
-            self.medication.type = MedicationType.allValues[index].rawValue
+            let type = MedicationType.allValues[index]
+            self.medication.type = type.rawValue
             self.typeButton.setTitle(value as? String, forState: .Normal)
+            
+            FTAnalytics.trackEvent(.SelectMedicationType, data: ["type": "\(type)"])
+            
             }, cancelBlock: { (picker) in
                 //
             }, origin: sender)
@@ -212,8 +218,12 @@ class FTLogActivityViewController: UIViewController {
         
         let picker = ActionSheetStringPicker(title: NSLocalizedString("Select mood", comment: "Mood index picker title"), rows: rows, initialSelection: index, doneBlock: { (picker, index, value) in
             
-            self.medication.mood = MedicationMoodIndex.allValues[index].rawValue
+            let mood = MedicationMoodIndex.allValues[index]
+            self.medication.mood = mood.rawValue
             self.moodButton.setTitle(value as? String, forState: .Normal)
+            
+            FTAnalytics.trackEvent(.SelectMood, data: ["mood": "\(mood)"])
+            
             }, cancelBlock: { (picker) in
                 //
             }, origin: sender)
@@ -271,6 +281,9 @@ class FTLogActivityViewController: UIViewController {
                     hud.hideAnimated(true)
                     
                     if success {
+                        
+                        FTAnalytics.trackEvent(.SubmitMedication, data: nil)
+                        
                         self.navigationController?.popToRootViewControllerAnimated(true)
                         
                         NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationSavedNotificationName, object: self, userInfo: ["medicaton": self.medication])
