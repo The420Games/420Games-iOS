@@ -12,6 +12,8 @@ import MBProgressHUD
 import ActionSheetPicker_3_0
 import FBSDKCoreKit
 
+let FTProfileUpdatedNotificationName = "FTProfileUpdatedNotification"
+
 class FTProfileMainViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var profileImageView: UIImageView!
@@ -554,6 +556,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         let athlete = Athlete()
         if FTDataManager.sharedInstance.currentUser!.athlete != nil {
             athlete.objectId = FTDataManager.sharedInstance.currentUser!.athlete!.objectId
+            athlete.profileImage = FTDataManager.sharedInstance.currentUser!.athlete!.profileImage
         }
         
         athlete.firstName = firstnameTextField.text
@@ -614,11 +617,13 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                                     hud.hideAnimated(true)
                                     
                                     if object != nil && error == nil {
+                                        
                                         self.edit = false
                                         self.populateData(FTDataManager.sharedInstance.currentUser?.athlete)
+                                        
+                                        NSNotificationCenter.defaultCenter().postNotificationName(FTProfileUpdatedNotificationName, object: self)
                                     }
                                     else {
-                                        print("Error saving User: \(error)")
                                         
                                         let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update account:(", comment: "Error message when failed to save User"), preferredStyle: .Alert)
                                         alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
@@ -628,8 +633,11 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                             })
                         }
                         else {
+                            
                             self.edit = false
                             self.populateData(FTDataManager.sharedInstance.currentUser?.athlete)
+                            
+                            NSNotificationCenter.defaultCenter().postNotificationName(FTProfileUpdatedNotificationName, object: self)
                         }
                     }
                     else {

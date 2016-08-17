@@ -39,6 +39,7 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         
         signupForUserUpdatedNotification()
         signupForLoginNotification()
+        signupForProfileUpdatedNotification()
         
         populateUserData()
         
@@ -49,6 +50,7 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         
         resignFromUserUpdatedNotification()
         resignFromLoginNotification()
+        resignFromProfileUpdatedNotification()
     }
 
     override func didReceiveMemoryWarning() {
@@ -145,6 +147,9 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
             if let url = FTDataManager.sharedInstance.imageUrlForProperty(athlete.profileImage, path: Athlete.profileImagePath) {
                 profileImageView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "default_photo") , optionsInfo: .None, progressBlock: nil, completionHandler: nil)
             }
+            else {
+                profileImageView.image = UIImage(named: "default_photo")
+            }
             
             userNameLabel.text = athlete.fullName()
             userLocationLabel.text = athlete.fullLocality()
@@ -219,6 +224,16 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     private func resignFromUserUpdatedNotification() {
         
         NSNotificationCenter.defaultCenter().removeObserver(self, name: FTUserUpdatedNotificationName, object: nil)
+    }
+    
+    private func signupForProfileUpdatedNotification() {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.userUpdatedNotificationReceived(_:)), name: FTProfileUpdatedNotificationName, object: nil)
+    }
+    
+    private func resignFromProfileUpdatedNotification() {
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: FTProfileUpdatedNotificationName, object: nil)
     }
     
     private func signupForLoginNotification() {
