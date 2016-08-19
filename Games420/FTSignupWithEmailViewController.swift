@@ -23,9 +23,6 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var termsHintLabel: UILabel!
     
-    // TODO: Change this to final URL
-    private let termsURL = NSURL(string: "http://screamingbox.com")
-    
     private let signinSegueId = "signin"
     
     // MARK: - Controller Lifecycle
@@ -95,8 +92,12 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func termsHintLabelTouched(sender: AnyObject) {
         
-        if UIApplication.sharedApplication().canOpenURL(termsURL!) {
-            UIApplication.sharedApplication().openURL(termsURL!)
+        if let url = NSURL(string: FTTermsAndConditionsLink) {
+            
+            if UIApplication.sharedApplication().canOpenURL(url) {
+                
+                UIApplication.sharedApplication().openURL(url)
+            }
         }
     }
     

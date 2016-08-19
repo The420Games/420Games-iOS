@@ -12,6 +12,10 @@ import MBProgressHUD
 
 let FTSlideMenuItemSelectedNotificationName = "SlideMenuItemSelectedNotification"
 
+// TODO: Change this to final
+let FTTermsAndConditionsLink = "http://420games.org/"
+let FTFAQLink = "http://420games.org/"
+
 enum FTSlideMenuItem: Int {
     case Main = 0, Workouts, Profile, FAQ, Terms, Tutorial
     static let count = 6

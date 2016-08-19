@@ -324,6 +324,8 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                 case .Main: navigationController?.popToRootViewControllerAnimated(true)
                 case .Workouts: performSegueWithIdentifier(medicationsSegueId, sender: self)
                 case .Tutorial: performSegueWithIdentifier(tutorialSegueId, sender: self)
+                case .FAQ: openLink(FTFAQLink)
+                case .Terms: openLink(FTTermsAndConditionsLink)
                 default: print("Implement menu for \(item)")
                 }
             }
@@ -345,6 +347,17 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     func medicationChangedNotificationReceived(notification: NSNotification) {
         
         fetchMedications()
+    }
+    
+    func openLink(linkStr: String) {
+        
+        if let url = NSURL(string: linkStr) {
+            
+            if UIApplication.sharedApplication().canOpenURL(url) {
+                
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
     }
     
     // MARK: - Navigation
