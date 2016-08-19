@@ -53,6 +53,8 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBOutlet weak var logoutLabel: UILabel!
     
+    @IBOutlet weak var versionLabel: UILabel!
+    
     private let menuCellId = "menuCell"
     
     override func viewDidLoad() {
@@ -111,6 +113,17 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         logoutLabel.text = NSLocalizedString("LOG OUT", comment: "Logout label title")
     }
     
+    private func setupVersionLabel() {
+        
+        versionLabel.textColor = UIColor.ftMidGray()
+        versionLabel.font = UIFont.defaultFont(.Light, size: 10.0)
+        
+        let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as! String
+        let build = NSBundle.mainBundle().infoDictionary?[kCFBundleVersionKey as String] as! String
+        
+        versionLabel.text = "Games420 v\(version) (\(build)) \(FTDataManager.ftStaging ? " - Staging" : "")"
+    }
+    
     private func setupUI() {
         
         view.backgroundColor = UIColor.ftAlmostBlack()
@@ -120,6 +133,8 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         setupHeader()
         
         setupLogout()
+        
+        setupVersionLabel()
     }
     
     // MARK: - Actions

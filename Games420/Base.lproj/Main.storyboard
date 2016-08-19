@@ -70,10 +70,10 @@
                                             <constraint firstAttribute="width" constant="90" id="cfM-bi-iLe"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="Kiu-gS-csr" userLabel="Location icon">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_location" translatesAutoresizingMaskIntoConstraints="NO" id="Kiu-gS-csr" userLabel="Location icon">
                                         <rect key="frame" x="105" y="81" width="12" height="17"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="User location" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m07-vv-SFI">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User location" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m07-vv-SFI">
                                         <rect key="frame" x="120" y="79" width="102" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -124,15 +124,23 @@
                                             <action selector="logoutTapped:" destination="nhu-Dh-9zx" eventType="touchUpInside" id="udz-aQ-Yfc"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Games420 v1.0 (2)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eFc-Xx-K4H" userLabel="Version Label">
+                                        <rect key="frame" x="138" y="47" width="145" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="7My-iX-0X6"/>
+                                    <constraint firstAttribute="trailing" secondItem="eFc-Xx-K4H" secondAttribute="trailing" constant="17" id="IiE-6o-wBc"/>
                                     <constraint firstItem="uPI-2h-Bt6" firstAttribute="leading" secondItem="VvK-T8-w2F" secondAttribute="leading" constant="10" id="SQV-wP-2xX"/>
                                     <constraint firstItem="9GB-bh-8JP" firstAttribute="centerY" secondItem="uPI-2h-Bt6" secondAttribute="centerY" id="Znz-3o-ej3"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9GB-bh-8JP" secondAttribute="trailing" constant="25" id="cbr-Xr-5ur"/>
                                     <constraint firstItem="qIv-Iv-978" firstAttribute="centerY" secondItem="uPI-2h-Bt6" secondAttribute="centerY" id="gkg-M0-Omy"/>
                                     <constraint firstItem="qIv-Iv-978" firstAttribute="height" secondItem="uPI-2h-Bt6" secondAttribute="height" constant="10" id="gtA-XT-vKK"/>
+                                    <constraint firstAttribute="bottom" secondItem="eFc-Xx-K4H" secondAttribute="bottom" constant="2" id="gyJ-Xf-Bq0"/>
                                     <constraint firstItem="qIv-Iv-978" firstAttribute="leading" secondItem="uPI-2h-Bt6" secondAttribute="leading" id="iLh-v2-Imk"/>
                                     <constraint firstItem="uPI-2h-Bt6" firstAttribute="centerY" secondItem="VvK-T8-w2F" secondAttribute="centerY" id="ifI-4M-iP9"/>
                                     <constraint firstItem="9GB-bh-8JP" firstAttribute="leading" secondItem="uPI-2h-Bt6" secondAttribute="trailing" constant="8" id="lhU-gV-E5r"/>
@@ -217,6 +225,7 @@
                         <outlet property="profileImageView" destination="Maa-GQ-RJa" id="vSX-Wt-21j"/>
                         <outlet property="userLocationLabel" destination="m07-vv-SFI" id="sVg-GZ-pjn"/>
                         <outlet property="userNameLabel" destination="R9I-nh-bVL" id="ufT-pH-g7p"/>
+                        <outlet property="versionLabel" destination="eFc-Xx-K4H" id="0SK-HG-LKQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ko-SN-RcN" userLabel="First Responder" sceneMemberID="firstResponder"/>
