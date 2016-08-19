@@ -23,8 +23,8 @@ class FTDataManager: NSObject {
     static let ftStagingAppSecret       =   "BE90B76E-11F1-D8D2-FFFD-CA1ED696D300"
     static let ftStagingAppVersion      =   "v1"
     
-    static let ftProductionAppID        =   ""
-    static let ftProductionAppSecret    =   ""
+    static let ftProductionAppID        =   "34BDCD4C-6480-5F57-FFB1-C62CDB764400"
+    static let ftProductionAppSecret    =   "23E146A6-FD34-13FB-FF92-57BC4E51EB00"
     static let ftProductionAppVersion   =   "v1"
     
     static let ftStaging                =   true
