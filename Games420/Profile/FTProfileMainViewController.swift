@@ -335,8 +335,9 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         
         let picker = ActionSheetStringPicker(title: NSLocalizedString("Select Gender", comment: "gender picker title"), rows: rows, initialSelection: index, doneBlock: { (picker, index, value) in
             
-            self.gender = value as? String
-            self.genderButton.setTitle(GenderType.allValues[index].localizedString().capitalizingFirstLetter(), forState: .Normal)
+            let gender = GenderType.allValues[index]
+            self.gender = gender.rawValue
+            self.genderButton.setTitle(gender.localizedString().capitalizingFirstLetter(), forState: .Normal)
             
             }, cancelBlock: { (picker) in
                 

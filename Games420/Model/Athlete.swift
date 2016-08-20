@@ -13,6 +13,9 @@ enum GenderType : String {
     case Male = "M", Female = "F", NotProvided = ""
     static let allValues = [Male, Female, NotProvided]
     
+    static let femaleValues = ["F", "FEMALE"]
+    static let maleValues = ["M", "MALE"]
+    
     func localizedString() -> String {
         
         switch self {
@@ -21,6 +24,27 @@ enum GenderType : String {
         case .NotProvided: return NSLocalizedString("Not provided", comment: "Not provided")
         default: return "\(self)"
         }
+    }
+    
+    static func fromString(value: String) -> GenderType? {
+        
+        if let ret = GenderType(rawValue: value) {
+            return ret
+        }
+        else {
+            
+            let maleIndex = maleValues.indexOf(value.uppercaseString)
+            let femaleIndex = femaleValues.indexOf(value.uppercaseString)
+            
+            if maleIndex != NSNotFound {
+                return .Male
+            }
+            else if femaleIndex != NSNotFound {
+                return .Female
+            }
+        }
+        
+        return nil
     }
 }
 
@@ -60,22 +84,11 @@ class Athlete: FTDataObject {
     
     func localizedGender() -> String {
         
-        var ret = ""
-        
-        let maleString = NSLocalizedString("Male", comment: "Male gender title")
-        let femaleString = NSLocalizedString("Female", comment: "Female gender title")
-        
-        if let genderStr = gender {
-            
-            if genderStr == "M" {
-                ret = maleString
-            }
-            else if genderStr == "F" {
-                ret = femaleString
-            }
+        if let genderValue = getGender() {
+            return genderValue.localizedString()
         }
         
-        return ret        
+        return ""
     }
 
     func fullName() -> String {
@@ -112,5 +125,14 @@ class Athlete: FTDataObject {
         }
         
         return title.isEmpty ? NSLocalizedString("Not set", comment: "Locality placeholder") : title
+    }
+    
+    func getGender() -> GenderType? {
+        
+        if gender != nil {
+            return GenderType.fromString(gender!)
+        }
+        
+        return nil
     }
 }
