@@ -66,11 +66,11 @@ extension UIColor {
         return UIColor(red: 141/255.0, green: 198/255.0, blue: 63/255.0, alpha: 1.0)
     }
     
-    class func ftDurationColor() -> UIColor {
+    class func ftElevationColor() -> UIColor {
         return UIColor(red: 15/255.0, green: 148/255.0, blue: 72/255.0, alpha: 1.0)
     }
     
-    class func ftElevationColor() -> UIColor {
+    class func ftDurationColor() -> UIColor {
         return UIColor(red: 149/255.0, green: 149/255.0, blue: 149/255.0, alpha: 1.0)
     }
 }

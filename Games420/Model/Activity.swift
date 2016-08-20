@@ -118,19 +118,19 @@ class Activity: FTDataObject {
         return false
     }
     
-    class func distanceUnit() -> String {
+    class func distanceUnit(abbreviation: Bool) -> String {
         
-        return Activity.isMetricSystem() ? NSLocalizedString("km", comment: "km unit title") : NSLocalizedString("miles", comment: "Miles unit title")
+        return Activity.isMetricSystem() ? NSLocalizedString("km", comment: "km unit title") : abbreviation ? NSLocalizedString("mi", comment: "Miles unit title") : NSLocalizedString("miles", comment: "Miles unit title")
     }
     
-    class func elevationUnit() -> String {
+    class func elevationUnit(abbreviation: Bool) -> String {
         
-        return Activity.isMetricSystem() ? NSLocalizedString("m", comment: "meter unit title") : NSLocalizedString("feet", comment: "Feet unit title")
+        return Activity.isMetricSystem() ? NSLocalizedString("m", comment: "meter unit title") : abbreviation ? NSLocalizedString("ft", comment: "Feet unit title") : NSLocalizedString("feet", comment: "Feet unit title")
     }
     
     func verboseDistance() -> String {
         
-        let unit = Activity.distanceUnit()
+        let unit = Activity.distanceUnit(false)
         
         var dist = distance != nil ? distance!.doubleValue : 0.0
         
@@ -146,7 +146,7 @@ class Activity: FTDataObject {
     
     func verboseElevation() -> String {
         
-        let unit = Activity.elevationUnit()
+        let unit = Activity.elevationUnit(false)
         
         var elev = elevationGain != nil ? elevationGain!.doubleValue : 0.0
         

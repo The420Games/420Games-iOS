@@ -319,7 +319,7 @@ public class LineChart: UIView {
             let dotLayer = DotCALayer()
             dotLayer.dotInnerColor = dotColors.count > lineIndex ? dotColors[lineIndex] : colors[lineIndex]
             dotLayer.innerRadius = dots.innerRadius
-            dotLayer.backgroundColor = dots.color.CGColor
+            dotLayer.backgroundColor = lineIndex < colors.count ? colors[lineIndex].CGColor : dots.color.CGColor
             dotLayer.cornerRadius = dots.outerRadius / 2
             dotLayer.frame = CGRect(x: xValue, y: yValue, width: dots.outerRadius, height: dots.outerRadius)
             self.layer.addSublayer(dotLayer)
@@ -472,10 +472,12 @@ public class LineChart: UIView {
         let y1: CGFloat = self.bounds.height - y.axis.inset
         let y2: CGFloat = y.axis.inset
         let (start, stop, step) = self.x.ticks
-        for var i: CGFloat = start; i <= stop; i += step {
+        var i: CGFloat = start
+        while i <= stop {
             x1 = self.x.scale(i) + x.axis.inset
             path.moveToPoint(CGPoint(x: x1, y: y1))
             path.addLineToPoint(CGPoint(x: x1, y: y2))
+            i += step
         }
         path.stroke()
     }
@@ -492,10 +494,12 @@ public class LineChart: UIView {
         let x2: CGFloat = self.bounds.width - x.axis.inset
         var y1: CGFloat
         let (start, stop, step) = self.y.ticks
-        for var i: CGFloat = start; i <= stop; i += step {
+        var i: CGFloat = start
+        while i <= stop {
             y1 = self.bounds.height - self.y.scale(i) - y.axis.inset
             path.moveToPoint(CGPoint(x: x1, y: y1))
             path.addLineToPoint(CGPoint(x: x2, y: y1))
+            i += step
         }
         path.stroke()
     }
@@ -546,14 +550,30 @@ public class LineChart: UIView {
     private func drawYLabels() {
         var yValue: CGFloat
         let (start, stop, step) = self.y.ticks
-        for var i: CGFloat = start; i <= stop; i += step {
+        var i: CGFloat = start
+        while i <= stop {
             yValue = self.bounds.height - self.y.scale(i) - (y.axis.inset * 1.5)
-            let label = UILabel(frame: CGRect(x: 0, y: yValue, width: y.axis.inset, height: y.axis.inset))
-            label.textAlignment = .Center
-            label.text = String(Int(round(i)))
-            label.font = x.labels.font
-            label.textColor = x.labels.color
+            let label = UILabel(frame: CGRect(x: -y.axis.inset / 2, y: yValue, width: y.axis.inset, height: y.axis.inset))
+            label.textAlignment = .Left
+            
+            var unit = ""
+            var value = Double(i)
+            if value >= 1000000 {
+                value /= 1000000
+                unit = "M"
+            }
+            else if value >= 100 {
+                value /= 1000
+                unit = "k"
+            }
+            
+            let text = String(format: "%0.2f", value) + unit
+            label.text = text
+            label.font = y.labels.font
+            label.textColor = y.labels.color
             self.addSubview(label)
+            
+            i += step
         }
     }
     
