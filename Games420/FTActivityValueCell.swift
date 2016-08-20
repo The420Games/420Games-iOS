@@ -8,8 +8,9 @@
 
 import UIKit
 
-class FTMoodValueCell: UICollectionViewCell {
+class FTActivityValueCell: UICollectionViewCell {
     
+    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var colorBarView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
@@ -28,10 +29,11 @@ class FTMoodValueCell: UICollectionViewCell {
         valueLabel.textColor = UIColor.whiteColor()
     }
     
-    func setupCell(mood: MedicationMoodIndex, value: Int) {
+    func setupCell(activityType: ActivityType, value: Int) {
     
-        titleLabel.text = mood.localizedString()
-        colorBarView.backgroundColor = mood.colorValue()
+        iconImageView.image = activityType.icon()
+        titleLabel.text = activityType.localizedName(false)
+        colorBarView.backgroundColor = activityType.color()
         valueLabel.text = "\(value)"
     }
     
