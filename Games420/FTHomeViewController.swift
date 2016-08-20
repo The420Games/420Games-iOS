@@ -40,17 +40,25 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     private let medicationsSegueId = "medications"
     private let tutorialSegueId = "tutorial"
     
-    private let moodCellId = "moodCell"
+    private let moodCellId = "activityCell"
     
     private var activityDistances: [CGFloat]!
+    private var activityElevations: [CGFloat]!
+    private var activityDurations: [CGFloat]!
     private var lineChartXLabels: [String]!
     
-    private lazy var moodValues: [MedicationMoodIndex: Int] = {
-       
-        var values = [MedicationMoodIndex: Int]()
+    private struct ActivityData {
         
-        for index in MedicationMoodIndex.allValues {
-            values[index] = 0
+        var totalCount:Int = 0
+        var totalDuration: Double = 0.0
+    }
+    
+    private lazy var activityValues: [ActivityType: ActivityData] = {
+       
+        var values = [ActivityType: ActivityData]()
+        
+        for type in ActivityType.allValues {
+            values[type] = ActivityData(totalCount: 0, totalDuration: 0.0)
         }
         
         return values
@@ -252,16 +260,18 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
             lineChart.y.labels.color = UIColor.whiteColor()
             lineChart.y.labels.font = UIFont.defaultFont(.Light, size: 10.0)!
             
-            lineChart.dots.color = UIColor.ftLimeGreen()
+            lineChart.dots.color = UIColor.redColor()
             lineChart.dots.innerRadius = 6.0
             lineChart.dots.outerRadius = 10.0
             
             lineChart.area = false
-            lineChart.colors = [UIColor.ftLimeGreen()]
+            lineChart.colors = [UIColor.ftDistanceColor(), UIColor.ftElevationColor(), UIColor.ftDurationColor()]
             lineChart.dotColors = [view.backgroundColor!]
         }
 
         lineChart.addLine(activityDistances)
+        lineChart.addLine(activityElevations)
+        lineChart.addLine(activityDurations)
     }
     
     private func setupLineChartLabels() {
@@ -377,17 +387,16 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     func numberOfSlicesInPieChart(pieChart: XYPieChart!) -> UInt {
         
-        return  UInt(moodValues.count)
+        return  UInt(activityValues.count)
     }
     
     func pieChart(pieChart: XYPieChart!, valueForSliceAtIndex index: UInt) -> CGFloat {
         
-        if let mood = MedicationMoodIndex(rawValue: Int(index)) {
+        let activityType = ActivityType.allValues[Int(index)]
             
-            if let value = moodValues[mood] {
-                
-                return CGFloat(value)
-            }
+        if let data = activityValues[activityType] {
+            
+            return CGFloat(data.totalDuration)
         }
         
         return 0.0
@@ -395,20 +404,12 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     func pieChart(pieChart: XYPieChart!, colorForSliceAtIndex index: UInt) -> UIColor! {
         
-        if let mood = MedicationMoodIndex(rawValue: Int(index)) {
-            
-            return mood.colorValue()
-        }
+        let activityType = ActivityType.allValues[Int(index)]
         
-        return UIColor.blackColor()
+        return activityType.color()
     }
     
     func pieChart(pieChart: XYPieChart!, textForSliceAtIndex index: UInt) -> String! {
-        
-        if let mood = MedicationMoodIndex(rawValue: Int(index)) {
-            
-            return mood.localizedString()
-        }
         
         return ""
     }
@@ -422,24 +423,23 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return moodValues.count
+        return activityValues.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(moodCellId, forIndexPath: indexPath) as! FTMoodValueCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(moodCellId, forIndexPath: indexPath) as! FTActivityValueCell
         
-        if let mood = MedicationMoodIndex(rawValue: indexPath.item) {
-            if let value = moodValues[mood] {
-                cell.setupCell(mood, value: value)
-            }
+        let activityType = ActivityType.allValues[indexPath.item]
+        if let data = activityValues[activityType] {
+            cell.setupCell(activityType, value: data.totalCount)
         }
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        return CGSize(width: max(collectionView.bounds.size.width / CGFloat(max(moodValues.count, 1)), 1.0), height: collectionView.bounds.size.height)
+        return CGSize(width: max(collectionView.bounds.size.width / CGFloat(max(activityValues.count, 1)), 1.0), height: collectionView.bounds.size.height)
     }
     
     // MARK: - Data integration
@@ -512,16 +512,20 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                         return false
                     })
                 
-                    var values = [MedicationMoodIndex: Int]()
+                    var values = [ActivityType: ActivityData]()
                     var xLabels = [String]()
                     
-                    for index in MedicationMoodIndex.allValues {
-                        values[index] = 0
+                    for type in ActivityType.allValues {
+                        values[type] = ActivityData(totalCount: 0, totalDuration: 0.0)
                     }
                     
                     var distances = [CGFloat]()
+                    var durations = [CGFloat]()
+                    var elevations = [CGFloat]()
                     
-                    let distanceDivider = Activity.isMetricSystem() ? Activity.metersInMile : 1000
+                    let distanceDivider = Activity.isMetricSystem() ? Activity.metersInMile : 1000.0
+                    let elevationDivider = Activity.isMetricSystem() ? Activity.metersInFoot : 1.0
+                    let durationDivider = 60.0
                     
                     var index = 0
                     
@@ -529,34 +533,37 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     
                     for medication in sortedMedications {
                         
-                        if medication.mood != nil {
-                            
-                            if let mood = MedicationMoodIndex(rawValue: medication.mood!.integerValue) {
-                                if var value = values[mood] {
-                                    value += 1
-                                    values[mood] = value
-                                }
-                            }
-                        }
-                        
                         if medication.activity != nil {
                             
-                            if medication.activity!.distance != nil {
+                            let duration: Double = medication.activity!.elapsedTime != nil ? medication.activity!.elapsedTime!.doubleValue / durationDivider : 0.0
+                            let distance: Double = medication.activity!.distance != nil ? medication.activity!.distance!.doubleValue / distanceDivider : 0.0
+                            let elevation: Double = medication.activity!.elevationGain != nil ? medication.activity!.elevationGain!.doubleValue / elevationDivider : 0.0
+                            
+                            if medication.activity!.type != nil {
                                 
-                                let distance = CGFloat(medication.activity!.distance!.doubleValue / distanceDivider)
-                                distances.append(distance)
-                                
-                                if medication.activity!.startDate != nil {
-                                    
-                                    let day = calendar.component(.Day, fromDate: medication.activity!.startDate!)
-                                    xLabels.append("\(day)")
+                                if let activityType = ActivityType(rawValue: medication.activity!.type!) {
+                                    if var data = values[activityType] {
+                                        data.totalCount += 1
+                                        data.totalDuration += duration
+                                        values[activityType] = data
+                                    }
                                 }
-                                else {
-                                    xLabels.append("\(index + 1)")
-                                }
-                                
-                                index += 1
                             }
+                            
+                            distances.append(CGFloat(distance))
+                            durations.append(CGFloat(duration))
+                            elevations.append(CGFloat(elevation))
+                                
+                            if medication.activity!.startDate != nil {
+                                
+                                let day = calendar.component(.Day, fromDate: medication.activity!.startDate!)
+                                xLabels.append("\(day)")
+                            }
+                            else {
+                                xLabels.append("\(index + 1)")
+                            }
+                            
+                            index += 1
                         }
                     }
                     
@@ -568,14 +575,16 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                         else {
                             self.status = .NoActivities
                         }
-                        self.moodValues = values
+                        self.activityValues = values
                         
                         self.pieChart.reloadData()
                         self.moodCollectionView.reloadData()
                         
-                        if distances.count > 0 {
+                        if distances.count > 0 || elevations.count > 0 || durations.count > 0 {
                             
                             self.activityDistances = distances
+                            self.activityDurations = durations
+                            self.activityElevations = elevations
                             self.lineChartXLabels = xLabels
                             
                             self.populateLineChartLabelsData()

@@ -14,6 +14,7 @@ enum ActivityType: String {
     static let allValues = [Ride, Run, Swim, Hike, Walk]
     
     func icon() -> UIImage? {
+        
         switch self {
         case .Ride: return UIImage(named: "icon_bike")
         case .Run: return UIImage(named: "icon_run")
@@ -25,6 +26,7 @@ enum ActivityType: String {
     }
     
     func localizedName(past: Bool) -> String {
+        
         switch self {
         case .Ride: return past ? NSLocalizedString("biked", comment: "Bike past tense") : NSLocalizedString("bike", comment: "Bike continous")
         case .Run: return past ? NSLocalizedString("run", comment: "Run past tense") : NSLocalizedString("run", comment: "Run continous")
@@ -32,6 +34,18 @@ enum ActivityType: String {
         case .Hike: return past ? NSLocalizedString("hiked", comment: "Hike past tense") : NSLocalizedString("hike", comment: "Hiking continous")
         case .Walk: return past ? NSLocalizedString("walked", comment: "Walk past tense") : NSLocalizedString("walk", comment: "Walking continous")
         default: return "\(self)"
+        }
+    }
+    
+    func color() -> UIColor {
+        
+        switch self {
+        case .Ride: return UIColor(red: 21/255.0, green: 140/255.0, blue: 71/255.0, alpha: 1.0)
+        case .Run: return UIColor(red: 49/255.0, green: 164/255.0, blue: 73/255.0, alpha: 1.0)
+        case .Swim: return UIColor(red: 82/255.0, green: 176/255.0, blue: 71/255.0, alpha: 1.0)
+        case .Hike: return UIColor(red: 143/255.0, green: 199/255.0, blue: 62/255.0, alpha: 1.0)
+        case .Walk: return UIColor(red: 116/255.0, green: 190/255.0, blue: 67/255.0, alpha: 1.0)
+        default: return UIColor.blackColor()
         }
     }
 }
