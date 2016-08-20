@@ -272,20 +272,41 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: - Actions
     
+    private func endEditing() {
+        
+        firstnameTextField.resignFirstResponder()
+        lastnameTextField.resignFirstResponder()
+        
+        countryTextField.resignFirstResponder()
+        stateTextField.resignFirstResponder()
+        cityTextField.resignFirstResponder()
+        
+        bioTextView.resignFirstResponder()
+    }
+    
     func rightBarButtonItemPressed(sender: AnyObject) {
         
         if !edit {
+            
             edit  = true
             FTAnalytics.trackEvent(.EditProfile, data: nil)
+            
         }
-        else if validData() {
-            updateAthlete()
+        else {
+            
+            endEditing()
+            
+            if validData() {
+                updateAthlete()
+            }
         }
     }
     
     func leftBarButtonItemPressed(sender: AnyObject) {
         
         if edit {
+            
+            endEditing()
             edit = false
             profilePicture = nil
             birthDate = nil
@@ -298,6 +319,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     }
     
     @IBAction func genderButtonTouched(sender: AnyObject) {
+        
+        endEditing()
         
         var rows = [AnyObject]()
         var index = 0
@@ -324,6 +347,8 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     @IBAction func birthdateButtonTouched(sender: AnyObject) {
         
+        endEditing()
+        
         let datePicker = ActionSheetDatePicker(title: NSLocalizedString("Select birth date", comment: "Birth date picker tite"), datePickerMode: UIDatePickerMode.Date, selectedDate: birthDate != nil ? birthDate : NSDate(), doneBlock: {
             picker, value, index in
             
@@ -344,18 +369,27 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     @IBAction func photoTapped(sender: AnyObject) {
         
         if edit {
+            
+            endEditing()
             startPhotoSelection()
         }
     }
     
     @IBAction func stravaButtonTouched(sender: AnyObject) {
         
+        endEditing()
         completeWithStrava()
     }
     
     @IBAction func facebookButtonTouched(sender: AnyObject) {
         
+        endEditing()
         completeWithFacebook()
+    }
+    
+    @IBAction func textFieldDidExit(sender: UITextField) {
+        
+        sender.resignFirstResponder()
     }
     
     // MARK: - Photo
@@ -434,8 +468,6 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: - Populate data
     
-    
-    
     private func updateBirthDay(date: NSDate?) {
         
         if let bday = date {
@@ -454,7 +486,6 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             birthdayLabel.text = ""
             birthdayButton.setTitle(bDayTitle, forState: .Normal)
         }
-        
     }
 
     private func populateData(currentAthlete: Athlete?) {
@@ -517,7 +548,6 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             
             profileImageView.image = UIImage(named: "default_photo")
         }
-        
     }
     
     // MARK: - Data integration
