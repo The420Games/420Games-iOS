@@ -6,7 +6,7 @@
 //  Copyright © 2016. ScreamingBox. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension UIColor {
     
@@ -72,5 +72,9 @@ extension UIColor {
     
     class func ftDurationColor() -> UIColor {
         return UIColor(red: 149/255.0, green: 149/255.0, blue: 149/255.0, alpha: 1.0)
+    }
+    
+    class func ftGrassGreen() -> UIColor {
+        return UIColor(red: 15/255.0, green: 148/255.0, blue: 72/255.0, alpha: 1.0)
     }
 }

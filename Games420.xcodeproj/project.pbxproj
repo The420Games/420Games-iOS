@@ -65,6 +65,7 @@
 		1952C1891D50DCBC008776AA /* FTSignupWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTSignupWithEmailViewController.swift; sourceTree = "<group>"; };
 		1983844C1D637CBD008F3613 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		1983844F1D638101008F3613 /* FTAnalytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTAnalytics.swift; sourceTree = "<group>"; };
+		199FA6EA1D6B32D0004B3DDC /* Games420-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Games420-Bridging-Header.h"; sourceTree = "<group>"; };
 		19B169711D5B7E3200F4393D /* FTContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTContainerViewController.swift; sourceTree = "<group>"; };
 		19B169731D5B7E9E00F4393D /* FTLeftMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTLeftMenuViewController.swift; sourceTree = "<group>"; };
 		19B169761D5B81DB00F4393D /* FTFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTFont.swift; sourceTree = "<group>"; };
@@ -209,6 +210,7 @@
 				19E64C301D3674A90063E3DD /* Model */,
 				19E64C281D3519700063E3DD /* Data */,
 				19E64C141D3518610063E3DD /* AppDelegate.swift */,
+				199FA6EA1D6B32D0004B3DDC /* Games420-Bridging-Header.h */,
 				19E64C1B1D3518610063E3DD /* Assets.xcassets */,
 				19E64C1D1D3518610063E3DD /* LaunchScreen.storyboard */,
 				19E64C201D3518610063E3DD /* Info.plist */,
@@ -642,7 +644,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.screamingbox.Games420;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Games420-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -662,7 +664,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.screamingbox.Games420;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(inherited)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Games420-Bridging-Header.h";
 			};
 			name = Release;
 		};

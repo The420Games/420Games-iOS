@@ -19,7 +19,11 @@ class FTSigninWithEmailViewController: UIViewController {
     
     @IBOutlet weak var signinButton: UIButton!
     
-    var userName: String?// MARK: - Controller Lifecycle
+    @IBOutlet weak var signupButton: UIButton!
+    
+    var userName: String?
+    
+    // MARK: - Controller Lifecycle
     
     override func viewDidLoad() {
         
@@ -34,12 +38,14 @@ class FTSigninWithEmailViewController: UIViewController {
     
     private func setupUI() {
         
-        title = NSLocalizedString("Sign in", comment: "Sign in with email navigation title")
+        title = NSLocalizedString("Log in", comment: "Sign in with email navigation title")
         view.backgroundColor =  UIColor.ftMainBackgroundColor()
         
         navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonPressed(_:)))
         
-        signinButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("SIGN IN", comment: "Sign in button title"))
+        signinButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("LOG IN", comment: "Sign in button title"))
+        
+        signupButton.ft_setupButton(UIColor.ftGrassGreen(), title: NSLocalizedString("NO ACCOUNT YET? SIGN UP!", comment: "Email signup button title"))
         
         emailTextField.ft_setup()
         emailTextField.ft_setPlaceholder(NSLocalizedString("EMAIL", comment: "Email placeholder"))

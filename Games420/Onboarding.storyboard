@@ -3,6 +3,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -30,11 +32,20 @@
                         <viewControllerLayoutGuide type="bottom" id="MDC-xb-TlG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ta6-HN-LoM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_splash" translatesAutoresizingMaskIntoConstraints="NO" id="8BZ-uL-c2i" userLabel="Background">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_splash-2" translatesAutoresizingMaskIntoConstraints="NO" id="bXt-lG-fp6" userLabel="Icon">
+                                <rect key="frame" x="94" y="94" width="187" height="187"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bXt-lG-fp6" secondAttribute="height" multiplier="1:1" id="zJL-I4-rdW"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qah-Xs-39n">
-                                <rect key="frame" x="17" y="223" width="566" height="47"/>
+                                <rect key="frame" x="17" y="320" width="341" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="47" id="95W-nv-h0u"/>
                                 </constraints>
@@ -43,15 +54,8 @@
                                     <action selector="facebookButtonPressed:" destination="caW-ut-zkU" eventType="touchUpInside" id="iWb-in-Y79"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MDN-hD-lJn">
-                                <rect key="frame" x="17" y="331" width="566" height="47"/>
-                                <state key="normal" title="Sign up with Email"/>
-                                <connections>
-                                    <segue destination="Q4R-BG-Kjk" kind="show" identifier="signup" id="VlA-ow-on7"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3f-bI-KGk" userLabel="Review tutorial Button">
-                                <rect key="frame" x="199.5" y="549" width="201" height="36"/>
+                                <rect key="frame" x="87" y="616" width="201" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="MZ2-Eq-mRp"/>
                                 </constraints>
@@ -62,7 +66,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcZ-FK-9LU">
-                                <rect key="frame" x="17" y="277" width="566" height="47"/>
+                                <rect key="frame" x="17" y="374" width="341" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="47" id="wog-dm-e6a"/>
                                 </constraints>
@@ -76,24 +80,28 @@
                         <constraints>
                             <constraint firstItem="QcZ-FK-9LU" firstAttribute="top" secondItem="Qah-Xs-39n" secondAttribute="bottom" constant="7" id="36h-Li-pjZ"/>
                             <constraint firstItem="Qah-Xs-39n" firstAttribute="height" secondItem="QcZ-FK-9LU" secondAttribute="height" id="3cN-hw-M45"/>
+                            <constraint firstItem="bXt-lG-fp6" firstAttribute="top" secondItem="lvC-Ne-uKs" secondAttribute="bottom" constant="30" id="5pk-VJ-Xpo"/>
                             <constraint firstItem="MDC-xb-TlG" firstAttribute="top" secondItem="e3f-bI-KGk" secondAttribute="bottom" constant="15" id="5w8-Nn-AFr"/>
-                            <constraint firstItem="MDN-hD-lJn" firstAttribute="centerX" secondItem="QcZ-FK-9LU" secondAttribute="centerX" id="9ko-sO-Pg4"/>
+                            <constraint firstItem="8BZ-uL-c2i" firstAttribute="leading" secondItem="ta6-HN-LoM" secondAttribute="leading" id="9Dc-cx-Qzr"/>
+                            <constraint firstItem="8BZ-uL-c2i" firstAttribute="top" secondItem="ta6-HN-LoM" secondAttribute="top" id="Jha-Oj-EVr"/>
                             <constraint firstItem="Qah-Xs-39n" firstAttribute="centerX" secondItem="QcZ-FK-9LU" secondAttribute="centerX" id="VIp-wH-x64"/>
-                            <constraint firstItem="MDN-hD-lJn" firstAttribute="top" secondItem="QcZ-FK-9LU" secondAttribute="bottom" constant="7" id="WY3-u0-iv4"/>
+                            <constraint firstItem="Qah-Xs-39n" firstAttribute="top" relation="greaterThanOrEqual" secondItem="bXt-lG-fp6" secondAttribute="bottom" constant="10" id="awH-4o-6Qr"/>
                             <constraint firstItem="QcZ-FK-9LU" firstAttribute="leading" secondItem="ta6-HN-LoM" secondAttribute="leading" constant="17" id="e5l-6f-Ljd"/>
+                            <constraint firstItem="bXt-lG-fp6" firstAttribute="width" secondItem="ta6-HN-LoM" secondAttribute="width" multiplier="0.5" id="eh9-VP-r4j"/>
                             <constraint firstItem="e3f-bI-KGk" firstAttribute="centerX" secondItem="ta6-HN-LoM" secondAttribute="centerX" id="enq-Bw-pqk"/>
+                            <constraint firstItem="bXt-lG-fp6" firstAttribute="centerX" secondItem="ta6-HN-LoM" secondAttribute="centerX" id="exL-vY-1rt"/>
                             <constraint firstAttribute="trailing" secondItem="QcZ-FK-9LU" secondAttribute="trailing" constant="17" id="fpk-Un-xaC"/>
-                            <constraint firstItem="QcZ-FK-9LU" firstAttribute="centerY" secondItem="ta6-HN-LoM" secondAttribute="centerY" id="h5o-XW-47i"/>
-                            <constraint firstItem="MDN-hD-lJn" firstAttribute="height" secondItem="QcZ-FK-9LU" secondAttribute="height" id="h9f-WF-e5G"/>
                             <constraint firstItem="Qah-Xs-39n" firstAttribute="width" secondItem="QcZ-FK-9LU" secondAttribute="width" id="l0M-1b-a3P"/>
-                            <constraint firstItem="MDN-hD-lJn" firstAttribute="width" secondItem="QcZ-FK-9LU" secondAttribute="width" id="wMW-eC-YRs"/>
+                            <constraint firstItem="MDC-xb-TlG" firstAttribute="top" secondItem="8BZ-uL-c2i" secondAttribute="bottom" id="tp6-Uh-rEo"/>
+                            <constraint firstAttribute="trailing" secondItem="8BZ-uL-c2i" secondAttribute="trailing" id="vQ6-vq-Jfn"/>
+                            <constraint firstItem="Qah-Xs-39n" firstAttribute="centerY" secondItem="ta6-HN-LoM" secondAttribute="centerY" constant="10" id="z2N-S5-OuD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wVm-Bp-Y98"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="facebookButton" destination="Qah-Xs-39n" id="Cvw-1k-IQM"/>
                         <outlet property="signinButton" destination="QcZ-FK-9LU" id="w2W-LT-xfX"/>
-                        <outlet property="signupButton" destination="MDN-hD-lJn" id="0hr-XM-h4F"/>
                         <outlet property="tutorialButton" destination="e3f-bI-KGk" id="cWy-AJ-IoP"/>
                     </connections>
                 </viewController>
@@ -110,17 +118,17 @@
                         <viewControllerLayoutGuide type="bottom" id="3M0-eg-jc7"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="KdH-al-ggb">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8aq-v3-3q2" customClass="TPKeyboardAvoidingScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thI-H0-zEq" userLabel="Holder">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OV1-j0-VlM" userLabel="Email Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                <rect key="frame" x="17" y="40" width="566" height="46"/>
+                                                <rect key="frame" x="17" y="40" width="341" height="46"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="46" id="fHo-dM-b5Y"/>
                                                 </constraints>
@@ -132,7 +140,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mA9-PD-Lf9" userLabel="Password Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                <rect key="frame" x="17" y="129" width="566" height="46"/>
+                                                <rect key="frame" x="17" y="129" width="341" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
@@ -141,7 +149,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vUN-Zv-C35" userLabel="Retype Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                <rect key="frame" x="17" y="218" width="566" height="46"/>
+                                                <rect key="frame" x="17" y="218" width="341" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
@@ -150,7 +158,7 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F7O-Ao-yfk" userLabel="Sign up Button">
-                                                <rect key="frame" x="17" y="368.5" width="566" height="47"/>
+                                                <rect key="frame" x="17" y="369" width="341" height="47"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="47" id="G0H-0I-pc2"/>
                                                 </constraints>
@@ -160,7 +168,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password hint label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4q-Q0-MPY">
-                                                <rect key="frame" x="17" y="282" width="147.5" height="20.5"/>
+                                                <rect key="frame" x="17" y="282" width="148" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -173,7 +181,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms hint Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V7g-Oh-AUy">
-                                                <rect key="frame" x="49" y="321.5" width="127" height="21"/>
+                                                <rect key="frame" x="49" y="322" width="127" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -237,7 +245,6 @@
                         <outlet property="signupButton" destination="F7O-Ao-yfk" id="rS7-1F-APV"/>
                         <outlet property="termsCheckButton" destination="9J6-xe-r9t" id="Csx-n4-XuK"/>
                         <outlet property="termsHintLabel" destination="V7g-Oh-AUy" id="XDA-Ho-umJ"/>
-                        <segue destination="8hl-NP-rYj" kind="show" identifier="signin" id="Kho-QS-3RT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZgE-nV-MwR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -247,7 +254,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1213" y="159"/>
+            <point key="canvasLocation" x="1958" y="364"/>
         </scene>
         <!--FTTutorialMainViewController-->
         <scene sceneID="kTu-da-0oU">
@@ -266,17 +273,17 @@
                         <viewControllerLayoutGuide type="bottom" id="jgD-Cy-d7g"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="K0w-EQ-y8M">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BM4-Dt-Clb" customClass="TPKeyboardAvoidingScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7QE-I1-Naj" userLabel="Holder">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9PI-9c-sVJ" userLabel="Email Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                <rect key="frame" x="17" y="40" width="566" height="46"/>
+                                                <rect key="frame" x="17" y="40" width="341" height="46"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="46" id="6Jv-Oo-drG"/>
                                                 </constraints>
@@ -287,7 +294,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6m1-bg-OXy" userLabel="Password Text Field" customClass="FTTextField" customModule="Games420" customModuleProvider="target">
-                                                <rect key="frame" x="17" y="129" width="566" height="46"/>
+                                                <rect key="frame" x="17" y="129" width="341" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                                 <connections>
@@ -302,7 +309,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXY-vF-d4O" userLabel="Sign in Button">
-                                                <rect key="frame" x="17" y="235" width="566" height="47"/>
+                                                <rect key="frame" x="17" y="235" width="341" height="47"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="47" id="g7J-1f-feF"/>
                                                 </constraints>
@@ -311,13 +318,23 @@
                                                     <action selector="signinButtonPressed:" destination="8hl-NP-rYj" eventType="touchUpInside" id="x6r-JF-tT2"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aiF-gF-kb4" userLabel="Sign up Button">
+                                                <rect key="frame" x="17" y="603" width="341" height="47"/>
+                                                <state key="normal" title="SIGN UP"/>
+                                                <connections>
+                                                    <segue destination="Q4R-BG-Kjk" kind="show" identifier="signup" id="jZj-Ys-x9u"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="aiF-gF-kb4" secondAttribute="bottom" constant="17" id="20w-gc-hDH"/>
                                             <constraint firstItem="QRy-Qg-PPa" firstAttribute="top" secondItem="6m1-bg-OXy" secondAttribute="bottom" constant="11" id="4Cl-hP-jyS"/>
                                             <constraint firstItem="6m1-bg-OXy" firstAttribute="leading" secondItem="9PI-9c-sVJ" secondAttribute="leading" id="6ZJ-Iq-SXG"/>
+                                            <constraint firstItem="aiF-gF-kb4" firstAttribute="leading" secondItem="OXY-vF-d4O" secondAttribute="leading" id="Enm-fX-xce"/>
                                             <constraint firstItem="OXY-vF-d4O" firstAttribute="leading" secondItem="QRy-Qg-PPa" secondAttribute="leading" id="F75-FV-7Zx"/>
                                             <constraint firstItem="6m1-bg-OXy" firstAttribute="top" secondItem="9PI-9c-sVJ" secondAttribute="bottom" constant="43" id="H62-gj-ax3"/>
+                                            <constraint firstItem="aiF-gF-kb4" firstAttribute="trailing" secondItem="OXY-vF-d4O" secondAttribute="trailing" id="Iyz-AB-7Fn"/>
                                             <constraint firstItem="9PI-9c-sVJ" firstAttribute="top" secondItem="7QE-I1-Naj" secondAttribute="top" constant="40" id="PNz-dW-V5C"/>
                                             <constraint firstItem="OXY-vF-d4O" firstAttribute="top" secondItem="QRy-Qg-PPa" secondAttribute="bottom" constant="19" id="Qyg-5w-7p9"/>
                                             <constraint firstItem="OXY-vF-d4O" firstAttribute="trailing" secondItem="9PI-9c-sVJ" secondAttribute="trailing" id="QzP-Pn-yA2"/>
@@ -326,6 +343,7 @@
                                             <constraint firstAttribute="trailing" secondItem="9PI-9c-sVJ" secondAttribute="trailing" constant="17" id="lEc-VR-myp"/>
                                             <constraint firstItem="9PI-9c-sVJ" firstAttribute="leading" secondItem="7QE-I1-Naj" secondAttribute="leading" constant="17" id="lQR-3Q-l1L"/>
                                             <constraint firstItem="6m1-bg-OXy" firstAttribute="height" secondItem="9PI-9c-sVJ" secondAttribute="height" id="syR-Q9-v94"/>
+                                            <constraint firstItem="aiF-gF-kb4" firstAttribute="height" secondItem="OXY-vF-d4O" secondAttribute="height" id="ydb-KY-jqj"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -352,18 +370,18 @@
                         <outlet property="passwordTextField" destination="6m1-bg-OXy" id="FbO-bZ-agM"/>
                         <outlet property="resetButton" destination="QRy-Qg-PPa" id="OQT-zu-afr"/>
                         <outlet property="signinButton" destination="OXY-vF-d4O" id="ohU-2Z-MPC"/>
+                        <outlet property="signupButton" destination="aiF-gF-kb4" id="pQm-hD-Krw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TfB-tb-Pt2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1213" y="929"/>
+            <point key="canvasLocation" x="1228" y="364"/>
         </scene>
     </scenes>
     <resources>
+        <image name="bg_splash" width="320" height="480"/>
         <image name="btn_checkbox-checked" width="24" height="24"/>
         <image name="btn_play" width="46" height="26"/>
+        <image name="icon_splash-2" width="308" height="308"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="fNh-B5-49U"/>
-    </inferredMetricsTieBreakers>
 </document>

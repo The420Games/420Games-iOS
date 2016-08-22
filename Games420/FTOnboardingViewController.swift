@@ -13,7 +13,6 @@ class FTOnboardingViewController: UIViewController {
     
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var signinButton: UIButton!
-    @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var tutorialButton: UIButton!
     
     private let tutorialSegueId = "tutorial"
@@ -28,6 +27,12 @@ class FTOnboardingViewController: UIViewController {
         
         FTAnalytics.trackEvent(.OnBoarding, data: nil)
     }
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
     override func viewDidAppear(animated: Bool) {
         
@@ -41,6 +46,13 @@ class FTOnboardingViewController: UIViewController {
             
             performSegueWithIdentifier(tutorialSegueId, sender: self)
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     // MARK: - UI Customization
@@ -60,9 +72,7 @@ class FTOnboardingViewController: UIViewController {
         
         facebookButton.ft_setupButton(UIColor.ftFacebookBlue(), title: NSLocalizedString("SIGN UP/IN WITH FACEBOOK", comment: "Facebook signup button title"))
         
-        signinButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("SIGN IN WITH EMAIL", comment: "Email signin button title"))
-        
-        signupButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("SIGN UP WITH EMAIL", comment: "Email signup button title"))
+        signinButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("LOG IN WITH EMAIL", comment: "Email signin button title"))
         
         setupReviewButton()
     }

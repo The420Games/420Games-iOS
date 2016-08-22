@@ -6,7 +6,7 @@
 //  Copyright © 2016. ScreamingBox. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 let FTMedicationSavedNotificationName = "FTMedicationSavedNotification"
 let FTMedicationDeletedNotificationName = "FTMedicationDeletedNotification"

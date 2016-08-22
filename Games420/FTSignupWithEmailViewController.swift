@@ -144,7 +144,7 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
                         
                         hud.hideAnimated(true)
                         
-                        self.performSegueWithIdentifier(self.signinSegueId, sender: userName)
+                        self.navigationController?.popViewControllerAnimated(true)
                     }
                 }
                 else {
