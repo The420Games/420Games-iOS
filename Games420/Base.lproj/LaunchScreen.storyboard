@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -21,10 +20,11 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_splash" translatesAutoresizingMaskIntoConstraints="NO" id="ZoN-aI-TJ8" userLabel="Background">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_splash-2" translatesAutoresizingMaskIntoConstraints="NO" id="fxR-eh-t1c" userLabel="Icon">
-                                <rect key="frame" x="33" y="180" width="308" height="308"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_splash" translatesAutoresizingMaskIntoConstraints="NO" id="fxR-eh-t1c" userLabel="Icon">
+                                <rect key="frame" x="68" y="277" width="239" height="113"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="fxR-eh-t1c" secondAttribute="height" multiplier="1:1" id="ivI-P8-q1j"/>
+                                    <constraint firstAttribute="height" constant="113" id="Geu-LH-f6k"/>
+                                    <constraint firstAttribute="width" constant="239" id="GzW-1l-7ds"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -48,6 +48,6 @@
     </scenes>
     <resources>
         <image name="bg_splash" width="320" height="480"/>
-        <image name="icon_splash-2" width="308" height="308"/>
+        <image name="icon_splash" width="239" height="113"/>
     </resources>
 </document>

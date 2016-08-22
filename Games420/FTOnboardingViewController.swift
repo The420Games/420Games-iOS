@@ -27,26 +27,27 @@ class FTOnboardingViewController: UIViewController {
         
         FTAnalytics.trackEvent(.OnBoarding, data: nil)
     }
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
     
-    override func viewDidAppear(animated: Bool) {
-        
-        super.viewDidAppear(animated)
-        
-        if FTDataManager.sharedInstance.currentUser != nil {
-            
-            dismissViewControllerAnimated(true, completion: nil)
-        }
-        else if !FTTutorialMainViewController.isTutorialSeen() {
-            
-            performSegueWithIdentifier(tutorialSegueId, sender: self)
-        }
-    }
+//    override func viewWillAppear(animated: Bool) {
+//        
+//        super.viewWillAppear(animated)
+//        
+//        navigationController?.setNavigationBarHidden(true, animated: false)
+//    }
+//    
+//    override func viewDidAppear(animated: Bool) {
+//        
+//        super.viewDidAppear(animated)
+//        
+//        if FTDataManager.sharedInstance.currentUser != nil {
+//            
+//            dismissViewControllerAnimated(true, completion: nil)
+//        }
+//        else if !FTTutorialMainViewController.isTutorialSeen() {
+//            
+//            performSegueWithIdentifier(tutorialSegueId, sender: self)
+//        }
+//    }
     
     override func viewWillDisappear(animated: Bool) {
         
