@@ -35,25 +35,30 @@ class FTOnboardingViewController: UIViewController {
 //        navigationController?.setNavigationBarHidden(true, animated: false)
 //    }
 //    
-//    override func viewDidAppear(animated: Bool) {
-//        
-//        super.viewDidAppear(animated)
-//        
-//        if FTDataManager.sharedInstance.currentUser != nil {
-//            
-//            dismissViewControllerAnimated(true, completion: nil)
-//        }
-//        else if !FTTutorialMainViewController.isTutorialSeen() {
-//            
-//            performSegueWithIdentifier(tutorialSegueId, sender: self)
-//        }
-//    }
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        if FTDataManager.sharedInstance.currentUser != nil {
+            
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+        else if !FTTutorialMainViewController.isTutorialSeen() {
+            
+            performSegueWithIdentifier(tutorialSegueId, sender: self)
+        }
+    }
     
     override func viewWillDisappear(animated: Bool) {
         
         super.viewWillDisappear(animated)
         
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        if let navController = navigationController {
+            
+            if navController.navigationBarHidden {
+                navController.setNavigationBarHidden(false, animated: true)
+            }
+        }
     }
     
     // MARK: - UI Customization
@@ -105,9 +110,6 @@ class FTOnboardingViewController: UIViewController {
                 }
             })
         }
-    }
-    
-    @IBAction func tutorialButtonPressed(sender: AnyObject) {
     }
     
 }
