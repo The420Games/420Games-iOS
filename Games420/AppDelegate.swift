@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let stravaClientSecret = "ba8db7f558bc1704ea5394c1a47d167d44f1e359"
     
     // Crashlytics
-    private let crashlyticsKey = "9262728633b65016e91793183538bd01458e01ec"
+    private let crashlyticsKey = "6ba381b8a208506b0d983661e196544c9eebe468"
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
