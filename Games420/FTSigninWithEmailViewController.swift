@@ -36,7 +36,7 @@ class FTSigninWithEmailViewController: UIViewController {
     
     // MARK: - UI Customizations
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         title = NSLocalizedString("Log in", comment: "Sign in with email navigation title")
         view.backgroundColor =  UIColor.ftMainBackgroundColor()
@@ -53,25 +53,25 @@ class FTSigninWithEmailViewController: UIViewController {
         passwordTextField.ft_setup()
         passwordTextField.ft_setPlaceholder(NSLocalizedString("PASSWORD", comment: "Password placeholder"))
         
-        resetButton.backgroundColor = UIColor.clearColor()
+        resetButton.backgroundColor = UIColor.clear
         let resetTitle =  NSAttributedString(string: NSLocalizedString("Forgot your password?", comment: "Forgot password button title"), attributes: [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.7)!,
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue
+            NSForegroundColorAttributeName: UIColor.white,
+            NSFontAttributeName: UIFont.defaultFont(.light, size: 12.7)!,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue
             ])
-        resetButton.setAttributedTitle(resetTitle, forState: .Normal)
+        resetButton.setAttributedTitle(resetTitle, for: UIControlState())
     }
     
     // MARK: - Actions
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed(_ sender: AnyObject) {
         
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func resetButtonPressed(sender: AnyObject) {
+    @IBAction func resetButtonPressed(_ sender: AnyObject) {
 
-        self.editing = false
+        self.isEditing = false
         
         if validResetData() {
 
@@ -79,9 +79,9 @@ class FTSigninWithEmailViewController: UIViewController {
         }
     }
     
-    @IBAction func signinButtonPressed(sender: AnyObject) {
+    @IBAction func signinButtonPressed(_ sender: AnyObject) {
         
-        self.editing = false
+        self.isEditing = false
         
         if validSignInData() {
             
@@ -89,23 +89,23 @@ class FTSigninWithEmailViewController: UIViewController {
         }
     }
     
-    @IBAction func textfieldExit(sender: UITextField) {
+    @IBAction func textfieldExit(_ sender: UITextField) {
         
         sender.resignFirstResponder()
     }
     
     // MARK: - Data integration
     
-    private func displayErrors(errors: [String]!) {
+    fileprivate func displayErrors(_ errors: [String]!) {
         
-        let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
+        let alert = UIAlertController(title: nil, message: errors.joined(separator: "\n"), preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    private func validateEmail(inout errors: [String]) {
+    fileprivate func validateEmail(_ errors: inout [String]) {
         
         if emailTextField.text == nil || emailTextField.text!.isEmpty {
             
@@ -117,7 +117,7 @@ class FTSigninWithEmailViewController: UIViewController {
         }
     }
     
-    private func validSignInData() -> Bool {
+    fileprivate func validSignInData() -> Bool {
         
         var errors = [String]()
         
@@ -138,7 +138,7 @@ class FTSigninWithEmailViewController: UIViewController {
         return true
     }
     
-    private func validResetData() -> Bool {
+    fileprivate func validResetData() -> Bool {
         
         var errors = [String]()
         
@@ -154,23 +154,23 @@ class FTSigninWithEmailViewController: UIViewController {
         return true
     }
     
-    private func signIn() {
+    fileprivate func signIn() {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Signing in", comment: "HUD title when signing in with Email")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         FTDataManager.sharedInstance.login(emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
                 
                 if user != nil {
                     
-                    FTAnalytics.trackEvent(.SignIn, data: ["mode": "Email"])
+                    FTAnalytics.trackEvent(.SignIn, data: ["mode": "Email" as AnyObject])
 
-                    self.navigationController?.popToRootViewControllerAnimated(true)
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
                 else {
                     var message: String!
@@ -186,47 +186,47 @@ class FTSigninWithEmailViewController: UIViewController {
                     default: message = String(format: NSLocalizedString("Login failed to technical error. Code %li", comment: "General login error message"), error!.code);
                     }
                     
-                    let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                    let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         }
     }
     
-    private func resetPassword() {
+    fileprivate func resetPassword() {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Resetting password", comment: "HUD title when resetting password")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         FTDataManager.sharedInstance.resetPassword(emailTextField.text!) { (success, error) in
 
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
                 
                 if success {
                     
                     FTAnalytics.trackEvent(.PasswordReset, data: nil)
                     
-                    let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                    let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                     hud.label.text = NSLocalizedString("Success", comment: "HUD title when password reset succeeded")
                     hud.detailsLabel.text = NSLocalizedString("Check your email for instructions", comment: "HUD subtitle when password reset succeeded")
-                    hud.mode = .Text
+                    hud.mode = .text
                     
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (Int64)(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((Int64)(2 * NSEC_PER_SEC)) / Double(NSEC_PER_SEC)) {
                         
-                        hud.hideAnimated(true)
+                        hud.hide(animated: true)
                     }
                 }
                 else {
                     
-                    let alert = UIAlertController(title: nil, message: NSLocalizedString("Failed to reset password:(", comment: "Error message when failed to reset password"), preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                    let alert = UIAlertController(title: nil, message: NSLocalizedString("Failed to reset password:(", comment: "Error message when failed to reset password"), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                     
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         }

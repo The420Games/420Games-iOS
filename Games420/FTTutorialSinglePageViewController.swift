@@ -13,13 +13,13 @@ class FTTutorialSinglePageViewController: UIViewController {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var textLabel: UILabel!
     
-    private let pageTexts = [
+    fileprivate let pageTexts = [
         NSLocalizedString("BE ACTIVE AND HELP FORGING A NEW LOOK AT CANNABIS", comment: "Tutorial text page 1"),
         NSLocalizedString("SHOW OFF YOU ARE MOTIVATED AND LIVE AN ACTIVE LIFE", comment: "Tutorial text page 2"),
         NSLocalizedString("LOG YOUR ACTIVITIIES DURING MEDICATION AND SEE YOUR PERFORMANCE HERE", comment: "Tutorial text page 3")
     ]
     
-    private let pageBackgrounds = [
+    fileprivate let pageBackgrounds = [
         UIImage(named: "bg_tutorial-1"),
         UIImage(named: "bg_tutorial-2"),
         UIImage(named: "bg_tutorial-3")
@@ -40,26 +40,26 @@ class FTTutorialSinglePageViewController: UIViewController {
         populateData()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         
-        FTAnalytics.trackEvent(.Tutorial, data: ["page": pageIndex])
+        FTAnalytics.trackEvent(.Tutorial, data: ["page": pageIndex as AnyObject])
     }
     
     // MARK: - UI Customization
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
-        textLabel.font = UIFont.defaultFont(.Bold, size: 19.0)
+        textLabel.font = UIFont.defaultFont(.bold, size: 19.0)
         textLabel.textColor = UIColor.ftLimeGreen()
     }
     
     // MARK: - Data integration
     
-    private func populateData() {
+    fileprivate func populateData() {
         backgroundImageView.image = pageBackgrounds[pageIndex]
         textLabel.text = pageTexts[pageIndex]
     }

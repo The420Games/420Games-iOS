@@ -17,28 +17,28 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var filterSegmentedControl: UISegmentedControl!
     
-    private var refreshControl: UIRefreshControl!
+    fileprivate var refreshControl: UIRefreshControl!
     
-    private var medications = [Medication]()
+    fileprivate var medications = [Medication]()
     
-    private var waitingForStravaAuthentication = false
-    private var stravaAuthenticationHUD: MBProgressHUD?
+    fileprivate var waitingForStravaAuthentication = false
+    fileprivate var stravaAuthenticationHUD: MBProgressHUD?
     
-    private var activityType: ActivityType? = nil
+    fileprivate var activityType: ActivityType? = nil
 
-    private let medicationCellId = "medicationCell"
-    private let medicationDetailSegueId = "medicationDetail"
-    private let activityEditSegueId = "manualTrack"
-    private let medicationEditSegueId = "logActivity"
-    private let selectActivitySegueId = "selectActivity"
+    fileprivate let medicationCellId = "medicationCell"
+    fileprivate let medicationDetailSegueId = "medicationDetail"
+    fileprivate let activityEditSegueId = "manualTrack"
+    fileprivate let medicationEditSegueId = "logActivity"
+    fileprivate let selectActivitySegueId = "selectActivity"
     
-    private let pageSize = 20
-    private var pageOffset = 0
-    private var moreAvailable = false
-    private var isFetching = false
+    fileprivate let pageSize = 20
+    fileprivate var pageOffset = 0
+    fileprivate var moreAvailable = false
+    fileprivate var isFetching = false
     
     var shouldAddNewActivityOnShow = false
-    private var wasAddingMedicaton = false
+    fileprivate var wasAddingMedicaton = false
     
     // MARK: - Controller Lifecycle
 
@@ -59,16 +59,16 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         FTAnalytics.trackEvent(.Medications, data: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         
-        if medicationsTableView.editing {
+        if medicationsTableView.isEditing {
             medicationsTableView.setEditing(false, animated: false)
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         
@@ -93,45 +93,45 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     
     // MARK: - UI Customization
     
-    private func setupTableView() {
+    fileprivate func setupTableView() {
         
-        medicationsTableView.backgroundColor = UIColor.clearColor()
+        medicationsTableView.backgroundColor = UIColor.clear
         medicationsTableView.tableFooterView = UIView()
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.ftLimeGreen()
-        refreshControl.addTarget(self, action: #selector(self.refreshValueChanged(_:)), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(self.refreshValueChanged(_:)), for: .valueChanged)
         medicationsTableView.addSubview(refreshControl)
     }
     
-    private func setupFilter() {
+    fileprivate func setupFilter() {
         
         filterSegmentedControl.tintColor = UIColor.ftLimeGreen()
         
         UISegmentedControl.appearance().setTitleTextAttributes([
-            NSFontAttributeName: UIFont.defaultFont(.Bold, size: 11.0)!,
-            NSForegroundColorAttributeName: UIColor.whiteColor()
-            ], forState: .Selected)
+            NSFontAttributeName: UIFont.defaultFont(.bold, size: 11.0)!,
+            NSForegroundColorAttributeName: UIColor.white
+            ], for: .selected)
         
         UISegmentedControl.appearance().setTitleTextAttributes([
-            NSFontAttributeName: UIFont.defaultFont(.Light, size: 11.0)!,
-            NSForegroundColorAttributeName: UIColor.whiteColor()
-            ], forState: .Normal)
+            NSFontAttributeName: UIFont.defaultFont(.light, size: 11.0)!,
+            NSForegroundColorAttributeName: UIColor.white
+            ], for: UIControlState())
         
         filterSegmentedControl.removeAllSegments()
         
-        filterSegmentedControl.insertSegmentWithTitle(NSLocalizedString("ALL", comment: "All medications filter title"), atIndex: 0, animated: false)
+        filterSegmentedControl.insertSegment(withTitle: NSLocalizedString("ALL", comment: "All medications filter title"), at: 0, animated: false)
         
         for type in ActivityType.allValues {
             
-            let title = type.localizedName(false).uppercaseString
+            let title = type.localizedName(false).uppercased()
             
-            filterSegmentedControl.insertSegmentWithTitle(title, atIndex: filterSegmentedControl.numberOfSegments, animated: false)
+            filterSegmentedControl.insertSegment(withTitle: title, at: filterSegmentedControl.numberOfSegments, animated: false)
         }
         
     }
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
@@ -155,23 +155,23 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
     
     // MARK: - Actions
     
-    func refreshValueChanged(sender: AnyObject) {
+    func refreshValueChanged(_ sender: AnyObject) {
         
         pageOffset = 0
         fetchMedications()
     }
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed(_ sender: AnyObject) {
         
-        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
-    @IBAction func addMedicationTouched(sender: AnyObject) {
+    @IBAction func addMedicationTouched(_ sender: AnyObject) {
         
         addMedication()
     }
     
-    @IBAction func filterChanged(sender: UISegmentedControl) {
+    @IBAction func filterChanged(_ sender: UISegmentedControl) {
         
         if sender.selectedSegmentIndex == 0 {
             
@@ -187,33 +187,33 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
         
-        FTAnalytics.trackEvent(.MedicationsFilterChange, data: ["filter": sender.titleForSegmentAtIndex(sender.selectedSegmentIndex)!])
+        FTAnalytics.trackEvent(.MedicationsFilterChange, data: ["filter": sender.titleForSegment(at: sender.selectedSegmentIndex)! as AnyObject])
         
         pageOffset = 0
         fetchMedications()
     }
     
-    private func addMedication() {
+    fileprivate func addMedication() {
         
-        let picker = UIAlertController(title: NSLocalizedString("Source", comment: "Select source title"), message: NSLocalizedString("Select tracker app you logged your activity with", comment: "Message source"), preferredStyle: .ActionSheet)
+        let picker = UIAlertController(title: NSLocalizedString("Source", comment: "Select source title"), message: NSLocalizedString("Select tracker app you logged your activity with", comment: "Message source"), preferredStyle: .actionSheet)
         
-        picker.addAction(UIAlertAction(title: "Strava", style: .Default, handler: { (action) in
+        picker.addAction(UIAlertAction(title: "Strava", style: .default, handler: { (action) in
             self.wasAddingMedicaton = false
             self.logActivityWithStrava()
-            FTAnalytics.trackEvent(.NewMedication, data: ["source": "Strava"])
+            FTAnalytics.trackEvent(.NewMedication, data: ["source": "Strava" as AnyObject])
         }))
         
         //        picker.addAction(UIAlertAction(title: "RunKeeper", style: .Default, handler: nil))
         //        picker.addAction(UIAlertAction(title: "Endomondo", style: .Default, handler: nil))
         //        picker.addAction(UIAlertAction(title: "RunTastic", style: .Default, handler: nil))
         
-        picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .Default, handler: { (action) in
+        picker.addAction(UIAlertAction(title: NSLocalizedString("Manual", comment: "Manually add a track"), style: .default, handler: { (action) in
             self.wasAddingMedicaton = false
-            self.performSegueWithIdentifier(self.activityEditSegueId, sender: self)
-            FTAnalytics.trackEvent(.NewMedication, data: ["source": "Manual"])
+            self.performSegue(withIdentifier: self.activityEditSegueId, sender: self)
+            FTAnalytics.trackEvent(.NewMedication, data: ["source": "Manual" as AnyObject])
         }))
         
-        picker.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) in
+        picker.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
             
             if self.medications.count == 0 && self.wasAddingMedicaton {
                 self.wasAddingMedicaton = false
@@ -223,24 +223,24 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         
         picker.view.tintColor = UIColor.ftLimeGreen()
         
-        presentViewController(picker, animated: true, completion: nil)
+        present(picker, animated: true, completion: nil)
     }
     
     // MARK: - Tableview
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return medications.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(medicationCellId, forIndexPath: indexPath) as! FTMedicationListCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: medicationCellId, for: indexPath) as! FTMedicationListCell
         
         let medication = medications[indexPath.row]
         
@@ -249,34 +249,34 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
         
         let medication = medications[indexPath.row]
-        performSegueWithIdentifier(medicationDetailSegueId, sender: medication)
+        performSegue(withIdentifier: medicationDetailSegueId, sender: medication)
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         if indexPath.row == medications.count - 1 {
             fetchMedications()
         }
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let deleteAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Delete", comment: "Delete action title")) { (action, indexpath) in
+        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: "Delete action title")) { (action, indexpath) in
             
             let medication = self.medications[indexPath.row]
             self.deleteMedication(medication)
         }
         
-        let editAction = UITableViewRowAction(style: .Normal, title: NSLocalizedString("Edit", comment: "Edit action title")) { (action, indexpath) in
+        let editAction = UITableViewRowAction(style: .normal, title: NSLocalizedString("Edit", comment: "Edit action title")) { (action, indexpath) in
             
             let medication = self.medications[indexPath.row]
             self.editMedication(medication)
@@ -285,59 +285,59 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         return [deleteAction, editAction]
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         //
     }
     
     // MARK: - Notifications
     
-    private func manageForStravaNotification(signup: Bool) {
+    fileprivate func manageForStravaNotification(_ signup: Bool) {
         
         if signup {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.stravaNotificationReceived(_:)), name: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.stravaNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName), object: nil)
         }
         else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName), object: nil)
         }
     }
     
-    func stravaNotificationReceived(notification: NSNotification) {
+    func stravaNotificationReceived(_ notification: Notification) {
         
         if waitingForStravaAuthentication {
             
             waitingForStravaAuthentication = false
             
             if stravaAuthenticationHUD != nil {
-                stravaAuthenticationHUD!.hideAnimated(true)
+                stravaAuthenticationHUD!.hide(animated: true)
                 stravaAuthenticationHUD = nil
             }
             
             if let success = notification.userInfo?["success"] as? Bool {
                 if success {
-                    performSegueWithIdentifier(selectActivitySegueId, sender: self)
+                    performSegue(withIdentifier: selectActivitySegueId, sender: self)
                 }
             }
         }
     }
     
-    private func manageForMedicationNotification(signup: Bool) {
+    fileprivate func manageForMedicationNotification(_ signup: Bool) {
         
         if signup {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.medicationSavedNotificationReceived(_:)), name: FTMedicationSavedNotificationName, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.medicationSavedNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTMedicationSavedNotificationName), object: nil)
         }
         else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTMedicationSavedNotificationName, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTMedicationSavedNotificationName), object: nil)
         }
     }
     
-    func medicationSavedNotificationReceived(notification: NSNotification) {
+    func medicationSavedNotificationReceived(_ notification: Notification) {
         
         fetchMedications()
     }
     
     // MARK: - Backend integration
     
-    private func fetchMedications() {
+    fileprivate func fetchMedications() {
         
         if !isFetching && (pageOffset == 0 || moreAvailable) {
         
@@ -345,9 +345,9 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             
             var hud: MBProgressHUD?
             if pageOffset == 0 {
-                hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                 hud!.label.text = NSLocalizedString("Fetching Activities", comment: "HUD title when fetching activities")
-                hud!.mode = .Indeterminate
+                hud!.mode = .indeterminate
             }
             
             var query = "ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'"
@@ -356,14 +356,14 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                 query += " AND activity.Type = '\(activityType!.rawValue)'"
             }
             
-            Medication.findObjects(query, order: ["updated desc"], offset: pageOffset * pageSize, limit: pageSize) { (objects, error) in
+            Medication.findObjects(query, order: ["updated desc" as AnyObject], offset: pageOffset * pageSize, limit: pageSize) { (objects, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
                     self.isFetching = false
                     
                     if hud != nil {
-                        hud!.hideAnimated(true)
+                        hud!.hide(animated: true)
                     }
                     
                     self.refreshControl.endRefreshing()
@@ -373,7 +373,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                         if self.pageOffset == 0 {
                             self.medications.removeAll()
                         }
-                        self.medications.appendContentsOf(objects as! [Medication])
+                        self.medications.append(contentsOf: objects as! [Medication])
                         self.medicationsTableView.reloadData()
                         
                         self.pageOffset += 1
@@ -388,17 +388,17 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         }
     }
     
-    private func deleteMedication(medication: Medication) {
+    fileprivate func deleteMedication(_ medication: Medication) {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Deleting Medication", comment: "HUD title when deleting a medication")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
-        let group = dispatch_group_create();
+        let group = DispatchGroup();
         
         if medication.activity != nil {
             
-            dispatch_group_enter(group)
+            group.enter()
             
             medication.activity!.deleteInBackgroundWithBlock({ (success, error) in
                 
@@ -406,29 +406,29 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                     print("Error deleting activity: \(error)")
                 }
                 
-                dispatch_group_leave(group)
+                group.leave()
             })
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
+        group.notify(queue: DispatchQueue.main) {
             
             medication.deleteInBackgroundWithBlock { (success, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
-                    hud.hideAnimated(true)
+                    hud.hide(animated: true)
                     
                     if success {
                         
                         FTAnalytics.trackEvent(.DeleteMedication, data: nil)
                         
-                        NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationDeletedNotificationName, object: self)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: FTMedicationDeletedNotificationName), object: self)
                         
-                        if let index = self.medications.indexOf(medication) {
-                            self.medications.removeAtIndex(index)
+                        if let index = self.medications.index(of: medication) {
+                            self.medications.remove(at: index)
                             self.medicationsTableView.beginUpdates()
-                            let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                            self.medicationsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Top)
+                            let indexPath = IndexPath(row: index, section: 0)
+                            self.medicationsTableView.deleteRows(at: [indexPath], with: .top)
                             self.medicationsTableView.endUpdates()
                         }
                         else {
@@ -436,27 +436,27 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
                         }
                     }
                     else {
-                        if self.medicationsTableView.editing {
+                        if self.medicationsTableView.isEditing {
                             self.medicationsTableView.setEditing(false, animated: false)
                         }
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to delete medication:(", comment: "Error message when failed to delete medication"), preferredStyle: .Alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to delete medication:(", comment: "Error message when failed to delete medication"), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 })
             }
         }
     }
     
-    private func editMedication(medication: Medication) {
+    fileprivate func editMedication(_ medication: Medication) {
         
         FTAnalytics.trackEvent(.EditMedication, data: nil)
         
         if medication.activity != nil && medication.activity!.source != nil {
-            performSegueWithIdentifier(medicationEditSegueId, sender: medication)
+            performSegue(withIdentifier: medicationEditSegueId, sender: medication)
         }
         else {
-            performSegueWithIdentifier(activityEditSegueId, sender: medication)
+            performSegue(withIdentifier: activityEditSegueId, sender: medication)
         }
     }
     
@@ -467,39 +467,39 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
         if !FTStravaManager.sharedInstance.isAuthorized {
             waitingForStravaAuthentication = true
             
-            stravaAuthenticationHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            stravaAuthenticationHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
             stravaAuthenticationHUD!.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
-            stravaAuthenticationHUD!.mode = .Indeterminate
+            stravaAuthenticationHUD!.mode = .indeterminate
             
             FTStravaManager.sharedInstance.authorize("games420://games420")
         }
         else {
-            performSegueWithIdentifier(selectActivitySegueId, sender: self)
+            performSegue(withIdentifier: selectActivitySegueId, sender: self)
         }
     }
     
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if medicationsTableView.editing {
+        if medicationsTableView.isEditing {
             medicationsTableView.setEditing(false, animated: true)
         }
         
         if segue.identifier == selectActivitySegueId {
-            ((segue.destinationViewController as! UINavigationController).viewControllers.first as! FTSelectActivityViewController).activitySelected = {(activity) -> () in
+            ((segue.destination as! UINavigationController).viewControllers.first as! FTSelectActivityViewController).activitySelected = {(activity) -> () in
                 
-                self.dismissViewControllerAnimated(true, completion: {
+                self.dismiss(animated: true, completion: {
                     
-                    self.performSegueWithIdentifier(self.medicationEditSegueId, sender: activity)
+                    self.performSegue(withIdentifier: self.medicationEditSegueId, sender: activity)
                 });
             }
         }
         else if segue.identifier == medicationDetailSegueId {
-            (segue.destinationViewController as! FTMedicationDetailsViewController).medication = sender as! Medication
+            (segue.destination as! FTMedicationDetailsViewController).medication = sender as! Medication
         }
         else if segue.identifier == medicationEditSegueId {
-            let target = segue.destinationViewController as! FTLogActivityViewController
+            let target = segue.destination as! FTLogActivityViewController
             if let activity = sender as? Activity {
                 target.activity = activity
             }
@@ -509,7 +509,7 @@ class FTMedicationsViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
         else if segue.identifier == activityEditSegueId {
-            let target = segue.destinationViewController as! FTManualActivityTrackViewController
+            let target = segue.destination as! FTManualActivityTrackViewController
             let medication = sender as? Medication
             target.activity = medication?.activity
             target.medication = medication

@@ -48,17 +48,17 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var passwordButton: UIButton!
     
-    private var _edit = false
+    fileprivate var _edit = false
     var edit : Bool {
         get {
             return self._edit
         }
         set {
             self._edit = newValue
-            if self.view != nil || self.isViewLoaded() {
+            if self.view != nil || self.isViewLoaded {
                 
-                self.editHolderView.hidden = !newValue
-                self.passwordButton.hidden = newValue
+                self.editHolderView.isHidden = !newValue
+                self.passwordButton.isHidden = newValue
                 
                 if let rightItem = self.navigationItem.rightBarButtonItem {
                     rightItem.image = UIImage(named: edit ? "btn_save" : "btn_edit")
@@ -67,31 +67,31 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
-    private var birthDate: NSDate?
-    private var gender: String?
-    private var profilePicture: UIImage?
+    fileprivate var birthDate: Date?
+    fileprivate var gender: String?
+    fileprivate var profilePicture: UIImage?
     
-    private let editTitle = NSLocalizedString("Edit", comment: "Edit button title")
-    private let saveTitle = NSLocalizedString("Save", comment: "Save button title")
-    private let cancelTitle = NSLocalizedString("Cancel", comment: "Cancel button title")
-    private let backTitle = NSLocalizedString("Back", comment: "Back button title")
-    private let bDayTitle = NSLocalizedString("Set birth date", comment: "Set birth date button title")
-    private let genderTitle = NSLocalizedString("Set gender", comment: "Set gender button title")
+    fileprivate let editTitle = NSLocalizedString("Edit", comment: "Edit button title")
+    fileprivate let saveTitle = NSLocalizedString("Save", comment: "Save button title")
+    fileprivate let cancelTitle = NSLocalizedString("Cancel", comment: "Cancel button title")
+    fileprivate let backTitle = NSLocalizedString("Back", comment: "Back button title")
+    fileprivate let bDayTitle = NSLocalizedString("Set birth date", comment: "Set birth date button title")
+    fileprivate let genderTitle = NSLocalizedString("Set gender", comment: "Set gender button title")
     
-    private var waitingForStravaAuthentication = false
-    private var stravaAuthenticationHUD: MBProgressHUD?
+    fileprivate var waitingForStravaAuthentication = false
+    fileprivate var stravaAuthenticationHUD: MBProgressHUD?
     
     //Facebook keys
-    private let kFacebookKeyId = "id"
-    private let kFacebookKeyEmail = "email"
-    private let kFacebookKeyFirstName = "first_name"
-    private let kFacebookKeyLastName = "last_name"
-    private let kFacebookKeyGender = "gender"
-    private let kFacebookKeyBirthday = "birthday"
-    private let kFacebookKeyLocation = "location"
-    private let kFacebookKeyLocationName = "name"
+    fileprivate let kFacebookKeyId = "id"
+    fileprivate let kFacebookKeyEmail = "email"
+    fileprivate let kFacebookKeyFirstName = "first_name"
+    fileprivate let kFacebookKeyLastName = "last_name"
+    fileprivate let kFacebookKeyGender = "gender"
+    fileprivate let kFacebookKeyBirthday = "birthday"
+    fileprivate let kFacebookKeyLocation = "location"
+    fileprivate let kFacebookKeyLocationName = "name"
     
-    private let cropSegueId = "cropPhoto"
+    fileprivate let cropSegueId = "cropPhoto"
 
     // MARK: - Controller lifecycle
     
@@ -129,18 +129,18 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK:  - UI Customization
     
-    private func setupProfilePicture() {
+    fileprivate func setupProfilePicture() {
         
         profileImageView.clipsToBounds = true
         profileImageView.layer.cornerRadius = profileImageView.bounds.size.width / 2
-        profileImageView.layer.borderColor = UIColor.ftLimeGreen().CGColor
+        profileImageView.layer.borderColor = UIColor.ftLimeGreen().cgColor
         profileImageView.layer.borderWidth = profileImageView.bounds.size.width / 20
     }
     
-    private func setupTitleLabels() {
+    fileprivate func setupTitleLabels() {
         
-        let titleFont = UIFont.defaultFont(.Light, size: 13.5)
-        let titleColor = UIColor.whiteColor()
+        let titleFont = UIFont.defaultFont(.light, size: 13.5)
+        let titleColor = UIColor.white
         
         nameTitleLabel.font = titleFont
         nameTitleLabel.textColor = titleColor
@@ -163,10 +163,10 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         bioTitleLabel.text = NSLocalizedString("BIO", comment: "Bio title label")
     }
     
-    private func setupDataLabels() {
+    fileprivate func setupDataLabels() {
         
-        let font = UIFont.defaultFont(.Bold, size: 14.5)
-        let color = UIColor.whiteColor()
+        let font = UIFont.defaultFont(.bold, size: 14.5)
+        let color = UIColor.white
         
         nameLabel.font = font
         nameLabel.textColor = color
@@ -184,7 +184,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         bioLabel.textColor = color
     }
     
-    private func setupButons() {
+    fileprivate func setupButons() {
         
         let bColor = UIColor.ftLimeGreen()
         
@@ -197,7 +197,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         stravaButton.ft_setupButton(UIColor.ftStravaOrange(), title: NSLocalizedString("COMPLETE WITH STRAVA", comment: "Complete with Strava title"))
     }
     
-    private func setupTextFields() {
+    fileprivate func setupTextFields() {
         
         firstnameTextField.ft_setup()
         firstnameTextField.ft_setPlaceholder(NSLocalizedString("FIRST NAME", comment: "First name placeholder"))
@@ -215,27 +215,27 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         cityTextField.ft_setPlaceholder(NSLocalizedString("CITY", comment: "City placeholder"))
     }
     
-    private func setupBioTextView() {
+    fileprivate func setupBioTextView() {
         
-        bioTextView.backgroundColor = UIColor.clearColor()
+        bioTextView.backgroundColor = UIColor.clear
         bioTextView.clipsToBounds = true
         bioTextView.layer.borderWidth = 1.0
-        bioTextView.layer.borderColor = UIColor.ftMidGray().CGColor
+        bioTextView.layer.borderColor = UIColor.ftMidGray().cgColor
         bioTextView.layer.cornerRadius = 5.0
         
-        bioTextView.tintColor = UIColor.whiteColor()
-        bioTextView.textColor = UIColor.whiteColor()
-        bioTextView.font = UIFont.defaultFont(.Light, size: 13.0)
+        bioTextView.tintColor = UIColor.white
+        bioTextView.textColor = UIColor.white
+        bioTextView.font = UIFont.defaultFont(.light, size: 13.0)
         
-        bioTextView.keyboardAppearance = .Dark
+        bioTextView.keyboardAppearance = .dark
     }
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         editHolderView.backgroundColor = UIColor.ftMainBackgroundColor()
         
-        editHolderView.hidden = !edit
+        editHolderView.isHidden = !edit
         
         addRightButtonItem()
         
@@ -256,15 +256,15 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         setupBioTextView()
     }
     
-    private func addRightButtonItem() {
+    fileprivate func addRightButtonItem() {
         
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: edit ? "btn_save" : "btn_edit"), style: .Plain, target: self, action: #selector(self.rightBarButtonItemPressed(_:)))
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: edit ? "btn_save" : "btn_edit"), style: .plain, target: self, action: #selector(self.rightBarButtonItemPressed(_:)))
         navigationItem.rightBarButtonItem = barButtonItem
     }
     
-    private func addLeftButtonItem() {
+    fileprivate func addLeftButtonItem() {
         
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "btn_back"), style: .Plain, target: self, action: #selector(self.leftBarButtonItemPressed(_:)))
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "btn_back"), style: .plain, target: self, action: #selector(self.leftBarButtonItemPressed(_:)))
         
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = barButtonItem
@@ -272,7 +272,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: - Actions
     
-    private func endEditing() {
+    fileprivate func endEditing() {
         
         firstnameTextField.resignFirstResponder()
         lastnameTextField.resignFirstResponder()
@@ -284,7 +284,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         bioTextView.resignFirstResponder()
     }
     
-    func rightBarButtonItemPressed(sender: AnyObject) {
+    func rightBarButtonItemPressed(_ sender: AnyObject) {
         
         if !edit {
             
@@ -302,7 +302,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
-    func leftBarButtonItemPressed(sender: AnyObject) {
+    func leftBarButtonItemPressed(_ sender: AnyObject) {
         
         if edit {
             
@@ -314,11 +314,11 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             populateData(FTDataManager.sharedInstance.currentUser?.athlete)
         }
         else {
-            navigationController?.popViewControllerAnimated(true)
+            navigationController?.popViewController(animated: true)
         }
     }
     
-    @IBAction func genderButtonTouched(sender: AnyObject) {
+    @IBAction func genderButtonTouched(_ sender: AnyObject) {
         
         endEditing()
         
@@ -326,7 +326,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         var index = 0
         var i = 0
         for g in GenderType.allValues {
-            rows.append(g.localizedString().capitalizingFirstLetter())
+            rows.append(g.localizedString().capitalizingFirstLetter() as AnyObject)
             if gender == g.rawValue {
                 index = i
             }
@@ -337,37 +337,37 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             
             let gender = GenderType.allValues[index]
             self.gender = gender.rawValue
-            self.genderButton.setTitle(gender.localizedString().capitalizingFirstLetter(), forState: .Normal)
+            self.genderButton.setTitle(gender.localizedString().capitalizingFirstLetter(), for: UIControlState())
             
-            }, cancelBlock: { (picker) in
+            }, cancel: { (picker) in
                 
             }, origin: sender)
 
-        picker.showActionSheetPicker()
+        picker?.show()
     }
     
-    @IBAction func birthdateButtonTouched(sender: AnyObject) {
+    @IBAction func birthdateButtonTouched(_ sender: AnyObject) {
         
         endEditing()
         
-        let datePicker = ActionSheetDatePicker(title: NSLocalizedString("Select birth date", comment: "Birth date picker tite"), datePickerMode: UIDatePickerMode.Date, selectedDate: birthDate != nil ? birthDate : NSDate(), doneBlock: {
+        let datePicker = ActionSheetDatePicker(title: NSLocalizedString("Select birth date", comment: "Birth date picker tite"), datePickerMode: UIDatePickerMode.date, selectedDate: birthDate != nil ? birthDate : Date(), doneBlock: {
             picker, value, index in
             
-            if let date = value as? NSDate {
+            if let date = value as? Date {
             
                 self.birthDate = date
                 self.updateBirthDay(date)
             }
 
-            }, cancelBlock: { ActionStringCancelBlock in return }, origin: self.view)
+            }, cancel: { ActionStringCancelBlock in return }, origin: self.view)
 
-        datePicker.minimumDate = NSDate(timeInterval: -120 * 365 * 24 * 60 * 60, sinceDate: NSDate())
-        datePicker.maximumDate = NSDate()
+        datePicker?.minimumDate = Date(timeInterval: -120 * 365 * 24 * 60 * 60, since: Date())
+        datePicker?.maximumDate = Date()
         
-        datePicker.showActionSheetPicker()
+        datePicker?.show()
     }
     
-    @IBAction func photoTapped(sender: AnyObject) {
+    @IBAction func photoTapped(_ sender: AnyObject) {
         
         if edit {
             
@@ -376,81 +376,81 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
-    @IBAction func stravaButtonTouched(sender: AnyObject) {
+    @IBAction func stravaButtonTouched(_ sender: AnyObject) {
         
         endEditing()
         completeWithStrava()
     }
     
-    @IBAction func facebookButtonTouched(sender: AnyObject) {
+    @IBAction func facebookButtonTouched(_ sender: AnyObject) {
         
         endEditing()
         completeWithFacebook()
     }
     
-    @IBAction func textFieldDidExit(sender: UITextField) {
+    @IBAction func textFieldDidExit(_ sender: UITextField) {
         
         sender.resignFirstResponder()
     }
     
     // MARK: - Photo
     
-    private func startPhotoSelection() {
+    fileprivate func startPhotoSelection() {
         
         // If camrea and photo library are available
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) && UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) && UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
             // Both available, ask user
             queryPhotoSource()
-        } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+        } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
             // Just camera available
             takePhoto()
-        } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+        } else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
             // Just library available
             queryPhotoSource()
         }
     }
     
-    private func queryPhotoSource() {
+    fileprivate func queryPhotoSource() {
         
-        let alert = UIAlertController(title: NSLocalizedString("Select source", comment: "Select photo source title"), message: nil, preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: NSLocalizedString("Select source", comment: "Select photo source title"), message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Take new photo", comment: "Take new photo title"), style: .Default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Take new photo", comment: "Take new photo title"), style: .default, handler: { (action) in
             self.takePhoto()
         }))
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Camera roll", comment: "Choose photo from library title"), style: .Default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Camera roll", comment: "Choose photo from library title"), style: .default, handler: { (action) in
             self.selectPhotoFromCameraRoll()
         }))
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .cancel, handler: nil))
         
         alert.view.tintColor = UIColor.ftLimeGreen()
         
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    private func selectPhotoFromCameraRoll() {
+    fileprivate func selectPhotoFromCameraRoll() {
         
-        getPhoto(.SavedPhotosAlbum)
+        getPhoto(.savedPhotosAlbum)
     }
     
-    private func takePhoto() {
-        getPhoto(.Camera)
+    fileprivate func takePhoto() {
+        getPhoto(.camera)
     }
     
     // Start image picker or camera
-    private func getPhoto(sourceType: UIImagePickerControllerSourceType)
+    fileprivate func getPhoto(_ sourceType: UIImagePickerControllerSourceType)
     {
         
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = sourceType
-        presentViewController(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true, completion: nil)
     }
     
     // Photo selection callback
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Hide picker
         
         var image = info[UIImagePickerControllerEditedImage] as? UIImage;
@@ -458,38 +458,38 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             image = info[UIImagePickerControllerOriginalImage] as? UIImage;
         }
         
-        picker.dismissViewControllerAnimated(true) { () -> Void in
+        picker.dismiss(animated: true) { () -> Void in
 
             if image != nil {
             
-                self.performSegueWithIdentifier(self.cropSegueId, sender: image!)
+                self.performSegue(withIdentifier: self.cropSegueId, sender: image!)
             }
         }
     }
     
     // MARK: - Populate data
     
-    private func updateBirthDay(date: NSDate?) {
+    fileprivate func updateBirthDay(_ date: Date?) {
         
         if let bday = date {
         
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = .ShortStyle
-            formatter.timeStyle = .NoStyle
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .none
             
-            let bdString = formatter.stringFromDate(bday)
+            let bdString = formatter.string(from: bday)
             birthdayLabel.text = bdString
-            birthdayButton.setTitle(bdString, forState: .Normal)
+            birthdayButton.setTitle(bdString, for: UIControlState())
             self.birthDate = bday
             
         }
         else {
             birthdayLabel.text = ""
-            birthdayButton.setTitle(bDayTitle, forState: .Normal)
+            birthdayButton.setTitle(bDayTitle, for: UIControlState())
         }
     }
 
-    private func populateData(currentAthlete: Athlete?) {
+    fileprivate func populateData(_ currentAthlete: Athlete?) {
 
         if let athlete = currentAthlete {
 
@@ -504,16 +504,16 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             stateTextField.text = athlete.state
             cityTextField.text = athlete.locality
             
-            updateBirthDay(athlete.birthDay)
+            updateBirthDay(athlete.birthDay as Date?)
             
             self.gender = athlete.gender
             let gender = athlete.localizedGender()
             genderLabel.text = gender
             if !gender.isEmpty {
-                genderButton.setTitle(gender, forState: .Normal)
+                genderButton.setTitle(gender, for: UIControlState())
             }
             else {
-                genderButton.setTitle(genderTitle, forState: .Normal)
+                genderButton.setTitle(genderTitle, for: UIControlState())
             }
             
             bioLabel.text = athlete.bio
@@ -523,7 +523,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                 profileImageView.image = profilePicture
             }
             else if let url = FTDataManager.sharedInstance.imageUrlForProperty(athlete.profileImage, path: Athlete.profileImagePath) {
-                profileImageView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "default_photo"), optionsInfo: .None, progressBlock: nil, completionHandler: nil)
+                profileImageView.kf.setImage(with: url, placeholder: UIImage(named: "default_photo"), options: .none, progressBlock: nil, completionHandler: nil)
             }
             else {
                 profileImageView.image = UIImage(named: "default_photo")
@@ -542,10 +542,10 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             cityTextField.text = nil
             
             birthdayLabel.text = ""
-            birthdayButton.setTitle(bDayTitle, forState: .Normal)
+            birthdayButton.setTitle(bDayTitle, for: UIControlState())
             
             genderLabel.text = ""
-            genderButton.setTitle(genderTitle, forState: .Normal)
+            genderButton.setTitle(genderTitle, for: UIControlState())
             
             profileImageView.image = UIImage(named: "default_photo")
         }
@@ -553,7 +553,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: - Data integration
     
-    private func fetchAthlete() {
+    fileprivate func fetchAthlete() {
         
         if let athleteId = FTDataManager.sharedInstance.currentUser?.athlete?.objectId {
             
@@ -568,7 +568,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
-    private func validData() -> Bool {
+    fileprivate func validData() -> Bool {
         
         var errors = [String]()
         
@@ -578,16 +578,16 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         
         if errors.count > 0 {
             
-            let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            let alert = UIAlertController(title: nil, message: errors.joined(separator: "\n"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
         
         return errors.count == 0
     }
     
-    private func updateAthlete() {
+    fileprivate func updateAthlete() {
         
         let athlete = Athlete()
         if FTDataManager.sharedInstance.currentUser!.athlete != nil {
@@ -604,15 +604,15 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         athlete.birthDay = birthDate
         athlete.bio = bioTextView.text
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
-        let group = dispatch_group_create();
+        let group = DispatchGroup();
         
         if profilePicture != nil {
             
-            dispatch_group_enter(group)
+            group.enter()
             FTDataManager.sharedInstance.uploadImage(profilePicture!, path: Athlete.profileImagePath, completion: { (fileName, error) in
          
                 if error == nil {
@@ -622,17 +622,17 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                     self.profilePicture = nil
                 }
                 
-                dispatch_group_leave(group)
+                group.leave()
             })
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
+        group.notify(queue: DispatchQueue.main) {
             
             athlete.saveInBackground { (object, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
-                    hud.hideAnimated(true)
+                    hud.hide(animated: true)
                     
                     if object != nil && error == nil {
                         
@@ -644,28 +644,28 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                         
                         if needsUpdateUser {
                             
-                            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                            let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                             hud.label.text = NSLocalizedString("Updating account", comment: "HUD title when updating user account")
-                            hud.mode = .Indeterminate
+                            hud.mode = .indeterminate
                             
                             FTDataManager.sharedInstance.currentUser!.saveInBackground({ (object, error) in
                                 
-                                dispatch_async(dispatch_get_main_queue(), {
+                                DispatchQueue.main.async(execute: {
                                     
-                                    hud.hideAnimated(true)
+                                    hud.hide(animated: true)
                                     
                                     if object != nil && error == nil {
                                         
                                         self.edit = false
                                         self.populateData(FTDataManager.sharedInstance.currentUser?.athlete)
                                         
-                                        NSNotificationCenter.defaultCenter().postNotificationName(FTProfileUpdatedNotificationName, object: self)
+                                        NotificationCenter.default.post(name: Notification.Name(rawValue: FTProfileUpdatedNotificationName), object: self)
                                     }
                                     else {
                                         
-                                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update account:(", comment: "Error message when failed to save User"), preferredStyle: .Alert)
-                                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                                        self.presentViewController(alert, animated: true, completion: nil)
+                                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update account:(", comment: "Error message when failed to save User"), preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                                        self.present(alert, animated: true, completion: nil)
                                     }
                                 })
                             })
@@ -675,15 +675,15 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                             self.edit = false
                             self.populateData(FTDataManager.sharedInstance.currentUser?.athlete)
                             
-                            NSNotificationCenter.defaultCenter().postNotificationName(FTProfileUpdatedNotificationName, object: self)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: FTProfileUpdatedNotificationName), object: self)
                         }
                     }
                     else {
                         print("Error saving Athlete: \(error)")
                         
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update profile:(", comment: "Error message when failed to save Athlete"), preferredStyle: .Alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to update profile:(", comment: "Error message when failed to save Athlete"), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                     
                 })
@@ -693,16 +693,16 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: - Strava integration
     
-    private func completeWithStrava() {
+    fileprivate func completeWithStrava() {
         
         if !FTStravaManager.sharedInstance.isAuthorized {
             
             waitingForStravaAuthentication = true
             manageForStravaNotification(true)
             
-            stravaAuthenticationHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            stravaAuthenticationHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
             stravaAuthenticationHUD!.label.text = NSLocalizedString("Authenticating with Strava", comment: "HUD title when authenticating with Strava")
-            stravaAuthenticationHUD!.mode = .Indeterminate
+            stravaAuthenticationHUD!.mode = .indeterminate
             
             FTStravaManager.sharedInstance.updateAthleteWhenAuhtorized = false
             FTStravaManager.sharedInstance.authorize("games420://games420")
@@ -713,44 +713,44 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
         }
     }
     
-    private func fetchAthleteFromStrava() {
+    fileprivate func fetchAthleteFromStrava() {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         FTStravaManager.sharedInstance.fetchAthlete(nil, completion: { (athleteData, error) in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
             
                 if athleteData != nil {
                     
                     let athlete = Athlete.dataFromJsonObject(athleteData!) as! Athlete
                     athlete.source = FTStravaManager.sharedInstance.ftStravaSourceId
                 
-                    let group = dispatch_group_create();
+                    let group = DispatchGroup();
                     
-                    dispatch_group_enter(group)
+                    group.enter()
                     
-                    let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                    let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                     hud.label.text = NSLocalizedString("Fetching profile picture", comment: "HUD title when updating profile picture from Strava")
-                    hud.mode = .Indeterminate
+                    hud.mode = .indeterminate
                     
                     FTStravaManager.sharedInstance.fetchAthleteProfileImage(athleteData!, completion: { (image, error) in
             
-                        dispatch_async(dispatch_get_main_queue(), {
+                        DispatchQueue.main.async(execute: {
                             
-                            hud.hideAnimated(true)
+                            hud.hide(animated: true)
                             
                             self.profilePicture = image
                         })
                         
-                        dispatch_group_leave(group)
+                        group.leave()
                     })
                     
-                    dispatch_group_notify(group, dispatch_get_main_queue()) {
+                    group.notify(queue: DispatchQueue.main) {
             
                         self.populateData(athlete)
                     }
@@ -759,9 +759,9 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                     
                     print("Error fetching Athlete: \(error)")
                     
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to fetch profile:(", comment: "Error message when failed to fetch Athlete from Strava"), preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to fetch profile:(", comment: "Error message when failed to fetch Athlete from Strava"), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         })
@@ -769,17 +769,17 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: Notifications
     
-    private func manageForStravaNotification(signup: Bool) {
+    fileprivate func manageForStravaNotification(_ signup: Bool) {
         
         if signup {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.stravaNotificationReceived(_:)), name: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.stravaNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName), object: nil)
         }
         else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName), object: nil)
         }
     }
     
-    func stravaNotificationReceived(notification: NSNotification) {
+    func stravaNotificationReceived(_ notification: Notification) {
         
         if waitingForStravaAuthentication {
             
@@ -788,7 +788,7 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
             waitingForStravaAuthentication = false
             
             if stravaAuthenticationHUD != nil {
-                stravaAuthenticationHUD!.hideAnimated(true)
+                stravaAuthenticationHUD!.hide(animated: true)
                 stravaAuthenticationHUD = nil
             }
             
@@ -802,34 +802,35 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     
     // MARK: - Facebook integration
     
-    private func completeWithFacebook() {
+    fileprivate func completeWithFacebook() {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Updating profile", comment: "HUD title when updating profile data")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         let athletete = Athlete()
         
         //Request Facebook for the data
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, link, first_name, last_name, email, birthday, location, hometown, picture, gender"]).startWithCompletionHandler({ (connection:FBSDKGraphRequestConnection?, fbUser:AnyObject?, error:NSError?) -> Void in
+        
+        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, link, first_name, last_name, email, birthday, location, hometown, picture, gender"]).start { (connection, fbUser, error) in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
-                hud.hideAnimated(true)
-            
+                hud.hide(animated: true)
+                
                 if error == nil {
                     
                     if let dict = fbUser as? NSDictionary {
                         
-                        if let firstName = dict.objectForKey(self.kFacebookKeyFirstName) as? String {
+                        if let firstName = dict.object(forKey: self.kFacebookKeyFirstName) as? String {
                             athletete.firstName = firstName
                         }
                         
-                        if let lastName = dict.objectForKey(self.kFacebookKeyLastName) as? String {
+                        if let lastName = dict.object(forKey: self.kFacebookKeyLastName) as? String {
                             athletete.lastName = lastName
                         }
                         
-                        if let gender = dict.objectForKey(self.kFacebookKeyGender) as? String {
+                        if let gender = dict.object(forKey: self.kFacebookKeyGender) as? String {
                             if gender == "male" {
                                 athletete.gender = "M"
                             }
@@ -838,19 +839,19 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                             }
                         }
                         
-                        if let bDayStr = dict.objectForKey(self.kFacebookKeyBirthday) as? String {
+                        if let bDayStr = dict.object(forKey: self.kFacebookKeyBirthday) as? String {
                             athletete.birthDay = self.convertBirthdayToDate(bDayStr)
                         }
                         
-                        if let location = dict.objectForKey(self.kFacebookKeyLocation), nameLocation = location.objectForKey(self.kFacebookKeyLocationName) as? String {
+                        if let location = dict.object(forKey: self.kFacebookKeyLocation), let nameLocation = (location as AnyObject).object(forKey: self.kFacebookKeyLocationName) as? String {
                             athletete.locality = nameLocation
                         }
                         
-                        var pictureUrl: NSURL?
-                        if let picture = dict.objectForKey("picture") as? NSDictionary {
-                            if let data = picture.objectForKey("data") as? NSDictionary {
-                                if let url = data.objectForKey("url") as? String {
-                                    pictureUrl = NSURL(string: url)
+                        var pictureUrl: URL?
+                        if let picture = dict.object(forKey: "picture") as? NSDictionary {
+                            if let data = picture.object(forKey: "data") as? NSDictionary {
+                                if let url = data.object(forKey: "url") as? String {
+                                    pictureUrl = URL(string: url)
                                 }
                             }
                         }
@@ -860,15 +861,15 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                         }
                         else {
                             
-                            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                            let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                             hud.label.text = NSLocalizedString("Fetching profile picture", comment: "HUD title when updating profile picture from Facebook")
-                            hud.mode = .Indeterminate
+                            hud.mode = .indeterminate
                             
-                            KingfisherManager.sharedManager.downloader.downloadImageWithURL(pictureUrl!, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) in
+                            KingfisherManager.shared.downloader.downloadImage(with: pictureUrl!, options: .none, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) in
                                 
-                                dispatch_async(dispatch_get_main_queue(), {
+                                DispatchQueue.main.async(execute: {
                                     
-                                    hud.hideAnimated(true)
+                                    hud.hide(animated: true)
                                     
                                     self.profilePicture = image
                                     self.populateData(athletete)
@@ -878,16 +879,16 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
                     }
                 }
             })
-        })
+        }
     }
     
-    func convertBirthdayToDate(birthday:String) -> NSDate? {
+    func convertBirthdayToDate(_ birthday:String) -> Date? {
         
-        let dateFormatter:NSDateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+        let dateFormatter:DateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.timeStyle = DateFormatter.Style.none
         
-        if let date = dateFormatter.dateFromString(birthday) {
+        if let date = dateFormatter.date(from: birthday) {
             return date
         } else {
             return nil
@@ -897,10 +898,10 @@ class FTProfileMainViewController: UIViewController, UIImagePickerControllerDele
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == cropSegueId {
-            let target = segue.destinationViewController as! FTPhotoCropViewController
+            let target = segue.destination as! FTPhotoCropViewController
             target.originalPhoto = sender as! UIImage
             target.completionBlock = {(croppedPhoto: UIImage) -> () in
                 

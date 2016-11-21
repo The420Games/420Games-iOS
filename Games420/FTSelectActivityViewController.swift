@@ -13,18 +13,18 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
     
     @IBOutlet weak var activitiesTableView: UITableView!
     
-    private var refreshControl: UIRefreshControl!
+    fileprivate var refreshControl: UIRefreshControl!
     
-    private var activities = [Activity]()
+    fileprivate var activities = [Activity]()
     
-    private let activityCellid = "activityCell"
+    fileprivate let activityCellid = "activityCell"
     
-    private let pageSize = 20
-    private var pageOffset = 0
-    private var moreAvailable = false
-    private var isFetching = false
+    fileprivate let pageSize = 20
+    fileprivate var pageOffset = 0
+    fileprivate var moreAvailable = false
+    fileprivate var isFetching = false
         
-    var activitySelected: ((activity: Activity!) -> ())?
+    var activitySelected: ((_ activity: Activity?) -> ())?
     
     override func viewDidLoad() {
         
@@ -34,12 +34,12 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
         
         fetchActivities()
         
-        FTAnalytics.trackEvent(.ActivityPicker, data: ["source": "Strava"])
+        FTAnalytics.trackEvent(.ActivityPicker, data: ["source": "Strava" as AnyObject])
     }
     
     // MARK: - UI Customization
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         title = NSLocalizedString("Select activity", comment: "Select activity title")
         
@@ -50,27 +50,27 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
         setupTablewView()
     }
     
-    private func setupTablewView() {
+    fileprivate func setupTablewView() {
         
         activitiesTableView.tableFooterView = UIView()
         
-        activitiesTableView.backgroundColor = UIColor.clearColor()
+        activitiesTableView.backgroundColor = UIColor.clear
         activitiesTableView.tableFooterView = UIView()
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.ftLimeGreen()
-        refreshControl.addTarget(self, action: #selector(self.refreshValueChanged(_:)), forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(self.refreshValueChanged(_:)), for: .valueChanged)
         activitiesTableView.addSubview(refreshControl)
     }
     
     // MARK: - Actions
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed(_ sender: AnyObject) {
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    func refreshValueChanged(sender: AnyObject) {
+    func refreshValueChanged(_ sender: AnyObject) {
         
         pageOffset = 0
         fetchActivities()
@@ -78,17 +78,17 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
     
     // MARK: - Tableview
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activities.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(activityCellid, forIndexPath: indexPath) as! FTSelectActivityCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: activityCellid, for: indexPath) as! FTSelectActivityCell
         
         let activity = activities[indexPath.row]
         
@@ -97,25 +97,25 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
         return cell
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         if indexPath.row == activities.count - 1 {
             fetchActivities()
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
         
         FTAnalytics.trackEvent(.SelectActivity, data: nil)
         
-        activitySelected?(activity: activities[indexPath.row])
+        activitySelected?(activities[indexPath.row])
     }
     
     // MARK: - API integration
     
-    private func fetchActivities() {
+    fileprivate func fetchActivities() {
         
         if !isFetching && (pageOffset == 0 || moreAvailable) {
             
@@ -123,19 +123,19 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
             
             var hud: MBProgressHUD?
             if pageOffset == 0 {
-                hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                 hud!.label.text = NSLocalizedString("Fetching Strava Activities", comment: "HUD title when fetching activities from strava")
-                hud!.mode = .Indeterminate
+                hud!.mode = .indeterminate
             }
         
             FTStravaManager.sharedInstance.fetchActivities(pageOffset, pageSize: pageSize, completion: { (results, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
                     self.isFetching = false
          
                     if hud != nil {
-                        hud!.hideAnimated(true)
+                        hud!.hide(animated: true)
                     }
                     
                     self.refreshControl.endRefreshing()
@@ -149,7 +149,7 @@ class FTSelectActivityViewController: UIViewController, UITableViewDelegate, UIT
                         self.pageOffset += 1
                         self.moreAvailable = results!.count >= self.pageSize
                         
-                        self.activities.appendContentsOf(results!)
+                        self.activities.append(contentsOf: results!)
                         self.activitiesTableView.reloadData()
                     }                    
                 })

@@ -16,7 +16,7 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
     
     var originalPhoto: UIImage!
     
-    var completionBlock: ((croppedPhoto: UIImage) -> ())?
+    var completionBlock: ((_ croppedPhoto: UIImage) -> ())?
     
     // MARK: - Controller lifecycle
 
@@ -48,7 +48,7 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - UI Customizations
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
@@ -61,13 +61,13 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
         navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonTouched(_:)))
     }
     
-    private func setupOverlay() {
+    fileprivate func setupOverlay() {
         
         overlayView.clipsToBounds = true
         overlayView.layer.cornerRadius = overlayView.bounds.size.width / 2
     }
     
-    private func setupScrollView() {
+    fileprivate func setupScrollView() {
         
         photoScrollView.contentSize = originalPhoto.size
         photoScrollView.delegate = self
@@ -75,45 +75,45 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
         photoScrollView.maximumZoomScale = 20.0
     }
     
-    private func addDoneButton() {
+    fileprivate func addDoneButton() {
         
-        let item = UIBarButtonItem(title: NSLocalizedString("Done", comment: "Done button title"), style: .Done, target: self, action: #selector(self.doneButtonTouched(_:)))
+        let item = UIBarButtonItem(title: NSLocalizedString("Done", comment: "Done button title"), style: .done, target: self, action: #selector(self.doneButtonTouched(_:)))
         navigationItem.rightBarButtonItem = item
     }
     
     // MARK: - Actions
     
-    func backButtonTouched(sender: AnyObject) {
+    func backButtonTouched(_ sender: AnyObject) {
         
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
     
-    func doneButtonTouched(sender: AnyObject) {
+    func doneButtonTouched(_ sender: AnyObject) {
         
         let croppedPhoto = makeCroppedPhoto()
         
-        completionBlock?(croppedPhoto: croppedPhoto)
+        completionBlock?(croppedPhoto)
         
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Photo cropping
     
-    private func makeCroppedPhoto() -> UIImage {
+    fileprivate func makeCroppedPhoto() -> UIImage {
         
-        let scale = UIScreen.mainScreen().scale
+        let scale = UIScreen.main.scale
         
-        overlayView.hidden = true
+        overlayView.isHidden = true
         
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, scale)
         
-        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
+        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
         
         let shot = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
         
-        overlayView.hidden = false
+        overlayView.isHidden = false
         
         let width = overlayView.bounds.size.width
         let height = overlayView.bounds.size.height
@@ -121,17 +121,17 @@ class FTPhotoCropViewController: UIViewController, UIScrollViewDelegate {
         let cropRect = CGRect(x: (overlayView.center.x - width / 2) * scale, y: (overlayView.center.y - height / 2) * scale, width: width * scale, height: height * scale)
         
         // Draw new image in current graphics context
-        let imageRef = CGImageCreateWithImageInRect(shot.CGImage, cropRect);
+        let imageRef = (shot?.cgImage)?.cropping(to: cropRect);
         
         // Create new cropped UIImage
-        let croppedImage = UIImage(CGImage: imageRef!)
+        let croppedImage = UIImage(cgImage: imageRef!)
         
         return croppedImage
     }
     
     // MARK: - Scrollview delegate
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         
         return photoImageView
     }

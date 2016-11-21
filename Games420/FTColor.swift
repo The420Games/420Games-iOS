@@ -19,7 +19,7 @@ extension UIColor {
     }
     
     class func ftMainBackgroundColor() -> UIColor {
-        return UIColor.blackColor()
+        return UIColor.black
     }
     
     class func ftMidGray() -> UIColor {

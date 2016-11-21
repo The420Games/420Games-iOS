@@ -18,19 +18,19 @@ class FTLeftMenuItemCell: UITableViewCell {
         
         super.awakeFromNib()
         
-        titleLabel.font = UIFont.defaultFont(.Bold, size: 15.0)
+        titleLabel.font = UIFont.defaultFont(.bold, size: 15.0)
         titleLabel.textColor = UIColor.ftMidGray2()
 
         horizontalLine.backgroundColor = UIColor.ftMidGray2()
         
-        contentView.backgroundColor = UIColor.clearColor()
-        backgroundColor = UIColor.clearColor()
+        contentView.backgroundColor = UIColor.clear
+        backgroundColor = UIColor.clear
     }
     
-    func setupCell(icon: UIImage?, title: String, lastItem: Bool) {
+    func setupCell(_ icon: UIImage?, title: String, lastItem: Bool) {
         
         iconImageView.image = icon
         titleLabel.text = title
-        horizontalLine.hidden = lastItem
+        horizontalLine.isHidden = lastItem
     }
 }

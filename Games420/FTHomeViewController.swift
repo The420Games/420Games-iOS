@@ -38,28 +38,28 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     @IBOutlet weak var elevationTitleLabel: UILabel!
     @IBOutlet weak var lineChartHolder: UIView!
     
-    private var pieChart: XYPieChart!
+    fileprivate var pieChart: XYPieChart!
     
-    private var lineChart: LineChart!
+    fileprivate var lineChart: LineChart!
     
-    private let profileSegueId = "profile"
-    private let medicationsSegueId = "medications"
-    private let tutorialSegueId = "tutorial"
+    fileprivate let profileSegueId = "profile"
+    fileprivate let medicationsSegueId = "medications"
+    fileprivate let tutorialSegueId = "tutorial"
     
-    private let moodCellId = "activityCell"
+    fileprivate let moodCellId = "activityCell"
     
-    private var activityDistances: [CGFloat]!
-    private var activityElevations: [CGFloat]!
-    private var activityDurations: [CGFloat]!
-    private var lineChartXLabels: [String]!
+    fileprivate var activityDistances: [CGFloat]!
+    fileprivate var activityElevations: [CGFloat]!
+    fileprivate var activityDurations: [CGFloat]!
+    fileprivate var lineChartXLabels: [String]!
     
-    private struct ActivityData {
+    fileprivate struct ActivityData {
         
         var totalCount:Int = 0
         var totalDuration: Double = 0.0
     }
     
-    private lazy var activityValues: [ActivityType: ActivityData] = {
+    fileprivate lazy var activityValues: [ActivityType: ActivityData] = {
        
         var values = [ActivityType: ActivityData]()
         
@@ -70,75 +70,75 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         return values
     }()
     
-    private lazy var currentMonth: Int = {
+    fileprivate lazy var currentMonth: Int = {
         
-        let calendar = NSCalendar.currentCalendar()
-        return calendar.component(.Month, fromDate: NSDate())
+        let calendar = Calendar.current
+        return (calendar as NSCalendar).component(.month, from: Date())
     }()
     
-    private lazy var currentYear: Int = {
+    fileprivate lazy var currentYear: Int = {
         
-        let calendar = NSCalendar.currentCalendar()
-        return calendar.component(.Year, fromDate: NSDate())
+        let calendar = Calendar.current
+        return (calendar as NSCalendar).component(.year, from: Date())
     }()
     
     enum FTHomeScreenStatus {
-        case Loading, NoActivities, Normal
+        case loading, noActivities, normal
     }
     
     var status: FTHomeScreenStatus  {
         didSet {
-            if self.isViewLoaded() {
+            if self.isViewLoaded {
                 switch self.status {
-                case .Loading:
+                case .loading:
                     self.statusLabel.text = NSLocalizedString("Fetching data...", comment: "Home screen status label title fetching data")
-                    self.statusLabel.hidden = false
-                    self.addActivityButton.hidden = true
-                    self.pieChartHolder.hidden = true
-                    self.moodCollectionView.hidden = true
-                    self.lineChartHolder.hidden = true
-                    self.topTitleLabel.hidden = true
-                    self.topSubtitleLabel.hidden = true
-                    self.durationTitleLabel.hidden = true
-                    self.elevationTitleLabel.hidden = true
-                    self.distanceTitleLabel.hidden = true
-                    self.bottomSubtitleLabel.hidden = true
-                    self.bottomHorizontalLine.hidden = true
+                    self.statusLabel.isHidden = false
+                    self.addActivityButton.isHidden = true
+                    self.pieChartHolder.isHidden = true
+                    self.moodCollectionView.isHidden = true
+                    self.lineChartHolder.isHidden = true
+                    self.topTitleLabel.isHidden = true
+                    self.topSubtitleLabel.isHidden = true
+                    self.durationTitleLabel.isHidden = true
+                    self.elevationTitleLabel.isHidden = true
+                    self.distanceTitleLabel.isHidden = true
+                    self.bottomSubtitleLabel.isHidden = true
+                    self.bottomHorizontalLine.isHidden = true
                     for dot in dotViews {
-                        dot.hidden = true
+                        dot.isHidden = true
                     }
-                case .NoActivities:
+                case .noActivities:
                     self.statusLabel.text = NSLocalizedString("No activities found... Do you want to add one?", comment: "Home screen status label title no data")
-                    self.statusLabel.hidden = false
-                    self.addActivityButton.hidden = false
-                    self.pieChartHolder.hidden = true
-                    self.moodCollectionView.hidden = true
-                    self.lineChartHolder.hidden = true
-                    self.topTitleLabel.hidden = true
-                    self.topSubtitleLabel.hidden = true
-                    self.durationTitleLabel.hidden = true
-                    self.elevationTitleLabel.hidden = true
-                    self.distanceTitleLabel.hidden = true
-                    self.bottomSubtitleLabel.hidden = true
-                    self.bottomHorizontalLine.hidden = true
+                    self.statusLabel.isHidden = false
+                    self.addActivityButton.isHidden = false
+                    self.pieChartHolder.isHidden = true
+                    self.moodCollectionView.isHidden = true
+                    self.lineChartHolder.isHidden = true
+                    self.topTitleLabel.isHidden = true
+                    self.topSubtitleLabel.isHidden = true
+                    self.durationTitleLabel.isHidden = true
+                    self.elevationTitleLabel.isHidden = true
+                    self.distanceTitleLabel.isHidden = true
+                    self.bottomSubtitleLabel.isHidden = true
+                    self.bottomHorizontalLine.isHidden = true
                     for dot in dotViews {
-                        dot.hidden = true
+                        dot.isHidden = true
                     }
-                case .Normal:
-                    self.statusLabel.hidden = true
-                    self.addActivityButton.hidden = true
-                    self.pieChartHolder.hidden = false
-                    self.moodCollectionView.hidden = false
-                    self.lineChartHolder.hidden = false
-                    self.topTitleLabel.hidden = false
-                    self.topSubtitleLabel.hidden = false
-                    self.durationTitleLabel.hidden = false
-                    self.elevationTitleLabel.hidden = false
-                    self.distanceTitleLabel.hidden = false
-                    self.bottomSubtitleLabel.hidden = false
-                    self.bottomHorizontalLine.hidden = false
+                case .normal:
+                    self.statusLabel.isHidden = true
+                    self.addActivityButton.isHidden = true
+                    self.pieChartHolder.isHidden = false
+                    self.moodCollectionView.isHidden = false
+                    self.lineChartHolder.isHidden = false
+                    self.topTitleLabel.isHidden = false
+                    self.topSubtitleLabel.isHidden = false
+                    self.durationTitleLabel.isHidden = false
+                    self.elevationTitleLabel.isHidden = false
+                    self.distanceTitleLabel.isHidden = false
+                    self.bottomSubtitleLabel.isHidden = false
+                    self.bottomHorizontalLine.isHidden = false
                     for dot in dotViews {
-                        dot.hidden = false
+                        dot.isHidden = false
                     }
                 }
             }
@@ -149,7 +149,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     required init?(coder aDecoder: NSCoder) {
         
-        status = .NoActivities
+        status = .noActivities
         
         super.init(coder: aDecoder)
     }
@@ -166,7 +166,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         
         setupUI()
         
-        status = .NoActivities
+        status = .noActivities
         
         fetchMedications()
         
@@ -197,17 +197,17 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     // MARK: - UI Customization
     
-    private func setupStatusViews() {
+    fileprivate func setupStatusViews() {
         
-        statusLabel.font = UIFont.defaultFont(.Medium, size: 15.0)
-        statusLabel.textColor = UIColor.whiteColor()
+        statusLabel.font = UIFont.defaultFont(.medium, size: 15.0)
+        statusLabel.textColor = UIColor.white
         
         addActivityButton.ft_setupButton(UIColor.ftLimeGreen(), title: NSLocalizedString("ADD NEW ACTIVITY", comment: "Add new activity button title on home screen"))
     }
     
-    private func setupPieChart() {
+    fileprivate func setupPieChart() {
         
-        pieChartHolder.backgroundColor = UIColor.clearColor()
+        pieChartHolder.backgroundColor = UIColor.clear
         
         pieChart = XYPieChart(frame: CGRect(x: 0, y: 0, width: pieChartHolder.bounds.size.width, height: pieChartHolder.bounds.size.height))
         
@@ -216,23 +216,23 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         pieChart.showPercentage = false
         pieChart.showLabel = false
         
-        pieChart.backgroundColor = UIColor.clearColor()
+        pieChart.backgroundColor = UIColor.clear
         
-        pieChartHolder.insertSubview(pieChart, atIndex: 0)
+        pieChartHolder.insertSubview(pieChart, at: 0)
     }
     
-    private func setupPieInnerHolder() {
+    fileprivate func setupPieInnerHolder() {
         
-        pieInnerHolderView.backgroundColor = UIColor.clearColor()
+        pieInnerHolderView.backgroundColor = UIColor.clear
         pieInnerHolderView.clipsToBounds = true
         pieInnerHolderView.layer.cornerRadius = pieInnerHolderView.bounds.size.width / 2
         pieInnerHolderView.layer.borderWidth = 6.0
-        pieInnerHolderView.layer.borderColor = view.backgroundColor?.CGColor
+        pieInnerHolderView.layer.borderColor = view.backgroundColor?.cgColor
         
         setupPieTextHolder()
     }
     
-    private func setupPieTextHolder() {
+    fileprivate func setupPieTextHolder() {
         
         pieTextHolderView.backgroundColor = view.backgroundColor
         pieTextHolderView.clipsToBounds = true
@@ -241,33 +241,33 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         setupPieLabels()
     }
     
-    private func setupPieLabels() {
+    fileprivate func setupPieLabels() {
         
         let monthSize = max(pieTextHolderView.bounds.size.width * 0.15, 11.0)
-        pieMonthLabel.font = UIFont.defaultFont(.Bold, size: monthSize)
-        pieMonthLabel.textColor = UIColor.whiteColor()
+        pieMonthLabel.font = UIFont.defaultFont(.bold, size: monthSize)
+        pieMonthLabel.textColor = UIColor.white
         
-        pieYearLabel.font = UIFont.defaultFont(.Light, size: max(monthSize * 0.75, 9.0))
-        pieMonthLabel.textColor = UIColor.whiteColor()
+        pieYearLabel.font = UIFont.defaultFont(.light, size: max(monthSize * 0.75, 9.0))
+        pieMonthLabel.textColor = UIColor.white
     }
     
-    private func setupTopTitleLabels() {
+    fileprivate func setupTopTitleLabels() {
         
-        topTitleLabel.font = UIFont.defaultFont(.Bold, size: 15.0)
-        topTitleLabel.textColor = UIColor.whiteColor()
+        topTitleLabel.font = UIFont.defaultFont(.bold, size: 15.0)
+        topTitleLabel.textColor = UIColor.white
         topTitleLabel.text = NSLocalizedString("MOOD", comment: "Mood top title")
         
-        topSubtitleLabel.font = UIFont.defaultFont(.Light, size: 13.0)
-        topSubtitleLabel.textColor = UIColor.whiteColor()
+        topSubtitleLabel.font = UIFont.defaultFont(.light, size: 13.0)
+        topSubtitleLabel.textColor = UIColor.white
         topSubtitleLabel.text = NSLocalizedString("Monthly data (%)", comment: "Monthly data title")
     }
     
-    private func setupCollectionView() {
+    fileprivate func setupCollectionView() {
         
-        moodCollectionView.backgroundColor = UIColor.clearColor()
+        moodCollectionView.backgroundColor = UIColor.clear
     }
     
-    private func setupLineChart() {
+    fileprivate func setupLineChart() {
 
         if lineChart != nil {
             lineChart.removeFromSuperview()
@@ -277,26 +277,26 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         if lineChart == nil {
             
             lineChart = LineChart(frame: CGRect(x: 15, y: 0, width: lineChartHolder.bounds.size.width - 15, height: lineChartHolder.bounds.size.height))
-            lineChart.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+            lineChart.autoresizingMask = [.flexibleHeight, .flexibleWidth]
             lineChartHolder.addSubview(lineChart)
-            lineChart.backgroundColor = UIColor.clearColor()
-            lineChartHolder.backgroundColor = UIColor.clearColor()
+            lineChart.backgroundColor = UIColor.clear
+            lineChartHolder.backgroundColor = UIColor.clear
             
             lineChart.x.grid.visible = false
             lineChart.x.axis.visible = false
             lineChart.x.labels.visible = true
             lineChart.x.labels.values = lineChartXLabels
-            lineChart.x.labels.color = UIColor.whiteColor()
-            lineChart.x.labels.font = UIFont.defaultFont(.Light, size: 9.0)!
+            lineChart.x.labels.color = UIColor.white
+            lineChart.x.labels.font = UIFont.defaultFont(.light, size: 9.0)!
             
             lineChart.y.grid.visible = false
             lineChart.y.axis.visible = false
             lineChart.y.axis.inset = 30.0
             lineChart.y.labels.visible = true
-            lineChart.y.labels.color = UIColor.whiteColor()
-            lineChart.y.labels.font = UIFont.defaultFont(.Light, size: 9.0)!
+            lineChart.y.labels.color = UIColor.white
+            lineChart.y.labels.font = UIFont.defaultFont(.light, size: 9.0)!
             
-            lineChart.dots.color = UIColor.redColor()
+            lineChart.dots.color = UIColor.red
             lineChart.dots.innerRadius = 6.0
             lineChart.dots.outerRadius = 10.0
             
@@ -310,11 +310,11 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         lineChart.addLine(activityDurations)
     }
     
-    private func setupLineChartLabels() {
+    fileprivate func setupLineChartLabels() {
         
         let fontSize = min(view.bounds.size.width / 31, 15.0)
-        let legendFont = UIFont.defaultFont(.Bold, size: fontSize)
-        let legendColor = UIColor.whiteColor()
+        let legendFont = UIFont.defaultFont(.bold, size: fontSize)
+        let legendColor = UIColor.white
         
         distanceTitleLabel.font = legendFont
         distanceTitleLabel.textColor = legendColor
@@ -337,12 +337,12 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
             dot.layer.cornerRadius = dot.frame.size.width / 2
         }
         
-        bottomSubtitleLabel.font = UIFont.defaultFont(.Light, size: 13.0)
-        bottomSubtitleLabel.textColor = UIColor.whiteColor()
+        bottomSubtitleLabel.font = UIFont.defaultFont(.light, size: 13.0)
+        bottomSubtitleLabel.textColor = UIColor.white
         bottomSubtitleLabel.text = NSLocalizedString("Weekly data", comment: "Line chart bottom subtitle")
     }
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
@@ -360,107 +360,107 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
     
     // MARK: - Actions
     
-    @IBAction func addActivityButtonTouched(sender: AnyObject) {
+    @IBAction func addActivityButtonTouched(_ sender: AnyObject) {
         
         FTAnalytics.trackEvent(.NewActivityFromHome, data: nil)
-        performSegueWithIdentifier(medicationsSegueId, sender: NSNumber(bool: true))
+        performSegue(withIdentifier: medicationsSegueId, sender: NSNumber(value: true as Bool))
     }
 
     // MARK: - Notifications
     
-    private func manageForMenuNotification(signup: Bool) {
+    fileprivate func manageForMenuNotification(_ signup: Bool) {
         
         if signup {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.menuItemSelectedNotificationReceived(_:)), name: FTSlideMenuItemSelectedNotificationName, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.menuItemSelectedNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTSlideMenuItemSelectedNotificationName), object: nil)
         }
         else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTSlideMenuItemSelectedNotificationName, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTSlideMenuItemSelectedNotificationName), object: nil)
         }
     }
     
-    func menuItemSelectedNotificationReceived(notification: NSNotification) {
+    func menuItemSelectedNotificationReceived(_ notification: Notification) {
         
         if let index = notification.userInfo?["itemIndex"] as? Int {
             
             if let item = FTSlideMenuItem(rawValue: index) {
                 
                 switch item {
-                case .Profile: performSegueWithIdentifier(profileSegueId, sender: self)
-                case .Main: navigationController?.popToRootViewControllerAnimated(true)
-                case .Workouts: performSegueWithIdentifier(medicationsSegueId, sender: self)
-                case .Tutorial: performSegueWithIdentifier(tutorialSegueId, sender: self)
-                case .FAQ: openLink(FTFAQLink)
-                case .Terms: openLink(FTTermsAndConditionsLink)
+                case .profile: performSegue(withIdentifier: profileSegueId, sender: self)
+                case .main: navigationController?.popToRootViewController(animated: true)
+                case .workouts: performSegue(withIdentifier: medicationsSegueId, sender: self)
+                case .tutorial: performSegue(withIdentifier: tutorialSegueId, sender: self)
+                case .faq: openLink(FTFAQLink)
+                case .terms: openLink(FTTermsAndConditionsLink)
                 default: print("Implement menu for \(item)")
                 }
             }
         }
     }
     
-    private func manageForMedicationNotification(signup: Bool) {
+    fileprivate func manageForMedicationNotification(_ signup: Bool) {
         
         if signup {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.medicationChangedNotificationReceived(_:)), name: FTMedicationSavedNotificationName, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.medicationChangedNotificationReceived(_:)), name: FTMedicationDeletedNotificationName, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.medicationChangedNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTMedicationSavedNotificationName), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.medicationChangedNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTMedicationDeletedNotificationName), object: nil)
         }
         else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTMedicationSavedNotificationName, object: nil)
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTMedicationDeletedNotificationName, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTMedicationSavedNotificationName), object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTMedicationDeletedNotificationName), object: nil)
         }
     }
     
-    func medicationChangedNotificationReceived(notification: NSNotification) {
+    func medicationChangedNotificationReceived(_ notification: Notification) {
         
         fetchMedications()
     }
     
-    private func manageForLoginNotification(signup: Bool) {
+    fileprivate func manageForLoginNotification(_ signup: Bool) {
         
         if signup {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.loginNotificationReceived(_:)), name: FTSignedInNotificationName, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.loginNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTSignedInNotificationName), object: nil)
         }
         else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: FTSignedInNotificationName, object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTSignedInNotificationName), object: nil)
         }
     }
     
-    func loginNotificationReceived(notification: NSNotification) {
+    func loginNotificationReceived(_ notification: Notification) {
         
         fetchMedications()
     }
     
-    func openLink(linkStr: String) {
+    func openLink(_ linkStr: String) {
         
-        if let url = NSURL(string: linkStr) {
+        if let url = URL(string: linkStr) {
             
-            if UIApplication.sharedApplication().canOpenURL(url) {
+            if UIApplication.shared.canOpenURL(url) {
                 
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             }
         }
     }
     
     // MARK: - Navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == medicationsSegueId {
             
             if let addNewMedication = sender as? NSNumber {
                 
-                (segue.destinationViewController as! FTMedicationsViewController).shouldAddNewActivityOnShow = addNewMedication.boolValue
+                (segue.destination as! FTMedicationsViewController).shouldAddNewActivityOnShow = addNewMedication.boolValue
             }
         }
     }
     
     // MARK: - Pie Chart
     
-    func numberOfSlicesInPieChart(pieChart: XYPieChart!) -> UInt {
+    func numberOfSlices(in pieChart: XYPieChart!) -> UInt {
         
         return  UInt(activityValues.count)
     }
     
-    func pieChart(pieChart: XYPieChart!, valueForSliceAtIndex index: UInt) -> CGFloat {
+    func pieChart(_ pieChart: XYPieChart!, valueForSliceAt index: UInt) -> CGFloat {
         
         let activityType = ActivityType.allValues[Int(index)]
             
@@ -472,33 +472,33 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         return 0.0
     }
     
-    func pieChart(pieChart: XYPieChart!, colorForSliceAtIndex index: UInt) -> UIColor! {
+    func pieChart(_ pieChart: XYPieChart!, colorForSliceAt index: UInt) -> UIColor! {
         
         let activityType = ActivityType.allValues[Int(index)]
         
         return activityType.color()
     }
     
-    func pieChart(pieChart: XYPieChart!, textForSliceAtIndex index: UInt) -> String! {
+    func pieChart(_ pieChart: XYPieChart!, textForSliceAt index: UInt) -> String! {
         
         return ""
     }
     
     // MARK: - CollectionView
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return activityValues.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(moodCellId, forIndexPath: indexPath) as! FTActivityValueCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: moodCellId, for: indexPath) as! FTActivityValueCell
         
         let activityType = ActivityType.allValues[indexPath.item]
         if let data = activityValues[activityType] {
@@ -507,27 +507,27 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: max(collectionView.bounds.size.width / CGFloat(max(activityValues.count, 1)), 1.0), height: collectionView.bounds.size.height)
     }
     
     // MARK: - Data integration
     
-    private func populatePieLabelsData() {
+    fileprivate func populatePieLabelsData() {
         
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         let name = formatter.monthSymbols[currentMonth - 1]
-        pieMonthLabel.text = name.uppercaseString
+        pieMonthLabel.text = name.uppercased()
         
         pieYearLabel.text = "\(currentYear)"
     }
     
-    private func fetchMedications() {
+    fileprivate func fetchMedications() {
         
-        if status != .Loading && FTDataManager.sharedInstance.currentUser != nil {
+        if status != .loading && FTDataManager.sharedInstance.currentUser != nil {
             
-            status = .Loading
+            status = .loading
             
             var nextMonth = currentMonth + 1
             var nextYear = currentYear
@@ -536,9 +536,9 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                 nextMonth = 1
             }
             
-            let calendar = NSCalendar.currentCalendar()
+            let calendar = Calendar.current
             
-            let comps = NSDateComponents()
+            var comps = DateComponents()
             
             comps.year = currentYear
             comps.month = currentMonth
@@ -547,7 +547,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
             comps.minute = 0
             comps.second = 0
             
-            let startDate = calendar.dateFromComponents(comps)
+            let startDate = calendar.date(from: comps)
             
             comps.year = nextYear
             comps.month = nextMonth
@@ -556,20 +556,20 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
             comps.minute = 59
             comps.second = 59
             
-            let finishDate = calendar.dateFromComponents(comps)?.dateByAddingTimeInterval(-1 * 24 * 60 * 60)
+            let finishDate = calendar.date(from: comps)?.addingTimeInterval(-1 * 24 * 60 * 60)
 
             var query = "ownerId = '\(FTDataManager.sharedInstance.currentUser!.objectId!)'"
             
             query += " AND activity.startDate >= \(startDate!.timeIntervalSince1970 * 1000) AND activity.startDate <= \(finishDate!.timeIntervalSince1970 * 1000)"
             
-            Medication.findObjects(query, order: ["created desc"], offset: 0, limit: 100) { (objects, error) in
+            Medication.findObjects(query, order: ["created desc" as AnyObject], offset: 0, limit: 100) { (objects, error) in
                 
                 if objects != nil {
                     
-                    let sortedMedications = (objects as! [Medication]).sort({ (medication1, medication2) -> Bool in
+                    let sortedMedications = (objects as! [Medication]).sorted(by: { (medication1, medication2) -> Bool in
                         if medication1.activity != nil && medication2.activity != nil {
                             if medication1.activity!.startDate != nil && medication2.activity!.startDate != nil {
-                                return medication1.activity!.startDate!.compare(medication2.activity!.startDate!) == .OrderedAscending
+                                return medication1.activity!.startDate!.compare(medication2.activity!.startDate!) == .orderedAscending
                             }
                         }
                         return false
@@ -592,7 +592,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     
                     var index = 0
                     
-                    let calendar = NSCalendar.currentCalendar()
+                    let calendar = Calendar.current
                     
                     for medication in sortedMedications {
                         
@@ -617,7 +617,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                             
                             if medication.activity!.startDate != nil {
                                 
-                                day = calendar.component(.Day, fromDate: medication.activity!.startDate!)
+                                day = (calendar as NSCalendar).component(.day, from: medication.activity!.startDate!)
                             }
                             
                             if day <= 7 {
@@ -639,13 +639,13 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                         }
                     }
                     
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         
                         if objects != nil && objects!.count > 0 {
-                            self.status = .Normal
+                            self.status = .normal
                         }
                         else {
-                            self.status = .NoActivities
+                            self.status = .noActivities
                         }
                         self.activityValues = values
                         
@@ -664,7 +664,7 @@ class FTHomeViewController: UIViewController, XYPieChartDelegate, XYPieChartData
                     })
                 }
                 else {
-                    self.status = .NoActivities
+                    self.status = .noActivities
                 }
             }
         }

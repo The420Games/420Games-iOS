@@ -10,33 +10,33 @@ import UIKit
 
 extension UIButton {
     
-    func ft_setupButton(bgColor: UIColor, title: String) {
+    func ft_setupButton(_ bgColor: UIColor, title: String) {
         
         backgroundColor = bgColor
         
         clipsToBounds = true
         layer.cornerRadius = 5.0
         
-        setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        titleLabel?.font = UIFont.defaultFont(.Bold, size: 14.7)
-        setTitle(title, forState: .Normal)
+        setTitleColor(UIColor.white, for: UIControlState())
+        titleLabel?.font = UIFont.defaultFont(.bold, size: 14.7)
+        setTitle(title, for: UIControlState())
     }
     
     func ft_setupCheckBox() {
         
-        setTitle(nil, forState: .Normal)
-        setTitle(nil, forState: .Selected)
+        setTitle(nil, for: UIControlState())
+        setTitle(nil, for: .selected)
         
-        setImage(UIImage(named: "btn_checkbox-normal"), forState: .Normal)
-        setImage(UIImage(named: "btn_checkbox-checked"), forState: .Selected)
+        setImage(UIImage(named: "btn_checkbox-normal"), for: UIControlState())
+        setImage(UIImage(named: "btn_checkbox-checked"), for: .selected)
     }
     
-    func ft_setChecked(checked: Bool) {
+    func ft_setChecked(_ checked: Bool) {
         
-        self.selected = checked
+        self.isSelected = checked
     }
     
     func ft_Checked() -> Bool {
-        return self.selected
+        return self.isSelected
     }
 }

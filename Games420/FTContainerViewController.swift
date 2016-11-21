@@ -15,10 +15,10 @@ class FTContainerViewController: SlideMenuController {
         
         SlideMenuOptions.leftViewWidth = 300
         
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FTHomeViewController") {
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "FTHomeViewController") {
             self.mainViewController = controller
         }
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FTLeftMenuViewController") {
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "FTLeftMenuViewController") {
             self.leftViewController = controller
         }
         
@@ -38,7 +38,7 @@ class FTContainerViewController: SlideMenuController {
         signupForSignoutNotification()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         checkLoggedIn()
@@ -54,23 +54,23 @@ class FTContainerViewController: SlideMenuController {
         removeFromSignoutNotification()
     }
     
-    private func checkLoggedIn() {
+    fileprivate func checkLoggedIn() {
         if FTDataManager.sharedInstance.currentUser == nil {
-            performSegueWithIdentifier("onboarding", sender: self)
+            performSegue(withIdentifier: "onboarding", sender: self)
         }
     }
 
-    private func signupForSignoutNotification() {
+    fileprivate func signupForSignoutNotification() {
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.signoutNotificationReceived(_:)), name: FTSignedOutNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.signoutNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTSignedOutNotificationName), object: nil)
     }
     
-    private func removeFromSignoutNotification() {
+    fileprivate func removeFromSignoutNotification() {
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: FTSignedOutNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTSignedOutNotificationName), object: nil)
     }
     
-    func signoutNotificationReceived(notification: NSNotification) {
+    func signoutNotificationReceived(_ notification: Notification) {
         
         checkLoggedIn()
     }

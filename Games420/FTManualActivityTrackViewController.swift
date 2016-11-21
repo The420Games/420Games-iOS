@@ -8,6 +8,30 @@
 
 import UIKit
 import ActionSheetPicker_3_0
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate {
 
@@ -20,17 +44,17 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     @IBOutlet weak var durationButton: UIButton!
     @IBOutlet weak var dateButton: UIButton!
     
-    private let typeButtonTitle = NSLocalizedString("SET ACTIVITY TYPE", comment: "Select activity type title")
-    private let dateButtonTitle = NSLocalizedString("SET ACTIVITY DATE", comment: "Select activity date title")
-    private let durationButtonTitle = NSLocalizedString("SET ACTIVITY DURATION", comment: "Select activity duration title")
+    fileprivate let typeButtonTitle = NSLocalizedString("SET ACTIVITY TYPE", comment: "Select activity type title")
+    fileprivate let dateButtonTitle = NSLocalizedString("SET ACTIVITY DATE", comment: "Select activity date title")
+    fileprivate let durationButtonTitle = NSLocalizedString("SET ACTIVITY DURATION", comment: "Select activity duration title")
     
-    private let medicationSegueId = "logActivity"
+    fileprivate let medicationSegueId = "logActivity"
     
-    private lazy var dateFormatter: NSDateFormatter = {
+    fileprivate lazy var dateFormatter: DateFormatter = {
        
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .ShortStyle
-        formatter.timeStyle = .ShortStyle
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
         
         return formatter
     }()
@@ -55,7 +79,7 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         FTAnalytics.trackEvent(.ManualActivity, data: nil)
     }
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         navigationItem.title = NSLocalizedString("Add activity", comment: "Manual activity add title")
         
@@ -83,11 +107,11 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         dateButton.ft_setupButton(btnColor, title: dateButtonTitle)
     }
     
-    private func loadActivityDetails() {
+    fileprivate func loadActivityDetails() {
         
         if activity.type != nil {
             if let type = ActivityType(rawValue: activity.type!) {
-                self.typeButton.setTitle("\(type)", forState: .Normal)
+                self.typeButton.setTitle("\(type)", for: UIControlState())
             }
         }
         
@@ -102,23 +126,23 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         }
         
         if activity.elapsedTime != nil {
-            durationButton.setTitle(activity.verboseDuration(false), forState: .Normal)
+            durationButton.setTitle(activity.verboseDuration(false), for: UIControlState())
         }
         
         if activity.startDate != nil {
-            dateButton.setTitle(dateFormatter.stringFromDate(activity.startDate!), forState: .Normal)
+            dateButton.setTitle(dateFormatter.string(from: activity.startDate! as Date), for: UIControlState())
         }
         
         nameTextField.text = activity.name
     }
     
-    private func addNextButton() {
+    fileprivate func addNextButton() {
         
-        let item = UIBarButtonItem(image: UIImage(named: "btn_next"), style: .Plain, target: self, action: #selector(self.nextButtonPressed(_:)))
+        let item = UIBarButtonItem(image: UIImage(named: "btn_next"), style: .plain, target: self, action: #selector(self.nextButtonPressed(_:)))
         navigationItem.rightBarButtonItem = item
     }
     
-    private func endEditing() {
+    fileprivate func endEditing() {
         
         distanceTextField.resignFirstResponder()
         nameTextField.resignFirstResponder()
@@ -127,27 +151,27 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
     
     // MARK: - Actions
     
-    func nextButtonPressed(sender: AnyObject) {
+    func nextButtonPressed(_ sender: AnyObject) {
         
         endEditing()
         
         if validData() {
-            performSegueWithIdentifier(medicationSegueId, sender: self)
+            performSegue(withIdentifier: medicationSegueId, sender: self)
         }
     }
     
-    @IBAction func textFieldExit(sender: UITextField) {
+    @IBAction func textFieldExit(_ sender: UITextField) {
         
         sender.resignFirstResponder()
     }
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed(_ sender: AnyObject) {
         
         endEditing()
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func typeButtonPressed(sender: AnyObject) {
+    @IBAction func typeButtonPressed(_ sender: AnyObject) {
         
         endEditing()
         
@@ -155,7 +179,7 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         var typeIndex = 0
         var i = 0
         for type in ActivityType.allValues {
-            types.append(type.localizedName(false).capitalizingFirstLetter())
+            types.append(type.localizedName(false).capitalizingFirstLetter() as AnyObject)
             if type.rawValue == activity.type {
                 typeIndex = i
             }
@@ -166,39 +190,39 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
             
             let type = ActivityType.allValues[index]
             self.activity.type = type.rawValue
-            self.typeButton.setTitle(value as? String, forState: .Normal)
+            self.typeButton.setTitle(value as? String, for: UIControlState())
             
-            FTAnalytics.trackEvent(.SelectActivityType, data: ["type": "\(type)"])
+            FTAnalytics.trackEvent(.SelectActivityType, data: ["type": "\(type)" as AnyObject])
             
-            }, cancelBlock: { (picker) in
+            }, cancel: { (picker) in
                 //
             }, origin: sender)
         
-        picker.showActionSheetPicker()
+        picker?.show()
     }
     
-    @IBAction func dateButtonTouched(sender: AnyObject) {
+    @IBAction func dateButtonTouched(_ sender: AnyObject) {
         
         endEditing()
         
-        let datePicker = ActionSheetDatePicker(title: NSLocalizedString("Select activity date", comment: "Activity date picker tite"), datePickerMode: UIDatePickerMode.DateAndTime, selectedDate: self.activity.startDate != nil ? self.activity.startDate : NSDate(), doneBlock: {
+        let datePicker = ActionSheetDatePicker(title: NSLocalizedString("Select activity date", comment: "Activity date picker tite"), datePickerMode: UIDatePickerMode.dateAndTime, selectedDate: self.activity.startDate != nil ? self.activity.startDate : Date(), doneBlock: {
             picker, value, index in
             
-            if let date = value as? NSDate {
+            if let date = value as? Date {
                 
                 self.activity.startDate = date
-                self.dateButton.setTitle(self.dateFormatter.stringFromDate(date), forState: .Normal)
+                self.dateButton.setTitle(self.dateFormatter.string(from: date), for: UIControlState())
             }
             
-            }, cancelBlock: { ActionStringCancelBlock in return }, origin: self.view)
+            }, cancel: { ActionStringCancelBlock in return }, origin: self.view)
         
-        datePicker.minimumDate = NSDate(timeInterval: -1 * 365 * 24 * 60 * 60, sinceDate: NSDate())
-        datePicker.maximumDate = NSDate()
+        datePicker?.minimumDate = Date(timeInterval: -1 * 365 * 24 * 60 * 60, since: Date())
+        datePicker?.maximumDate = Date()
         
-        datePicker.showActionSheetPicker()
+        datePicker?.show()
     }
     
-    @IBAction func durationButtonTouched(sender: AnyObject) {
+    @IBAction func durationButtonTouched(_ sender: AnyObject) {
         
         endEditing()
         
@@ -213,9 +237,9 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         
         var hours = [AnyObject]()
         var hourIndex = 0
-        hours.append(NSLocalizedString("Hours", comment: "Hours placeholder"))
+        hours.append(NSLocalizedString("Hours", comment: "Hours placeholder") as AnyObject)
         for h in 0 ... 24 {
-            hours.append("\(h)")
+            hours.append("\(h)" as AnyObject)
             let hD = Double(h)
             if hD == hour {
                 hourIndex = h + 1
@@ -224,16 +248,16 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         
         var minutes = [AnyObject]()
         var minIndex = 0
-        minutes.append(NSLocalizedString("Mins", comment: "Minutes placeholder"))
+        minutes.append(NSLocalizedString("Mins", comment: "Minutes placeholder") as AnyObject)
         
         var seconds = [AnyObject]()
         var secIndex = 0
-        seconds.append(NSLocalizedString("Secs", comment: "Seconds placeholder"))
+        seconds.append(NSLocalizedString("Secs", comment: "Seconds placeholder") as AnyObject)
         
         for m in 0 ... 59 {
             let mD = Double(m)
-            minutes.append("\(m)")
-            seconds.append("\(m)")
+            minutes.append("\(m)" as AnyObject)
+            seconds.append("\(m)" as AnyObject)
             
             if mD == min {
                 minIndex = m + 1
@@ -244,39 +268,44 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         }
         let rows = [hours, minutes, seconds]
         
-        _ = ActionSheetMultipleStringPicker.showPickerWithTitle(NSLocalizedString("Set duration", comment: "Duration picker title"), rows: rows, initialSelection: [hourIndex, minIndex, secIndex], doneBlock: { (picker, indexes, values) in
+        _ = ActionSheetMultipleStringPicker.show(withTitle: NSLocalizedString("Set duration", comment: "Duration picker title"), rows: rows, initialSelection: [hourIndex, minIndex, secIndex], doneBlock: { (picker, indexes, values) in
             
             var duration = 0
             
-            if let hour = values.objectAtIndex(0) as? NSString {
-                duration += hour.integerValue * 3600
+            if let valuesArray = values as? [NSString] {
+            
+                if valuesArray.count > 0 {
+                    let hour = valuesArray[0]
+                    duration += hour.integerValue * 3600
+                }
+                
+                if valuesArray.count > 1 {
+                    let min = valuesArray[1]
+                    duration += min.integerValue * 60
+                }
+                
+                if valuesArray.count > 2 {
+                    let sec = valuesArray[2]
+                    duration += sec.integerValue
+                }
             }
             
-            if let min = values.objectAtIndex(1) as? NSString {
-                duration += min.integerValue * 60
-            }
-            
-            if let sec = values.objectAtIndex(2) as? NSString {
-                duration += sec.integerValue
-            }
-            
-            self.activity.elapsedTime = duration
+            self.activity.elapsedTime = duration as NSNumber?
             if duration > 0 {
-                self.durationButton.setTitle(self.activity.verboseDuration(false), forState: .Normal)
+                self.durationButton.setTitle(self.activity.verboseDuration(false), for: UIControlState())
             }
             else {
-                self.durationButton.setTitle(self.durationButtonTitle, forState: .Normal)
+                self.durationButton.setTitle(self.durationButtonTitle, for: UIControlState())
             }
             
-            }, cancelBlock: { (picker) in
-                //
-            }, origin: sender)
-        
+        }, cancel: { (picker) in
+            //
+        }, origin: sender)
     }
     
     // MARK: - Data integration
     
-    private func validData() -> Bool {
+    fileprivate func validData() -> Bool {
         
         var errors = [String]()
         
@@ -298,37 +327,37 @@ class FTManualActivityTrackViewController: UIViewController, UITextFieldDelegate
         
         if errors.count > 0 {
             
-            let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            let alert = UIAlertController(title: nil, message: errors.joined(separator: "\n"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
         
         return errors.count == 0
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == medicationSegueId {
-            (segue.destinationViewController as! FTLogActivityViewController).activity = self.activity
+            (segue.destination as! FTLogActivityViewController).activity = self.activity
             if medication != nil {
-                (segue.destinationViewController as! FTLogActivityViewController).medication = self.medication!
+                (segue.destination as! FTLogActivityViewController).medication = self.medication!
             }
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
         if let text = textField.text {
             
             let string = NSString(string: text)
-            let number = NSNumber(double: string.doubleValue)
+            let number = NSNumber(value: string.doubleValue as Double)
             
             if textField == distanceTextField {
-                activity.distance = Activity.isMetricSystem() ? number.doubleValue * 1000 : number.doubleValue * Activity.metersInMile
+                activity.distance = (Activity.isMetricSystem() ? number.doubleValue * 1000 : number.doubleValue * Activity.metersInMile) as NSNumber?
             }
             else if textField == elevationTextField {
-                activity.elevationGain = Activity.isMetricSystem() ? number : number.doubleValue * Activity.metersInFoot
+                activity.elevationGain = Activity.isMetricSystem() ? number : number.doubleValue * Activity.metersInFoot as NSNumber
             }
             else if textField == nameTextField {
                 activity.name = textField.text

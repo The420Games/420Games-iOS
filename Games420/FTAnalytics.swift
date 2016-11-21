@@ -41,19 +41,19 @@ enum FTEvent: String {
 
 class FTAnalytics: NSObject {
 
-    static private let mixpanelKey = "3f0d0950cb84e3458e628521ca4f7fab"
+    static fileprivate let mixpanelKey = "3f0d0950cb84e3458e628521ca4f7fab"
     
     class func initAnalytics() {
         
-        _ = Mixpanel.sharedInstanceWithToken(mixpanelKey)
+        _ = Mixpanel.sharedInstance(withToken: mixpanelKey)
     }
     
-    class func trackEvent(event: FTEvent, data: [String: AnyObject]?) {
+    class func trackEvent(_ event: FTEvent, data: [String: AnyObject]?) {
         
         Mixpanel.sharedInstance().track(event.rawValue, properties: data)
     }
     
-    class func identifyUser(userId: String) {
+    class func identifyUser(_ userId: String) {
         
         Mixpanel.sharedInstance().identify(userId)
     }

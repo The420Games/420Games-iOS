@@ -19,17 +19,17 @@ class FTActivityValueCell: UICollectionViewCell {
         
         super.awakeFromNib()
         
-        backgroundColor = UIColor.clearColor()
-        contentView.backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
         
-        titleLabel.font = UIFont.defaultFont(.Light, size: 13)
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.font = UIFont.defaultFont(.light, size: 13)
+        titleLabel.textColor = UIColor.white
         
-        valueLabel.font = UIFont.defaultFont(.Bold, size: 26)
-        valueLabel.textColor = UIColor.whiteColor()
+        valueLabel.font = UIFont.defaultFont(.bold, size: 26)
+        valueLabel.textColor = UIColor.white
     }
     
-    func setupCell(activityType: ActivityType, value: Int) {
+    func setupCell(_ activityType: ActivityType, value: Int) {
     
         iconImageView.image = activityType.icon()
         titleLabel.text = activityType.localizedName(false)
@@ -41,7 +41,7 @@ class FTActivityValueCell: UICollectionViewCell {
         
         super.prepareForReuse()
         
-        colorBarView.backgroundColor = UIColor.clearColor()
+        colorBarView.backgroundColor = UIColor.clear
         
         titleLabel.text = ""
         valueLabel.text = ""

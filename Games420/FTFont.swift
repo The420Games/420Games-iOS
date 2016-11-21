@@ -9,21 +9,21 @@
 import UIKit
 
 enum FTFontType {
-    case Regular, Bold, Light, Medium
+    case regular, bold, light, medium
 }
 
 extension UIFont {
     
-    static func defaultFont(type: FTFontType, size: CGFloat) -> UIFont? {
+    static func defaultFont(_ type: FTFontType, size: CGFloat) -> UIFont? {
         
         let baseFontName = "HelveticaNeue"
         
         var fontName: String?
         
         switch type {
-        case .Bold: fontName = baseFontName + "-Bold"
-        case .Medium: fontName = baseFontName + "-Medium"
-        case .Light: fontName = baseFontName + "-Light"
+        case .bold: fontName = baseFontName + "-Bold"
+        case .medium: fontName = baseFontName + "-Medium"
+        case .light: fontName = baseFontName + "-Light"
         default: fontName = baseFontName
         }
         
@@ -36,11 +36,11 @@ extension UIFont {
     
     static func printFonts() {
         
-        let fontFamilyNames = UIFont.familyNames()
+        let fontFamilyNames = UIFont.familyNames
         for familyName in fontFamilyNames {
             print("------------------------------")
             print("Font Family Name = [\(familyName)]")
-            let names = UIFont.fontNamesForFamilyName(familyName)
+            let names = UIFont.fontNames(forFamilyName: familyName)
             print("Font Names = [\(names)]")
         }
         print("done")

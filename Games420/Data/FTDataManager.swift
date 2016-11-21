@@ -37,14 +37,14 @@ class FTDataManager: NSObject {
         
         let backendless = Backendless.sharedInstance()
         
-        backendless.initApp(appId, secret:appSecret, version:version)
+        backendless?.initApp(appId, secret:appSecret, version:version)
         // If you plan to use Backendless Media Service, uncomment the following line (iOS ONLY!)
         // backendless.mediaService = MediaService()
     }
 
     // MARK: - User
     
-    private var _currentUser: User?
+    fileprivate var _currentUser: User?
     var currentUser: User? {
         get {
             if _currentUser == nil {
@@ -59,103 +59,103 @@ class FTDataManager: NSObject {
     
     // MARK: - Email authentication
     
-    func login(email: String, password: String, completion:((user: User?, error: NSError?) -> ())?) {
+    func login(_ email: String, password: String, completion:((_ user: User?, _ error: NSError?) -> ())?) {
         
-        Backendless.sharedInstance().userService.login(email, password: password, response: {(backendlessUser : BackendlessUser!) -> () in
+        Backendless.sharedInstance().userService.login(email, password: password, response: {(backendlessUser) -> () in
             
-            completion?(user: self.currentUser, error: nil)
+            completion?(self.currentUser, nil)
             
-            NSNotificationCenter.defaultCenter().postNotificationName(FTSignedInNotificationName, object: backendlessUser)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: FTSignedInNotificationName), object: backendlessUser)
             
-            FTAnalytics.identifyUser(backendlessUser.objectId!)
+            FTAnalytics.identifyUser(backendlessUser?.objectId! as! String)
             
             },
-                                                       error: {(fault : Fault!) -> () in
+                                                       error: {(fault) -> () in
                                                         
-                                                        completion?(user: nil, error: NSError.errorWithFault(fault))
+                                                        completion?(nil, NSError.errorWithFault(fault))
             }
         )
     }
     
-    func signup(user: User, completion:((success: Bool, error: NSError?) -> ())?) {
+    func signup(_ user: User, completion:((_ success: Bool, _ error: NSError?) -> ())?) {
         
         let bUser = user.newUser()
         
         Backendless.sharedInstance().userService.registering(bUser, response: { (backendlessUser) in
             
-            completion?(success: true, error: nil)
+            completion?(true, nil)
             
         }) { (fault) in
-            completion?(success: false, error: NSError.errorWithFault(fault))
+            completion?(false, NSError.errorWithFault(fault))
         }
     }
     
-    func resetPassword(email: String, completion:((success: Bool, error: NSError?) -> ())?) {
+    func resetPassword(_ email: String, completion:((_ success: Bool, _ error: NSError?) -> ())?) {
         
         Backendless.sharedInstance().userService.restorePassword(email, response: { (object) in
             
-            completion?(success: true, error: nil)
+            completion?(true, nil)
             
         }) { (fault) in
-            completion?(success: false, error: NSError.errorWithFault(fault))
+            completion?(false, NSError.errorWithFault(fault))
         }
     }
     
-    func logout(completion:((success: Bool, error: NSError?) -> ())?) {
+    func logout(_ completion:((_ success: Bool, _ error: NSError?) -> ())?) {
         
         Backendless.sharedInstance().userService.logout({ (response) in
             
             self._currentUser = nil
             
-            completion?(success: true, error: nil)
+            completion?(true, nil)
             
         }) { (fault) in
             
-            completion?(success: false, error: NSError.errorWithFault(fault))
+            completion?(false, NSError.errorWithFault(fault))
         }
     }
     
     // MARK: - Images
     
-    func uploadImage(image: UIImage, path: String, completion:((fileName: String?, error: NSError?) -> ())?) {
+    func uploadImage(_ image: UIImage, path: String, completion:((_ fileName: String?, _ error: NSError?) -> ())?) {
         
         let imageData = UIImageJPEGRepresentation(image, 0.6)
         
         uploadImageData(imageData, path: path, completion: completion)
     }
     
-    func uploadImageData(imageData:NSData!, path: String, completion:((fileName: String?, error: NSError?) -> ())?) {
+    func uploadImageData(_ imageData:Data!, path: String, completion:((_ fileName: String?, _ error: NSError?) -> ())?) {
         
-        let fileName = NSUUID().UUIDString + ".jpg"
+        let fileName = UUID().uuidString + ".jpg"
         let filePath = path + "/" + fileName
         
         Backendless.sharedInstance().fileService.upload(filePath, content: imageData, overwrite: true, response: { (file) in
             
-            completion?(fileName: fileName, error: nil)
+            completion?(fileName, nil)
             
             }) { (fault) in
-                completion?(fileName: nil, error: NSError.errorWithFault(fault))
+                completion?(nil, NSError.errorWithFault(fault))
         }
     }
     
     func backendFileServiceBaseURLString() -> String {
         
         let version = FTDataManager.ftStaging ? FTDataManager.ftStagingAppVersion : FTDataManager.ftProductionAppVersion
-        let appId = (FTDataManager.ftStaging ? FTDataManager.ftStagingAppID : FTDataManager.ftProductionAppID).lowercaseString
+        let appId = (FTDataManager.ftStaging ? FTDataManager.ftStagingAppID : FTDataManager.ftProductionAppID).lowercased()
         
         let urlString = "https://api.backendless.com/\(appId)/\(version)/files/"
         
         return urlString
     }
     
-    func imageUrlForProperty(property: String?, path: String?) -> NSURL? {
+    func imageUrlForProperty(_ property: String?, path: String?) -> URL? {
         
         if property == nil {
             return nil
         }
         
-        if let url = NSURL(string: property!) {
-            if !url.scheme.isEmpty && url.host != nil {
+        if let url = URL(string: property!) {
+            if !(url.scheme?.isEmpty)! && url.host != nil {
                 return url
             }
         }
@@ -166,67 +166,73 @@ class FTDataManager: NSObject {
         }
         urlString += property!
         
-        if let url = NSURL(string: urlString) {
+        if let url = URL(string: urlString) {
             return url
         }
         
         return nil
     }
     
-    func fetchImageWithURL(url:NSURL!, imageView: UIImageView!) {
+    func fetchImageWithURL(_ url:URL!, imageView: UIImageView!) {
         
-        imageView.kf_setImageWithURL(url)
+        imageView.kf.setImage(with: url)
     }
     
     //MARK: - Facebook Login
     
-    private func hasValidFacebookAccessToken() -> Bool {
+    fileprivate func hasValidFacebookAccessToken() -> Bool {
         
-        let accessToken = FBSDKAccessToken.currentAccessToken()
+        let accessToken = FBSDKAccessToken.current()
         
-        return ((accessToken != nil) && (accessToken.expirationDate.compare(NSDate()) == NSComparisonResult.OrderedDescending))
+        return ((accessToken != nil) && (accessToken!.expirationDate.compare(Date()) == ComparisonResult.orderedDescending))
     }
     
-    private func loginToFacebook(completion:((accessToken:FBSDKAccessToken?, error:NSError?) -> Void)?) {
+    fileprivate func loginToFacebook(_ completion:((_ accessToken:FBSDKAccessToken?, _ error:NSError?) -> Void)?) {
         
-        let loginManager = FBSDKLoginManager()
+        let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
         
-        loginManager.loginBehavior = FBSDKLoginBehavior.SystemAccount
+        fbLoginManager.loginBehavior = FBSDKLoginBehavior.systemAccount
         
-        loginManager.logInWithReadPermissions(["email"], fromViewController: nil) { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
+        fbLoginManager.logIn(withReadPermissions: ["email"], from: nil) { (result, error) in
             
-            completion?(accessToken: result != nil ? result!.token : nil, error: error)
+            if error == nil {
+                let fbloginresult : FBSDKLoginManagerLoginResult = result!
+                completion?(fbloginresult.token, nil)
+            }
+            else {
+                completion?(nil, error as NSError?)
+            }
         }
     }
     
-    private func loginWithFacebookAccessToken(accessToken:FBSDKAccessToken, completionBlock:((user: User?, error: NSError?) -> ())?) {
+    fileprivate func loginWithFacebookAccessToken(_ accessToken:FBSDKAccessToken, completionBlock:((_ user: User?, _ error: NSError?) -> ())?) {
         
         Backendless.sharedInstance().userService.setStayLoggedIn( true )
-        Backendless.sharedInstance().userService.loginWithFacebookSDK(accessToken, fieldsMapping: ["email":"email", "name":"name"], response: { (user:BackendlessUser!) -> Void in
+        Backendless.sharedInstance().userService.login(withFacebookSDK: accessToken, fieldsMapping: ["email":"email", "name":"name"], response: { (user) -> Void in
             
-            let user = User(backendlessUser: user)
+            let user = User(backendlessUser: user!)
             
             self._currentUser = user
             
-            NSNotificationCenter.defaultCenter().postNotificationName(FTSignedInNotificationName, object: user)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: FTSignedInNotificationName), object: user)
             
             FTAnalytics.identifyUser(user.objectId!)
             
-            completionBlock?(user: self.currentUser, error: nil)
+            completionBlock?(self.currentUser, nil)
             },
-                                                                      error: { (fault:Fault!) -> Void in
+                                                                      error: { (fault) -> Void in
                                                                         
-                                                                        completionBlock?(user: nil, error: NSError.errorWithFault(fault))
+                                                                        completionBlock?(nil, NSError.errorWithFault(fault))
         })
     }
     
-    func loginWithFacebook(completion:((user: User?, error: NSError?) -> ())?) {
+    func loginWithFacebook(_ completion:((_ user: User?, _ error: NSError?) -> ())?) {
         
         //is our accessToken expired
         if (self.hasValidFacebookAccessToken()) {
             
-            let accessToken = FBSDKAccessToken.currentAccessToken()
-            self.loginWithFacebookAccessToken(accessToken, completionBlock: completion)
+            let accessToken = FBSDKAccessToken.current()
+            self.loginWithFacebookAccessToken(accessToken!, completionBlock: completion)
         }
         else {
             
@@ -236,7 +242,7 @@ class FTDataManager: NSObject {
                     self.loginWithFacebookAccessToken(accessToken!, completionBlock: completion)
                 }
                 else {
-                    completion?(user:nil, error: error)
+                    completion?(nil, error)
                 }
             })
         }

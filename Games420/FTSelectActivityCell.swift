@@ -20,35 +20,35 @@ class FTSelectActivityCell: UITableViewCell {
         
         super.awakeFromNib()
         
-        backgroundColor = UIColor.clearColor()
-        contentView.backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
         
-        titleLabel.font = UIFont.defaultFont(.Medium, size: 16)
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.font = UIFont.defaultFont(.medium, size: 16)
+        titleLabel.textColor = UIColor.white
         
-        subtitleLabel.font = UIFont.defaultFont(.Light, size: 13.0)
-        subtitleLabel.textColor = UIColor.whiteColor()
+        subtitleLabel.font = UIFont.defaultFont(.light, size: 13.0)
+        subtitleLabel.textColor = UIColor.white
         
         separatorView.backgroundColor = UIColor.ftMidGray()
     }
     
-    private func populateDate(date: NSDate?) {
+    fileprivate func populateDate(_ date: Date?) {
         
         if date != nil {
             
-            let calendar = NSCalendar.currentCalendar()
-            let components = calendar.components([.Hour, .Minute, .Year, .Month, .Day], fromDate: date!)
+            let calendar = Calendar.current
+            let components = (calendar as NSCalendar).components([.hour, .minute, .year, .month, .day], from: date!)
             let month = components.month
             let day = components.day
             
-            let attrDate = NSMutableAttributedString(string: String(format: "%02d", month), attributes: [
-                NSForegroundColorAttributeName: UIColor.whiteColor(),
-                NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.0)!
+            let attrDate = NSMutableAttributedString(string: String(format: "%02d", month!), attributes: [
+                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: UIFont.defaultFont(.light, size: 12.0)!
                 ])
-            attrDate.appendAttributedString(NSAttributedString(string: "\n"))
-            attrDate.appendAttributedString(NSAttributedString(string: String(format: "%02d", day), attributes: [
-                NSForegroundColorAttributeName: UIColor.whiteColor(),
-                NSFontAttributeName: UIFont.defaultFont(.Bold, size: 12.0)!
+            attrDate.append(NSAttributedString(string: "\n"))
+            attrDate.append(NSAttributedString(string: String(format: "%02d", day!), attributes: [
+                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: UIFont.defaultFont(.bold, size: 12.0)!
                 ]))
             dateLabel.attributedText = attrDate
         }
@@ -57,7 +57,7 @@ class FTSelectActivityCell: UITableViewCell {
         }
     }
     
-    func setupWithActivity(activity: Activity, lastItem: Bool) {
+    func setupWithActivity(_ activity: Activity, lastItem: Bool) {
         
         var title = ""
         if activity.name != nil && !activity.name!.isEmpty  {
@@ -83,9 +83,9 @@ class FTSelectActivityCell: UITableViewCell {
             }
         }
         
-        populateDate(activity.startDate)
+        populateDate(activity.startDate as Date?)
         
-        separatorView.hidden = lastItem
+        separatorView.isHidden = lastItem
     }
     
     override func prepareForReuse() {

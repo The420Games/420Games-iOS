@@ -24,20 +24,20 @@ class FTMedicationDetailCell: UITableViewCell {
         
         super.awakeFromNib()
         
-        backgroundColor = UIColor.clearColor()
-        contentView.backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
         
-        titleLabel.font = UIFont.defaultFont(.Medium, size: 13.0)
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.font = UIFont.defaultFont(.medium, size: 13.0)
+        titleLabel.textColor = UIColor.white
         
-        valueLabel.font = UIFont.defaultFont(.Light, size: 13.0)
-        valueLabel.textColor = UIColor.whiteColor()
+        valueLabel.font = UIFont.defaultFont(.light, size: 13.0)
+        valueLabel.textColor = UIColor.white
         
         separatorLine.backgroundColor = UIColor.ftMidGray()
         separatorHeight.constant = 0.5
     }
 
-    func configureCell(title: String, value: String, icon: UIImage?) {
+    func configureCell(_ title: String, value: String, icon: UIImage?) {
         
         titleLabel.text = title
         valueLabel.text = value

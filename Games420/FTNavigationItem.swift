@@ -10,11 +10,11 @@ import UIKit
 
 extension UINavigationItem {
     
-    func addEmptyBackButton(target: AnyObject, action: Selector) {
+    func addEmptyBackButton(_ target: AnyObject, action: Selector) {
         
         hidesBackButton = true
         
-        let button = UIBarButtonItem(image: UIImage(named: "btn_back"), style: .Plain, target: target, action: action)
+        let button = UIBarButtonItem(image: UIImage(named: "btn_back"), style: .plain, target: target, action: action)
         leftBarButtonItem = button
     }
     

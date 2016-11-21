@@ -25,7 +25,7 @@ enum ActivityType: String {
         }
     }
     
-    func localizedName(past: Bool) -> String {
+    func localizedName(_ past: Bool) -> String {
         
         switch self {
         case .Ride: return past ? NSLocalizedString("biked", comment: "Bike past tense") : NSLocalizedString("bike", comment: "Bike continous")
@@ -45,7 +45,7 @@ enum ActivityType: String {
         case .Swim: return UIColor(red: 82/255.0, green: 176/255.0, blue: 71/255.0, alpha: 1.0)
         case .Hike: return UIColor(red: 143/255.0, green: 199/255.0, blue: 62/255.0, alpha: 1.0)
         case .Walk: return UIColor(red: 116/255.0, green: 190/255.0, blue: 67/255.0, alpha: 1.0)
-        default: return UIColor.blackColor()
+        default: return UIColor.black
         }
     }
 }
@@ -56,17 +56,17 @@ class Activity: FTDataObject {
     var name: String?
     var type: String?
     var distance: NSNumber?
-    var startDate: NSDate?
+    var startDate: Date?
     var elapsedTime: NSNumber?
     var source: String?
     var elevationGain: NSNumber?
     
-    private let ftAthleteProfileImagesPath = "profiles"
+    fileprivate let ftAthleteProfileImagesPath = "profiles"
     
     static let metersInMile = 1609.344
     static let metersInFoot = 0.3048
     
-    override class func dataFromJsonObject(jsonObject: [String: AnyObject]!) -> Activity {
+    override class func dataFromJsonObject(_ jsonObject: [String: AnyObject]!) -> Activity {
         
         let object = Activity()
         
@@ -79,20 +79,20 @@ class Activity: FTDataObject {
         object.elevationGain = jsonObject["total_elevation_gain"] as? NSNumber
         
         if let dateStr = jsonObject["start_date"] as? String {
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'hh:mm:ss'Z'"
-            object.startDate = formatter.dateFromString(dateStr)
+            object.startDate = formatter.date(from: dateStr)
         }
         
         return object
     }
 
-    override class func arrayFromJsonObjects(array: [AnyObject]!) -> [FTDataObject] {
+    override class func arrayFromJsonObjects(_ array: [AnyObject]!) -> [FTDataObject] {
         
         return arrayFromJsonObjects(array, source: nil)
     }
     
-    class func arrayFromJsonObjects(array: [AnyObject]!, source: String?) -> [FTDataObject] {
+    class func arrayFromJsonObjects(_ array: [AnyObject]!, source: String?) -> [FTDataObject] {
         
         var ret = [Activity]()
         
@@ -106,24 +106,24 @@ class Activity: FTDataObject {
     }
     
     override var description: String {
-        return "[\(self.dynamicType): activityId=\(activityId), name=\(name), type=\(type), distance=\(distance), startDate=\(startDate), elapsedTime=\(elapsedTime), source=\(source)]\n"
+        return "[\(type(of: self)): activityId=\(activityId), name=\(name), type=\(type), distance=\(distance), startDate=\(startDate), elapsedTime=\(elapsedTime), source=\(source)]\n"
     }
     
     class func isMetricSystem() -> Bool {
         
-        if let value = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem) as? NSNumber {
+        if let value = (Locale.current as NSLocale).object(forKey: NSLocale.Key.usesMetricSystem) as? NSNumber {
             return value.boolValue
         }
         
         return false
     }
     
-    class func distanceUnit(abbreviation: Bool) -> String {
+    class func distanceUnit(_ abbreviation: Bool) -> String {
         
         return Activity.isMetricSystem() ? NSLocalizedString("km", comment: "km unit title") : abbreviation ? NSLocalizedString("mi", comment: "Miles unit title") : NSLocalizedString("miles", comment: "Miles unit title")
     }
     
-    class func elevationUnit(abbreviation: Bool) -> String {
+    class func elevationUnit(_ abbreviation: Bool) -> String {
         
         return Activity.isMetricSystem() ? NSLocalizedString("m", comment: "meter unit title") : abbreviation ? NSLocalizedString("ft", comment: "Feet unit title") : NSLocalizedString("feet", comment: "Feet unit title")
     }
@@ -157,7 +157,7 @@ class Activity: FTDataObject {
         return String(format: "%.2f", elev) + " " + unit
     }
     
-    func verboseDuration(textual: Bool) -> String {
+    func verboseDuration(_ textual: Bool) -> String {
         
         if elapsedTime != nil && elapsedTime!.doubleValue != 0.0 {
             

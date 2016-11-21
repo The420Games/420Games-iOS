@@ -31,7 +31,7 @@ class FTChangePasswordViewController: UIViewController {
     
     // MARK: - UI Customizations
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         navigationItem.addEmptyBackButton(self, action: #selector(self.backButtonTouched(_:)))
         
@@ -50,7 +50,7 @@ class FTChangePasswordViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func changeButtonTouched(sender: AnyObject) {
+    @IBAction func changeButtonTouched(_ sender: AnyObject) {
         
         endEditing()
         
@@ -59,29 +59,29 @@ class FTChangePasswordViewController: UIViewController {
         }
     }
     
-    @IBAction func textfieldDidExit(sender: FTTextField) {
+    @IBAction func textfieldDidExit(_ sender: FTTextField) {
         
         sender.resignFirstResponder()
     }
     
-    func backButtonTouched(sender: AnyObject) {
+    func backButtonTouched(_ sender: AnyObject) {
         
         dismiss()
     }
     
-    private func dismiss() {
+    fileprivate func dismiss() {
         
         endEditing()
         
         if let navController = navigationController {
-            navController.popViewControllerAnimated(true)
+            navController.popViewController(animated: true)
         }
         else if presentingViewController != nil {
-            dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
-    private func endEditing() {
+    fileprivate func endEditing() {
         
         passwordTextField.resignFirstResponder()
         retypeTextField.resignFirstResponder()
@@ -89,11 +89,11 @@ class FTChangePasswordViewController: UIViewController {
     
     // MARK: - Data integration
     
-    private func validData() -> Bool {
+    fileprivate func validData() -> Bool {
         
         var errors = [String]()
         
-        if passwordTextField.text == nil || passwordTextField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < User.minimumPasswordLength {
+        if passwordTextField.text == nil || passwordTextField.text!.lengthOfBytes(using: String.Encoding.utf8) < User.minimumPasswordLength {
             
             errors.append(NSLocalizedString("Password too short!", comment: "Error message when password too short"))
         }
@@ -104,28 +104,28 @@ class FTChangePasswordViewController: UIViewController {
         
         if errors.count > 0 {
             
-            let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            let alert = UIAlertController(title: nil, message: errors.joined(separator: "\n"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
         
         return errors.count == 0
     }
     
-    private func changePassword(newPassword: String) {
+    fileprivate func changePassword(_ newPassword: String) {
         
         FTDataManager.sharedInstance.currentUser!.password = newPassword
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Changing password", comment: "HUD title when changing password")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         FTDataManager.sharedInstance.currentUser?.saveInBackgroundWithBlock({ (success, error) in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
                 
                 if success && error == nil {
                     
@@ -139,9 +139,9 @@ class FTChangePasswordViewController: UIViewController {
                     default: message = NSLocalizedString("Failed to change password up:(", comment: "General error message when password change failed")
                     }
                     
-                    let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         })

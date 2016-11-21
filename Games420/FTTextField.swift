@@ -10,43 +10,43 @@ import UIKit
 
 class FTTextField: UITextField {
     
-    private let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
+    fileprivate let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5);
     
     func ft_setup() {
         
-        layer.borderColor = UIColor.ftMidGray().CGColor
-        borderStyle = .None
+        layer.borderColor = UIColor.ftMidGray().cgColor
+        borderStyle = .none
         clipsToBounds = true
         layer.borderWidth = 1.0
         layer.cornerRadius = 5.0
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
         
-        tintColor = UIColor.whiteColor()
-        textColor = UIColor.whiteColor()
-        font = UIFont.defaultFont(.Light, size: 13.0)
+        tintColor = UIColor.white
+        textColor = UIColor.white
+        font = UIFont.defaultFont(.light, size: 13.0)
         
-        keyboardAppearance = .Dark
+        keyboardAppearance = .dark
     }
     
-    func ft_setPlaceholder(placeholder: String) {
+    func ft_setPlaceholder(_ placeholder: String) {
         
         let attrPlcHolder = NSAttributedString(string: placeholder, attributes: [
-            NSFontAttributeName: UIFont.defaultFont(.Light, size: 13)!,
-            NSForegroundColorAttributeName: UIColor.whiteColor()
+            NSFontAttributeName: UIFont.defaultFont(.light, size: 13)!,
+            NSForegroundColorAttributeName: UIColor.white
             ])
         
         self.attributedPlaceholder = attrPlcHolder
     }
     
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
-    override func placeholderRectForBounds(bounds: CGRect) -> CGRect {
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
     
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return UIEdgeInsetsInsetRect(bounds, padding)
     }
 }

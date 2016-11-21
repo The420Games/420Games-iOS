@@ -14,10 +14,10 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
 
     @IBOutlet weak var pageControl: UIPageControl!
     
-    private var pageViewController: UIPageViewController!
+    fileprivate var pageViewController: UIPageViewController!
     
-    private let numberOfPages = 3
-    private var currentPageIndex = 0
+    fileprivate let numberOfPages = 3
+    fileprivate var currentPageIndex = 0
     
     // MARK: - Controller Lifecycle
     
@@ -33,21 +33,21 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
 
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         
         persistTutorialSeenStatus()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
         
@@ -56,7 +56,7 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
     
     // MARK: - UI Customizatons
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
@@ -65,25 +65,25 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
         setupPageControl()
     }
     
-    private func setupPageViewController() {
+    fileprivate func setupPageViewController() {
         
-        pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+        pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageViewController.dataSource = self
         pageViewController.delegate = self
         
         let firstPage = loadPage(0)
-        pageViewController.setViewControllers([firstPage], direction: .Forward, animated: true) { (finished) in
+        pageViewController.setViewControllers([firstPage], direction: .forward, animated: true) { (finished) in
             //
         }
-        pageViewController.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        pageViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        view.insertSubview(pageViewController.view, atIndex: 0)
+        view.insertSubview(pageViewController.view, at: 0)
     }
     
-    private func setupPageControl() {
+    fileprivate func setupPageControl() {
         
         pageControl.currentPageIndicatorTintColor = UIColor.ftLimeGreen()
-        pageControl.pageIndicatorTintColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+        pageControl.pageIndicatorTintColor = UIColor.white.withAlphaComponent(0.2)
         
         pageControl.numberOfPages = numberOfPages
         pageControl.currentPage = currentPageIndex
@@ -91,24 +91,24 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
     
     // MARK: - Persistence
     
-    private func persistTutorialSeenStatus() {
+    fileprivate func persistTutorialSeenStatus() {
         
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         
-        if (defaults.objectForKey(FTTutorialSeenDefaultsKey) as? Bool) != nil {
+        if (defaults.object(forKey: FTTutorialSeenDefaultsKey) as? Bool) != nil {
             //Tutorial seen already set
         } else {
             
-            defaults.setBool(true, forKey: FTTutorialSeenDefaultsKey)
+            defaults.set(true, forKey: FTTutorialSeenDefaultsKey)
             defaults.synchronize()
         }
     }
     
     class func isTutorialSeen() ->Bool {
         
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         
-        if let value = defaults.objectForKey(FTTutorialSeenDefaultsKey) as? NSNumber {
+        if let value = defaults.object(forKey: FTTutorialSeenDefaultsKey) as? NSNumber {
             return value.boolValue
         }
         
@@ -117,22 +117,22 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
     
     // MARK: - Actions
     
-    @IBAction func backButtonTouched(sender: AnyObject) {
+    @IBAction func backButtonTouched(_ sender: AnyObject) {
         
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - PageViewController
     
-    private func loadPage(index: Int) -> FTTutorialSinglePageViewController {
+    fileprivate func loadPage(_ index: Int) -> FTTutorialSinglePageViewController {
         
-        let page = self.storyboard?.instantiateViewControllerWithIdentifier("FTTutorialSinglePageViewController") as! FTTutorialSinglePageViewController
+        let page = self.storyboard?.instantiateViewController(withIdentifier: "FTTutorialSinglePageViewController") as! FTTutorialSinglePageViewController
         page.pageIndex =  index
         
         return page
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         var index = (viewController as! FTTutorialSinglePageViewController).pageIndex
         
@@ -150,7 +150,7 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
         return nil
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         var index = (viewController as! FTTutorialSinglePageViewController).pageIndex
         
@@ -168,7 +168,7 @@ class FTTutorialMainViewController: UIViewController, UIPageViewControllerDataSo
         return nil
     }
     
-    func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         
         if let page = pendingViewControllers.last as? FTTutorialSinglePageViewController {
             pageControl.currentPage = page.pageIndex

@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     
-    func validEmailFormat(strict: Bool = false) -> Bool
+    func validEmailFormat(_ strict: Bool = false) -> Bool
     {
         let stricterFilter = strict
         let stricterFilterString = "^[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$"
@@ -18,11 +18,11 @@ extension String {
         let emailRegex = stricterFilter ? stricterFilterString : laxString
         let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         
-        return emailTest.evaluateWithObject(self)
+        return emailTest.evaluate(with: self)
     }
     
     func capitalizingFirstLetter() -> String {
-        let first = String(characters.prefix(1)).capitalizedString
+        let first = String(characters.prefix(1)).capitalized
         let other = String(characters.dropFirst())
         return first + other
     }

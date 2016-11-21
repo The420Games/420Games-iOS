@@ -15,7 +15,7 @@ class FTOnboardingViewController: UIViewController {
     @IBOutlet weak var signinButton: UIButton!
     @IBOutlet weak var tutorialButton: UIButton!
     
-    private let tutorialSegueId = "tutorial"
+    fileprivate let tutorialSegueId = "tutorial"
     
     // MARK: - Controller lifecycle
     
@@ -35,27 +35,27 @@ class FTOnboardingViewController: UIViewController {
 //        navigationController?.setNavigationBarHidden(true, animated: false)
 //    }
 //    
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         
         if FTDataManager.sharedInstance.currentUser != nil {
             
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
         }
         else if !FTTutorialMainViewController.isTutorialSeen() {
             
-            performSegueWithIdentifier(tutorialSegueId, sender: self)
+            performSegue(withIdentifier: tutorialSegueId, sender: self)
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         
         super.viewWillDisappear(animated)
         
         if let navController = navigationController {
             
-            if navController.navigationBarHidden {
+            if navController.isNavigationBarHidden {
                 navController.setNavigationBarHidden(false, animated: true)
             }
         }
@@ -63,14 +63,14 @@ class FTOnboardingViewController: UIViewController {
     
     // MARK: - UI Customization
     
-    private func setupReviewButton() {
+    fileprivate func setupReviewButton() {
         
-        tutorialButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        tutorialButton.titleLabel?.font = UIFont.defaultFont(.Bold, size: 14.7)
-        tutorialButton.setTitle(NSLocalizedString("REVIEW TUTORIAL", comment: "Review tutorial button title"), forState: .Normal)
+        tutorialButton.setTitleColor(UIColor.white, for: UIControlState())
+        tutorialButton.titleLabel?.font = UIFont.defaultFont(.bold, size: 14.7)
+        tutorialButton.setTitle(NSLocalizedString("REVIEW TUTORIAL", comment: "Review tutorial button title"), for: UIControlState())
     }
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
@@ -85,28 +85,28 @@ class FTOnboardingViewController: UIViewController {
     
     // MARK: - Actions
 
-    @IBAction func facebookButtonPressed(sender: AnyObject) {
+    @IBAction func facebookButtonPressed(_ sender: AnyObject) {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Signing up with Facebook", comment: "HUD title when signing up with Facebook")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         FTDataManager.sharedInstance.loginWithFacebook { (user, error) in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
                 
                 if user != nil && error == nil {
                     
-                    FTAnalytics.trackEvent(.SignIn, data: ["mode": "Facebook"])
+                    FTAnalytics.trackEvent(.SignIn, data: ["mode": "Facebook" as AnyObject])
                     
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
                 }
                 else {
-                    let alert = UIAlertController(title: nil, message: "Failed to sign up or log in:(", preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: nil, message: "Failed to sign up or log in:(", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         }

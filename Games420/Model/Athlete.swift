@@ -26,15 +26,15 @@ enum GenderType : String {
         }
     }
     
-    static func fromString(value: String) -> GenderType? {
+    static func fromString(_ value: String) -> GenderType? {
         
         if let ret = GenderType(rawValue: value) {
             return ret
         }
         else {
             
-            let maleIndex = maleValues.indexOf(value.uppercaseString)
-            let femaleIndex = femaleValues.indexOf(value.uppercaseString)
+            let maleIndex = maleValues.index(of: value.uppercased())
+            let femaleIndex = femaleValues.index(of: value.uppercased())
             
             if maleIndex != NSNotFound {
                 return .Male
@@ -62,9 +62,9 @@ class Athlete: FTDataObject {
     var source: String?
     var externalId: String?
     var bio: String?
-    var birthDay: NSDate?
+    var birthDay: Date?
     
-    override class func dataFromJsonObject(jsonObject: [String: AnyObject]!) -> FTDataObject {
+    override class func dataFromJsonObject(_ jsonObject: [String: AnyObject]!) -> FTDataObject {
         
         let athlete = Athlete()
         

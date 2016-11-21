@@ -23,7 +23,7 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var termsHintLabel: UILabel!
     
-    private let signinSegueId = "signin"
+    fileprivate let signinSegueId = "signin"
     
     // MARK: - Controller Lifecycle
     
@@ -36,7 +36,7 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - UI Customizations
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         title = NSLocalizedString("Sign up", comment: "Sign up with email navigation title")
         view.backgroundColor =  UIColor.ftMainBackgroundColor()
@@ -54,66 +54,66 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
         retypeTextField.ft_setup()
         retypeTextField.ft_setPlaceholder(NSLocalizedString("RETYPE PASSWORD", comment: "Retype password placeholder"))
         
-        passwordHintLabel.font = UIFont.defaultFont(.Light, size: 12.7)
-        passwordHintLabel.textColor = UIColor.whiteColor()
+        passwordHintLabel.font = UIFont.defaultFont(.light, size: 12.7)
+        passwordHintLabel.textColor = UIColor.white
         passwordHintLabel.text = NSLocalizedString("Password must be at least six characters long.", comment: "Password hint label")
         
         termsCheckButton.ft_setupCheckBox()
         termsCheckButton.ft_setChecked(false)
         
         let hintAttrStr = NSMutableAttributedString(string: NSLocalizedString("I have read and accepted the ", comment: "Terms hint label part 1"), attributes: [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.7)!
+            NSForegroundColorAttributeName: UIColor.white,
+            NSFontAttributeName: UIFont.defaultFont(.light, size: 12.7)!
             ])
         
-        hintAttrStr.appendAttributedString(NSAttributedString(string: NSLocalizedString("Terms And Conditions", comment: "Terms hint label part 2 (underlined)"), attributes: [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.7)!,
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue
+        hintAttrStr.append(NSAttributedString(string: NSLocalizedString("Terms And Conditions", comment: "Terms hint label part 2 (underlined)"), attributes: [
+            NSForegroundColorAttributeName: UIColor.white,
+            NSFontAttributeName: UIFont.defaultFont(.light, size: 12.7)!,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue
             ]))
         termsHintLabel.attributedText = hintAttrStr
     }
     
     // MARK: - Actions
     
-    @IBAction func signupButtonPressed(sender: AnyObject) {
+    @IBAction func signupButtonPressed(_ sender: AnyObject) {
         
-        self.editing = false
+        self.isEditing = false
         
         if validData() {
             signup()
         }
     }
     
-    @IBAction func termsCheckButtonPressed(sender: AnyObject) {
+    @IBAction func termsCheckButtonPressed(_ sender: AnyObject) {
         
         termsCheckButton.ft_setChecked(!termsCheckButton.ft_Checked())
     }
     
-    @IBAction func termsHintLabelTouched(sender: AnyObject) {
+    @IBAction func termsHintLabelTouched(_ sender: AnyObject) {
         
-        if let url = NSURL(string: FTTermsAndConditionsLink) {
+        if let url = URL(string: FTTermsAndConditionsLink) {
             
-            if UIApplication.sharedApplication().canOpenURL(url) {
+            if UIApplication.shared.canOpenURL(url) {
                 
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             }
         }
     }
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed(_ sender: AnyObject) {
         
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func textfieldDidExit(sender: UITextField) {
+    @IBAction func textfieldDidExit(_ sender: UITextField) {
         
         sender.resignFirstResponder()
     }
     
     // MARK: - Data integration
     
-    private func signup() {
+    fileprivate func signup() {
         
         let user = User()
         
@@ -121,30 +121,30 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
         user.email = userName
         user.password = passwordTextField.text!
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Signing up with Email", comment: "HUD title when signing up with Email")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         FTDataManager.sharedInstance.signup(user) { (success, error) in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
                 
                 if success && error == nil {
                     
-                    FTAnalytics.trackEvent(.SignUp, data: ["mode": "Email"])
+                    FTAnalytics.trackEvent(.SignUp, data: ["mode": "Email" as AnyObject])
                     
-                    let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                    let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
                     hud.label.text = NSLocalizedString("Success", comment: "HUD title when signing up with Email succeeded")
                     hud.detailsLabel.text = NSLocalizedString("Check your email for instructions", comment: "HUD subtitle when email signup succeeded")
-                    hud.mode = .Text
+                    hud.mode = .text
                     
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (Int64)(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double((Int64)(2 * NSEC_PER_SEC)) / Double(NSEC_PER_SEC)) {
                         
-                        hud.hideAnimated(true)
+                        hud.hide(animated: true)
                         
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popViewController(animated: true)
                     }
                 }
                 else {
@@ -154,16 +154,16 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
                     case 3033: message = NSLocalizedString("Email already taken:(", comment: "Error message when email already taken")
                     default: message = NSLocalizedString("Failed to sign up:(", comment: "General error message when signup failed")
                     }
-                    let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         }
         
     }
     
-    private func validData() -> Bool {
+    fileprivate func validData() -> Bool {
         
         var errors = [String]()
         
@@ -180,7 +180,7 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
             errors.append(NSLocalizedString("Please provide valid email!", comment: "Error message when email invalid"))
         }
         
-        if passwordTextField.text == nil || passwordTextField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < User.minimumPasswordLength {
+        if passwordTextField.text == nil || passwordTextField.text!.lengthOfBytes(using: String.Encoding.utf8) < User.minimumPasswordLength {
             
             errors.append(NSLocalizedString("Password too short!", comment: "Error message when password too short"))
         }
@@ -191,11 +191,11 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
         
         if errors.count > 0 {
             
-            let alert = UIAlertController(title: nil, message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
+            let alert = UIAlertController(title: nil, message: errors.joined(separator: "\n"), preferredStyle: .alert)
             
-            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
             
             return false
         }
@@ -205,10 +205,10 @@ class FTSignupWithEmailViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == signinSegueId {
-            (segue.destinationViewController as! FTSigninWithEmailViewController).userName = sender as? String
+            (segue.destination as! FTSigninWithEmailViewController).userName = sender as? String
         }
         
     }

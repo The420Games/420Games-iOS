@@ -16,18 +16,18 @@ class FTStravaManager: NSObject {
     
     var appID = ""
     var clientSecret = ""
-    private var token: String?
-    private var callBackURLString: String?
+    fileprivate var token: String?
+    fileprivate var callBackURLString: String?
     
-    private let baseURL = "https://www.strava.com"
-    private let apiPath = "/api/v3"
-    private let athletePath = "/athlete"
-    private let athletesPath = "/athletes"
-    private let activitesPath = "/activities"
+    fileprivate let baseURL = "https://www.strava.com"
+    fileprivate let apiPath = "/api/v3"
+    fileprivate let athletePath = "/athlete"
+    fileprivate let athletesPath = "/athletes"
+    fileprivate let activitesPath = "/activities"
     
-    private let oathPath = "/oauth"
-    private let authorizationPath = "/authorize"
-    private let tokenExchangePath = "/token"
+    fileprivate let oathPath = "/oauth"
+    fileprivate let authorizationPath = "/authorize"
+    fileprivate let tokenExchangePath = "/token"
     
     static let FTStravaAthleteAuthenticatedNotificationName = "FTStravaAthleteAuthenticatedNotification"
     
@@ -39,28 +39,30 @@ class FTStravaManager: NSObject {
     
     var updateAthleteWhenAuhtorized = true
     
-    func authorize(urlString: String!) {
+    func authorize(_ urlString: String!) {
         
         let stateInfo = ""
         
         self.callBackURLString = urlString
         
-        let callBackUrl = NSURL(string: urlString)
+        let callBackUrl = URL(string: urlString)
         
-        let urlString = NSString(format: baseURL + oathPath + authorizationPath + "?client_id=%ld&response_type=code&redirect_uri=%@&scope=write&state=%@&approval_prompt=force", 12445, callBackUrl!.absoluteString, stateInfo.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.letterCharacterSet())!)
+        let format = baseURL + oathPath + authorizationPath + "?client_id=%ld&response_type=code&redirect_uri=%@&scope=write&state=%@&approval_prompt=force"
         
-        if let url = NSURL(string: urlString as String) {
-            if UIApplication.sharedApplication().canOpenURL(url) {
-                UIApplication.sharedApplication().openURL(url)
+        let urlString = NSString(format: format as NSString, 12445, callBackUrl!.absoluteString, stateInfo)
+        
+        if let url = URL(string: urlString as String) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
             }
         }
     }
     
-    func handleOpenURL(url: NSURL) -> Bool {
+    func handleOpenURL(_ url: URL) -> Bool {
         
-        if self.callBackURLString != nil && url.absoluteString.containsString(self.callBackURLString!) {
+        if self.callBackURLString != nil && url.absoluteString.contains(self.callBackURLString!) {
         
-            let components = NSURLComponents(string: url.absoluteString)
+            let components = URLComponents(string: url.absoluteString)
             
             if let code = components?.queryItems?.filter({$0.name == "code"}).first {
                 self.exchangeToken(code.value!)
@@ -72,9 +74,9 @@ class FTStravaManager: NSObject {
         return false
     }
     
-    func fetchActivities(offset: Int, pageSize: Int, completion: ((results: [Activity]?, error: NSError?) -> ())?) {
+    func fetchActivities(_ offset: Int, pageSize: Int, completion: ((_ results: [Activity]?, _ error: NSError?) -> ())?) {
         
-        let session = NSURLSession(configuration: customURLsessionConfiguration())
+        let session = URLSession(configuration: customURLsessionConfiguration())
         
         var urlString = baseURL + apiPath + athletePath + activitesPath
         
@@ -82,66 +84,66 @@ class FTStravaManager: NSObject {
             urlString += "?page=\(offset + 1)&per_page=\(pageSize)"
         }
         
-        let url = NSURL(string: urlString)
+        let url = URL(string: urlString)
         
-        let task = session.dataTaskWithURL(url!) { (data, response, error) in
+        let task = session.dataTask(with: url!, completionHandler: { (data, response, error) in
             if error != nil {
-                completion?(results: nil, error: error)
+                completion?(nil, error as NSError?)
             }
             else {
                 do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [AnyObject]
-                    completion?(results: Activity.arrayFromJsonObjects(json, source: self.ftStravaSourceId) as? [Activity], error: nil)
+                    let json = try JSONSerialization.jsonObject(with: data!, options: []) as! [AnyObject]
+                    completion?(Activity.arrayFromJsonObjects(json, source: self.ftStravaSourceId) as? [Activity], nil)
                     
                 } catch let error as NSError {
-                    completion?(results: nil, error: error)
+                    completion?(nil, error)
                 }
             }
-        }
+        }) 
         
         task.resume()
         
     }
     
-    private func customURLsessionConfiguration() -> NSURLSessionConfiguration {
+    fileprivate func customURLsessionConfiguration() -> URLSessionConfiguration {
         
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let config = URLSessionConfiguration.default
         if isAuthorized {
-            var headers = config.HTTPAdditionalHeaders
+            var headers = config.httpAdditionalHeaders
             if headers == nil {
                 headers = [String: AnyObject]()
             }
             headers!["Authorization"] = "Bearer \(token!)"
-            config.HTTPAdditionalHeaders = headers
+            config.httpAdditionalHeaders = headers
         }
         
         return config
     }
     
-    private func exchangeToken(code: String) {
+    fileprivate func exchangeToken(_ code: String) {
         
-        let url = NSURL(string: baseURL + oathPath + tokenExchangePath)
-        let request = NSMutableURLRequest(URL: url!)
+        let url = URL(string: baseURL + oathPath + tokenExchangePath)
+        let request = NSMutableURLRequest(url: url!)
 
-        request.HTTPMethod = "POST"
+        request.httpMethod = "POST"
         
         let dataString = "client_id=\(appID)&client_secret=\(clientSecret)&code=\(code)"
-        request.HTTPBody = dataString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.httpBody = dataString.data(using: String.Encoding.utf8)
         
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) in
             
             do {
-                let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
+                let json = try JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
                 if let accessToken = json["access_token"] as? String {
                     self.token = accessToken
                     
-                    dispatch_async(dispatch_get_main_queue(), {
-                        NSNotificationCenter.defaultCenter().postNotificationName(FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: self, userInfo: ["success": true])
+                    DispatchQueue.main.async(execute: {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName), object: self, userInfo: ["success": true])
                     })
                 }
                 else {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        NSNotificationCenter.defaultCenter().postNotificationName(FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: self, userInfo: ["success": true])
+                    DispatchQueue.main.async(execute: {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName), object: self, userInfo: ["success": true])
                     })
                 }
                 
@@ -156,18 +158,18 @@ class FTStravaManager: NSObject {
             } catch let error as NSError {
                 print("Failed to load: \(error.localizedDescription)")
                 
-                dispatch_async(dispatch_get_main_queue(), {
-                    NSNotificationCenter.defaultCenter().postNotificationName(FTStravaManager.FTStravaAthleteAuthenticatedNotificationName, object: self, userInfo: ["success": false])
+                DispatchQueue.main.async(execute: {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: FTStravaManager.FTStravaAthleteAuthenticatedNotificationName), object: self, userInfo: ["success": false])
                 })
             }
             
-        }
+        }) 
         
         task.resume()
         
     }
     
-    func fetchAthleteProfileImage(athleteData: [String: AnyObject], completion: ((image: UIImage?, error: NSError?) -> ())?) {
+    func fetchAthleteProfileImage(_ athleteData: [String: AnyObject], completion: ((_ image: UIImage?, _ error: NSError?) -> ())?) {
         
         var urlString: String?
         
@@ -180,47 +182,47 @@ class FTStravaManager: NSObject {
         
         if urlString != nil && !urlString!.isEmpty {
             
-            if let url = NSURL(string: urlString!) {
+            if let url = URL(string: urlString!) {
                 
-                let session = NSURLSession(configuration: customURLsessionConfiguration())
+                let session = URLSession(configuration: customURLsessionConfiguration())
                 
-                let task = session.dataTaskWithURL(url) { (data, response, error) in
+                let task = session.dataTask(with: url, completionHandler: { (data, response, error) in
                     
                     if data != nil {
                         if let image = UIImage(data: data!) {
-                            completion?(image: image, error: nil)
+                            completion?(image, nil)
                         }
                         else {
-                            completion?(image: nil, error: nil)
+                            completion?(nil, nil)
                         }
                     }
                     else {
-                        completion?(image: nil, error: error)
+                        completion?(nil, error as NSError?)
                     }
-                }
+                }) 
                 
                 task.resume()
             }
         }
         else {
-            completion?(image: nil, error: nil)
+            completion?(nil, nil)
         }
     }
     
-    private func updateUserAthlete(athleteJson: [String: AnyObject]) {
+    fileprivate func updateUserAthlete(_ athleteJson: [String: AnyObject]) {
         
         let athlete = Athlete.dataFromJsonObject(athleteJson) as! Athlete
         athlete.source = self.ftStravaSourceId
         
-        let group = dispatch_group_create();
+        let group = DispatchGroup();
         
-        dispatch_group_enter(group)
+        group.enter()
         
         self.fetchAthleteProfileImage(athleteJson, completion: { (image, error) in
             
             if image != nil {
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
                     FTDataManager.sharedInstance.uploadImage(image!, path: Athlete.profileImagePath, completion: { (fileName, error) in
                         
@@ -228,16 +230,16 @@ class FTStravaManager: NSObject {
                             athlete.profileImage = fileName
                         }
                         
-                        dispatch_group_leave(group)
+                        group.leave()
                     })
                 })
             }
             else {
-                dispatch_group_leave(group)
+                group.leave()
             }
         })
         
-        dispatch_group_notify(group, dispatch_get_main_queue(), {
+        group.notify(queue: DispatchQueue.main, execute: {
             
             FTDataManager.sharedInstance.currentUser!.athlete = athlete
             FTDataManager.sharedInstance.currentUser!.saveInBackground({ (object, error) in
@@ -248,26 +250,26 @@ class FTStravaManager: NSObject {
         })
     }
     
-    func fetchAthlete(athleteId: String?, completion: ((athleteData: [String: AnyObject]?, error: NSError?) -> ())?) {
+    func fetchAthlete(_ athleteId: String?, completion: ((_ athleteData: [String: AnyObject]?, _ error: NSError?) -> ())?) {
 
-        let session = NSURLSession(configuration: customURLsessionConfiguration())
+        let session = URLSession(configuration: customURLsessionConfiguration())
         
-        let url = NSURL(string: baseURL + apiPath + (athleteId != nil ? athletesPath + "/\(athleteId!)" : athletePath))
+        let url = URL(string: baseURL + apiPath + (athleteId != nil ? athletesPath + "/\(athleteId!)" : athletePath))
         
-        let task = session.dataTaskWithURL(url!) { (data, response, error) in
+        let task = session.dataTask(with: url!, completionHandler: { (data, response, error) in
             if error != nil {
-                completion?(athleteData: nil, error: error)
+                completion?(nil, error as NSError?)
             }
             else {
                 do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
-                    completion?(athleteData: json, error: nil)
+                    let json = try JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
+                    completion?(json, nil)
                     
                 } catch let error as NSError {
-                    completion?(athleteData: nil, error: error)
+                    completion?(nil, error)
                 }
             }
-        }
+        }) 
         
         task.resume()        
     }

@@ -28,17 +28,17 @@ enum MedicationType: String {
 }
 
 enum MedicationMoodIndex: Int {
-    case Poor = 0, Average = 1, Good = 2, Great = 3, High = 4, Stoned = 5
-    static let allValues = [Poor, Average, Good, Great, High, Stoned]
+    case poor = 0, average = 1, good = 2, great = 3, high = 4, stoned = 5
+    static let allValues = [poor, average, good, great, high, stoned]
     
     func localizedString() -> String {
         switch self {
-        case .Poor: return NSLocalizedString("Poor", comment: "Poor mood index")
-        case .Average: return NSLocalizedString("Average", comment: "Average mood index")
-        case .Good: return NSLocalizedString("Good", comment: "Good mood index")
-        case .Great: return NSLocalizedString("Great", comment: "Great mood index")
-        case .High: return NSLocalizedString("High", comment: "High mood index")
-        case .Stoned: return NSLocalizedString("Stoned", comment: "Stoned mood index")
+        case .poor: return NSLocalizedString("Poor", comment: "Poor mood index")
+        case .average: return NSLocalizedString("Average", comment: "Average mood index")
+        case .good: return NSLocalizedString("Good", comment: "Good mood index")
+        case .great: return NSLocalizedString("Great", comment: "Great mood index")
+        case .high: return NSLocalizedString("High", comment: "High mood index")
+        case .stoned: return NSLocalizedString("Stoned", comment: "Stoned mood index")
         default: return "\(self)"
         }
     }
@@ -46,13 +46,13 @@ enum MedicationMoodIndex: Int {
     func colorValue() -> UIColor {
         
         switch self {
-        case .Poor: return UIColor.ftMoodColorValue0()
-        case .Average: return UIColor.ftMoodColorValue1()
-        case .Good: return UIColor.ftMoodColorValue2()
-        case .Great: return UIColor.ftMoodColorValue3()
-        case .High: return UIColor.ftMoodColorValue4()
-        case .Stoned: return UIColor.ftMoodColorValue5()
-        default: return UIColor.blackColor()
+        case .poor: return UIColor.ftMoodColorValue0()
+        case .average: return UIColor.ftMoodColorValue1()
+        case .good: return UIColor.ftMoodColorValue2()
+        case .great: return UIColor.ftMoodColorValue3()
+        case .high: return UIColor.ftMoodColorValue4()
+        case .stoned: return UIColor.ftMoodColorValue5()
+        default: return UIColor.black
         }
     }
 }

@@ -10,15 +10,19 @@ import Foundation
 
 extension NSError {
     
-    class func errorWithFault(fault: Fault) -> NSError {
+    class func errorWithFault(_ fault: Fault?) -> NSError? {
         
-        let codeString = NSString(string: fault.faultCode)
-        let code = codeString.integerValue
-        let desc = fault.description.isEmpty ? fault.description : NSLocalizedString("Unknown error", comment: "Unknown error description")
+        if fault != nil {
+            let codeString = NSString(string: fault!.faultCode)
+            let code = codeString.integerValue
+            let desc = fault!.description.isEmpty ? fault!.description : NSLocalizedString("Unknown error", comment: "Unknown error description")
+            
+            let error = NSError(domain: "Backendless", code: code, userInfo:[NSLocalizedDescriptionKey: desc])
+            
+            return error
+        }
         
-        let error = NSError(domain: "Backendless", code: code, userInfo:[NSLocalizedDescriptionKey: desc])
-        
-        return error
+        return nil
         
     }
     

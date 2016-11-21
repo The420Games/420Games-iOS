@@ -17,7 +17,7 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
     
     var medication: Medication!
     
-    private let cellId = "medicationCell"
+    fileprivate let cellId = "medicationCell"
     
     enum FTMedicationDetailSection: Int {
         case activity = 0, medication
@@ -47,7 +47,7 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
             }
         }
         
-        func value(activity: Activity) -> String {
+        func value(_ activity: Activity) -> String {
             
             switch self {
             case .type:
@@ -59,11 +59,11 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
             case .date:
                 if activity.startDate != nil {
                     
-                    let formatter = NSDateFormatter()
-                    formatter.dateStyle = .MediumStyle
-                    formatter.timeStyle = .MediumStyle
+                    let formatter = DateFormatter()
+                    formatter.dateStyle = .medium
+                    formatter.timeStyle = .medium
                     
-                    return formatter.stringFromDate(activity.startDate!)
+                    return formatter.string(from: activity.startDate! as Date)
                 }
                 
             case .distance: return activity.verboseDistance()
@@ -79,7 +79,7 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
             return ""
         }
         
-        func valueIcon(activity: Activity!) -> UIImage? {
+        func valueIcon(_ activity: Activity!) -> UIImage? {
             
             switch self {
             case .type:
@@ -108,7 +108,7 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
             }
         }
         
-        func value(medication: Medication) -> String {
+        func value(_ medication: Medication) -> String {
             
             switch self {
             case .type:
@@ -123,7 +123,7 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
                 }
             case .mood:
                 if medication.mood != nil {
-                    if let mood = MedicationMoodIndex(rawValue: medication.mood!.integerValue) {
+                    if let mood = MedicationMoodIndex(rawValue: medication.mood!.intValue) {
                         return mood.localizedString()
                     }
                 }
@@ -132,12 +132,12 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
             return ""
         }
         
-        func valueIcon(medication: Medication) -> UIImage? {
+        func valueIcon(_ medication: Medication) -> UIImage? {
             
             switch self {
             case .mood:
                 if medication.mood != nil {
-                    return UIImage(named: "icon_mood-\(medication.mood!.integerValue)")
+                    return UIImage(named: "icon_mood-\(medication.mood!.intValue)")
                 }
             default: return nil
             }
@@ -146,11 +146,11 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
-    private let activityEditSegueId = "editActivity"
-    private let medicationEditSegueId = "editMedication"
+    fileprivate let activityEditSegueId = "editActivity"
+    fileprivate let medicationEditSegueId = "editMedication"
     
-    private let firstHeaderPadding: CGFloat = 15.0
-    private let headerheight: CGFloat = 30.0
+    fileprivate let firstHeaderPadding: CGFloat = 15.0
+    fileprivate let headerheight: CGFloat = 30.0
     
     // MARK: - Controller LifeCycle
     
@@ -172,19 +172,19 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
     
     // MARK: - UI Customization
     
-    private func addEditButton() {
+    fileprivate func addEditButton() {
         
-        let barButtonItem = UIBarButtonItem(image: UIImage(named: "btn_edit"), style: .Plain, target: self, action: #selector(self.editTouched(_:)))
+        let barButtonItem = UIBarButtonItem(image: UIImage(named: "btn_edit"), style: .plain, target: self, action: #selector(self.editTouched(_:)))
         navigationItem.rightBarButtonItem = barButtonItem
     }
     
-    private func setupTableView() {
+    fileprivate func setupTableView() {
         
-        detailsTableView.backgroundColor = UIColor.clearColor()
+        detailsTableView.backgroundColor = UIColor.clear
         detailsTableView.tableHeaderView = UIView()
     }
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
@@ -201,12 +201,12 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
     
     // MARK: - TableView
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         return medication.activity != nil ? 2 : 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if medication.activity == nil {
             return FTMedicationTitle.count
@@ -221,9 +221,9 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         return 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! FTMedicationDetailCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! FTMedicationDetailCell
         
         var title = ""
         var value = ""
@@ -262,18 +262,18 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         return cell
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let holder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: headerheight))
-        holder.backgroundColor = UIColor.clearColor()
-        holder.autoresizingMask = .FlexibleWidth
+        holder.backgroundColor = UIColor.clear
+        holder.autoresizingMask = .flexibleWidth
         
         let label = UILabel(frame: CGRect(x: 17, y: 0, width: holder.frame.size.width - 34, height: holder.frame.size.height - firstHeaderPadding))
-        label.backgroundColor = UIColor.clearColor()
-        label.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        label.backgroundColor = UIColor.clear
+        label.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        label.font = UIFont.defaultFont(.Bold, size: 15.0)
-        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.defaultFont(.bold, size: 15.0)
+        label.textColor = UIColor.white
         
         holder.addSubview(label)
         
@@ -284,58 +284,58 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
         return holder
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return headerheight
     }
     
     // MARK: - Actions
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed(_ sender: AnyObject) {
         
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func deleteTouched(sender: AnyObject) {
+    @IBAction func deleteTouched(_ sender: AnyObject) {
         
-        let alert = UIAlertController(title: NSLocalizedString("Delete Medication", comment: "Delete medication alert title"), message: NSLocalizedString("Are you sure?", comment: "Delete medication confirmation alert message"), preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: NSLocalizedString("Delete Medication", comment: "Delete medication alert title"), message: NSLocalizedString("Are you sure?", comment: "Delete medication confirmation alert message"), preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Delete", comment: "Delete title"), style: .Destructive, handler: { (action) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Delete", comment: "Delete title"), style: .destructive, handler: { (action) in
             self.deleteMedication(self.medication)
         }))
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel title"), style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel title"), style: .cancel, handler: nil))
         
         alert.view.tintColor = UIColor.ftLimeGreen()
         
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    func editTouched(sender: AnyObject) {
+    func editTouched(_ sender: AnyObject) {
         
         FTAnalytics.trackEvent(.EditMedication, data: nil)
         
         if medication.activity != nil && medication.activity!.source != nil {
-            performSegueWithIdentifier(medicationEditSegueId, sender: self)
+            performSegue(withIdentifier: medicationEditSegueId, sender: self)
         }
         else {
-            performSegueWithIdentifier(activityEditSegueId, sender: self)
+            performSegue(withIdentifier: activityEditSegueId, sender: self)
         }
     }
     
     // MARK: - Data integration
     
-    private func deleteMedication(medication: Medication) {
+    fileprivate func deleteMedication(_ medication: Medication) {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Deleting Medication", comment: "HUD title when deleting a medication")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
-        let group = dispatch_group_create();
+        let group = DispatchGroup();
         
         if medication.activity != nil {
             
-            dispatch_group_enter(group)
+            group.enter()
             
             medication.activity!.deleteInBackgroundWithBlock({ (success, error) in
                 
@@ -343,30 +343,30 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
                     print("Error deleting activity: \(error)")
                 }
                 
-                dispatch_group_leave(group)
+                group.leave()
             })
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
+        group.notify(queue: DispatchQueue.main) {
             
             medication.deleteInBackgroundWithBlock { (success, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationDeletedNotificationName, object: self)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: FTMedicationDeletedNotificationName), object: self)
                     
-                    hud.hideAnimated(true)
+                    hud.hide(animated: true)
                     
                     if success {
                         
                         FTAnalytics.trackEvent(.DeleteMedication, data: nil)
-                        self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popViewController(animated: true)
                     }
                     else {
                         
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to delete medication:(", comment: "Error message when failed to delete medication"), preferredStyle: .Alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to delete medication:(", comment: "Error message when failed to delete medication"), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 })
             }
@@ -376,18 +376,18 @@ class FTMedicationDetailsViewController: UIViewController, UITableViewDelegate, 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == activityEditSegueId {
             
-            let target = segue.destinationViewController as! FTManualActivityTrackViewController
+            let target = segue.destination as! FTManualActivityTrackViewController
             
             target.activity = medication.activity
             target.medication = medication
         }
         else if segue.identifier == medicationEditSegueId {
             
-            let target = segue.destinationViewController as! FTLogActivityViewController
+            let target = segue.destination as! FTLogActivityViewController
             
             target.activity = medication.activity
             target.medication = medication

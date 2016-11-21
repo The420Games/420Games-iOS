@@ -24,8 +24,8 @@ class FTLogActivityViewController: UIViewController {
     var activity: Activity?
     var medication: Medication!
     
-    private let typePlaceholderLabel = NSLocalizedString("SET MEDICATION TYPE", comment: "Medication type placeholder")
-    private let moodPLaceHolderLabel = NSLocalizedString("SET MOOD", comment: "Mood placeholder")
+    fileprivate let typePlaceholderLabel = NSLocalizedString("SET MEDICATION TYPE", comment: "Medication type placeholder")
+    fileprivate let moodPLaceHolderLabel = NSLocalizedString("SET MOOD", comment: "Mood placeholder")
     
     override func viewDidLoad() {
         
@@ -53,7 +53,7 @@ class FTLogActivityViewController: UIViewController {
     
     // MARK: - UI Customization
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftMainBackgroundColor()
         
@@ -63,8 +63,8 @@ class FTLogActivityViewController: UIViewController {
         
         addSaveButton()
         
-        activityLabel.textColor = UIColor.whiteColor()
-        activityLabel.font = UIFont.defaultFont(.Medium, size: 15.0)
+        activityLabel.textColor = UIColor.white
+        activityLabel.font = UIFont.defaultFont(.medium, size: 15.0)
         activityLabel.text = NSLocalizedString("Activity", comment: "Activity details placeholder")
         
         dosageTextField.ft_setup()
@@ -77,13 +77,13 @@ class FTLogActivityViewController: UIViewController {
         dosageTextField.text = nil
     }
     
-    private func addSaveButton() {
+    fileprivate func addSaveButton() {
     
-        let item = UIBarButtonItem(image: UIImage(named: "btn_save"), style: .Done, target: self, action: #selector(self.saveButtonPressed(_:)))
+        let item = UIBarButtonItem(image: UIImage(named: "btn_save"), style: .done, target: self, action: #selector(self.saveButtonPressed(_:)))
         navigationItem.rightBarButtonItem = item
     }
     
-    private func loadActivityDetails() {
+    fileprivate func loadActivityDetails() {
         
         if activity != nil {
             
@@ -115,24 +115,24 @@ class FTLogActivityViewController: UIViewController {
             
             if activity!.startDate != nil {
             
-                let formatter = NSDateFormatter()
-                formatter.dateStyle = .ShortStyle
-                formatter.timeStyle = .ShortStyle
+                let formatter = DateFormatter()
+                formatter.dateStyle = .short
+                formatter.timeStyle = .short
                 
                 title += " " + NSLocalizedString("at", comment: "Time prefix") + " "
                 
-                title += formatter.stringFromDate(activity!.startDate!)
+                title += formatter.string(from: activity!.startDate! as Date)
             }
             
             activityLabel.text = title
         }
     }
     
-    private func loadMedicationDetails() {
+    fileprivate func loadMedicationDetails() {
         
         if medication.type != nil {
             if let type = MedicationType(rawValue: medication.type!) {
-                self.typeButton.setTitle("\(type)", forState: .Normal)
+                self.typeButton.setTitle("\(type)", for: UIControlState())
             }
         }
         
@@ -141,37 +141,37 @@ class FTLogActivityViewController: UIViewController {
         }
         
         if medication.mood != nil {
-            if let mood = MedicationMoodIndex(rawValue: medication.mood!.integerValue) {
-                self.moodButton.setTitle("\(mood)", forState: .Normal)
+            if let mood = MedicationMoodIndex(rawValue: medication.mood!.intValue) {
+                self.moodButton.setTitle("\(mood)", for: UIControlState())
             }
         }
     }
     
-    private func endEditing() {
+    fileprivate func endEditing() {
         
         dosageTextField.resignFirstResponder()
     }
     
     // MARK: - Actions
     
-    @IBAction func textfieldDidExit(sender: FTTextField) {
+    @IBAction func textfieldDidExit(_ sender: FTTextField) {
         
         sender.resignFirstResponder()
     }
     
-    func saveButtonPressed(sender: AnyObject) {
+    func saveButtonPressed(_ sender: AnyObject) {
     
         endEditing()
         submitMedication()
     }
     
-    func backButtonPressed(sender: AnyObject) {
+    func backButtonPressed(_ sender: AnyObject) {
         
         endEditing()
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func typeButtonPressed(sender: AnyObject) {
+    @IBAction func typeButtonPressed(_ sender: AnyObject) {
         
         endEditing()
         
@@ -179,7 +179,7 @@ class FTLogActivityViewController: UIViewController {
         var index = 0
         var i = 0
         for type in MedicationType.allValues {
-            rows.append(type.localizedString().capitalizingFirstLetter())
+            rows.append(type.localizedString().capitalizingFirstLetter() as AnyObject)
             if medication.type != nil && medication.type! == type.rawValue {
                 index = i
             }
@@ -190,18 +190,18 @@ class FTLogActivityViewController: UIViewController {
             
             let type = MedicationType.allValues[index]
             self.medication.type = type.rawValue
-            self.typeButton.setTitle(value as? String, forState: .Normal)
+            self.typeButton.setTitle(value as? String, for: UIControlState())
             
-            FTAnalytics.trackEvent(.SelectMedicationType, data: ["type": "\(type)"])
+            FTAnalytics.trackEvent(.SelectMedicationType, data: ["type": "\(type)" as AnyObject])
             
-            }, cancelBlock: { (picker) in
+            }, cancel: { (picker) in
                 //
             }, origin: sender)
         
-        picker.showActionSheetPicker()
+        picker?.show()
     }
     
-    @IBAction func moodButtonPressed(sender: AnyObject) {
+    @IBAction func moodButtonPressed(_ sender: AnyObject) {
         
         endEditing()
         
@@ -209,8 +209,8 @@ class FTLogActivityViewController: UIViewController {
         var index = 0
         var i = 0
         for type in MedicationMoodIndex.allValues {
-            rows.append(type.localizedString().capitalizingFirstLetter())
-            if medication.mood != nil && medication.mood!.integerValue == type.rawValue {
+            rows.append(type.localizedString().capitalizingFirstLetter() as AnyObject)
+            if medication.mood != nil && medication.mood!.intValue == type.rawValue {
                 index = i
             }
             i += 1
@@ -219,21 +219,21 @@ class FTLogActivityViewController: UIViewController {
         let picker = ActionSheetStringPicker(title: NSLocalizedString("Select mood", comment: "Mood index picker title"), rows: rows, initialSelection: index, doneBlock: { (picker, index, value) in
             
             let mood = MedicationMoodIndex.allValues[index]
-            self.medication.mood = mood.rawValue
-            self.moodButton.setTitle(value as? String, forState: .Normal)
+            self.medication.mood = mood.rawValue as NSNumber?
+            self.moodButton.setTitle(value as? String, for: UIControlState())
             
-            FTAnalytics.trackEvent(.SelectMood, data: ["mood": "\(mood)"])
+            FTAnalytics.trackEvent(.SelectMood, data: ["mood": "\(mood)" as AnyObject])
             
-            }, cancelBlock: { (picker) in
+            }, cancel: { (picker) in
                 //
             }, origin: sender)
         
-        picker.showActionSheetPicker()
+        picker?.show()
     }
     
     // MARK: - Data integration
     
-    private func validData() -> Bool {
+    fileprivate func validData() -> Bool {
         
         var errors = [String]()
         
@@ -255,9 +255,9 @@ class FTLogActivityViewController: UIViewController {
         
         if errors.count > 0 {
             
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: errors.joinWithSeparator("\n"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-            presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: errors.joined(separator: "\n"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
             
             return false
         }
@@ -265,35 +265,35 @@ class FTLogActivityViewController: UIViewController {
         return true
     }
     
-    private func submitMedication() {
+    fileprivate func submitMedication() {
         
         if validData() {
-            medication.dosage = NSNumber(double: NSString(string: dosageTextField.text!).doubleValue)
+            medication.dosage = NSNumber(value: NSString(string: dosageTextField.text!).doubleValue as Double)
             
-            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud.label.text = NSLocalizedString("Submitting Medication", comment: "HUD title when submitting Medication")
-            hud.mode = .Indeterminate
+            hud.mode = .indeterminate
             
             medication.saveInBackgroundWithBlock({ (success, error) in
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     
-                    hud.hideAnimated(true)
+                    hud.hide(animated: true)
                     
                     if success {
                         
                         FTAnalytics.trackEvent(.SubmitMedication, data: nil)
                         
-                        self.navigationController?.popToRootViewControllerAnimated(true)
+                        self.navigationController?.popToRootViewController(animated: true)
                         
-                        NSNotificationCenter.defaultCenter().postNotificationName(FTMedicationSavedNotificationName, object: self, userInfo: ["medicaton": self.medication])
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: FTMedicationSavedNotificationName), object: self, userInfo: ["medicaton": self.medication])
                     }
                     else {
                         print("Error saving Medication: \(error)")
                         
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to save Activity:(", comment: "Error message when failed to save Medication"), preferredStyle: .Alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Error dialog title"), message: NSLocalizedString("Failed to save Activity:(", comment: "Error message when failed to save Medication"), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                     
                 })

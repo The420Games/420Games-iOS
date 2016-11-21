@@ -24,38 +24,38 @@ class FTMedicationListCell: UITableViewCell {
         
         super.awakeFromNib()
         
-        backgroundColor = UIColor.clearColor()
-        contentView.backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
         
-        titleLabel.font = UIFont.defaultFont(.Medium, size: 16)
-        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.font = UIFont.defaultFont(.medium, size: 16)
+        titleLabel.textColor = UIColor.white
         
-        durationLabel.font = UIFont.defaultFont(.Light, size: 13.0)
-        durationLabel.textColor = UIColor.whiteColor()
+        durationLabel.font = UIFont.defaultFont(.light, size: 13.0)
+        durationLabel.textColor = UIColor.white
         
-        dosageLabel.font = UIFont.defaultFont(.Light, size: 13.0)
-        dosageLabel.textColor = UIColor.whiteColor()
+        dosageLabel.font = UIFont.defaultFont(.light, size: 13.0)
+        dosageLabel.textColor = UIColor.white
         
         separatorView.backgroundColor = UIColor.ftMidGray()
     }
     
-    private func populateDate(date: NSDate?) {
+    fileprivate func populateDate(_ date: Date?) {
         
         if date != nil {
         
-            let calendar = NSCalendar.currentCalendar()
-            let components = calendar.components([.Hour, .Minute, .Year, .Month, .Day], fromDate: date!)
+            let calendar = Calendar.current
+            let components = (calendar as NSCalendar).components([.hour, .minute, .year, .month, .day], from: date!)
             let month = components.month
             let day = components.day
             
-            let attrDate = NSMutableAttributedString(string: String(format: "%02d", month), attributes: [
-                NSForegroundColorAttributeName: UIColor.whiteColor(),
-                NSFontAttributeName: UIFont.defaultFont(.Light, size: 12.0)!
+            let attrDate = NSMutableAttributedString(string: String(format: "%02d", month!), attributes: [
+                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: UIFont.defaultFont(.light, size: 12.0)!
                 ])
-            attrDate.appendAttributedString(NSAttributedString(string: "\n"))
-            attrDate.appendAttributedString(NSAttributedString(string: String(format: "%02d", day), attributes: [
-                NSForegroundColorAttributeName: UIColor.whiteColor(),
-                NSFontAttributeName: UIFont.defaultFont(.Bold, size: 12.0)!
+            attrDate.append(NSAttributedString(string: "\n"))
+            attrDate.append(NSAttributedString(string: String(format: "%02d", day!), attributes: [
+                NSForegroundColorAttributeName: UIColor.white,
+                NSFontAttributeName: UIFont.defaultFont(.bold, size: 12.0)!
                 ]))
             dateLabel.attributedText = attrDate
         }
@@ -64,13 +64,13 @@ class FTMedicationListCell: UITableViewCell {
         }
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
 
-    func setupCell(medication: Medication, lastItem: Bool) {
+    func setupCell(_ medication: Medication, lastItem: Bool) {
     
         var title = NSLocalizedString("Distance", comment: "Distance prefix")
         
@@ -92,7 +92,7 @@ class FTMedicationListCell: UITableViewCell {
             
             durationLabel.text = NSLocalizedString("Duration", comment: "Duration label") + ": " + activity.verboseDuration(true)
             
-            populateDate(activity.startDate)
+            populateDate(activity.startDate as Date?)
         }
         else {
             titleLabel.text = ""
@@ -103,13 +103,13 @@ class FTMedicationListCell: UITableViewCell {
         
         var moodStr = "icon_mood-0"
         if medication.mood != nil {
-            if let mood = MedicationMoodIndex(rawValue: medication.mood!.integerValue) {
+            if let mood = MedicationMoodIndex(rawValue: medication.mood!.intValue) {
                 moodStr = "icon_mood-\(mood.rawValue)"
             }
         }
         moodImageView.image = UIImage(named: moodStr)
         
-        separatorView.hidden = lastItem
+        separatorView.isHidden = lastItem
     }
     
     override func prepareForReuse() {

@@ -17,30 +17,30 @@ let FTTermsAndConditionsLink = "http://420games.org/"
 let FTFAQLink = "http://420games.org/"
 
 enum FTSlideMenuItem: Int {
-    case Main = 0, Workouts, Profile, FAQ, Terms, Tutorial
+    case main = 0, workouts, profile, faq, terms, tutorial
     static let count = 6
     
     func title() -> String {
         
         switch self {
-        case .Main: return NSLocalizedString("HOME", comment: "Home menu item title")
-        case .Workouts: return NSLocalizedString("WORKOUTS", comment: "Workouts menu item title")
-        case .Profile: return NSLocalizedString("PROFILE", comment: "Profile menu item title")
-        case .FAQ: return NSLocalizedString("FAQ", comment: "FAQ menu item title")
-        case .Terms: return NSLocalizedString("TERMS & CONDITIONS", comment: "Terms menu item title")
-        case .Tutorial: return NSLocalizedString("TUTORIAL", comment: "Tutorial menu item title")
+        case .main: return NSLocalizedString("HOME", comment: "Home menu item title")
+        case .workouts: return NSLocalizedString("WORKOUTS", comment: "Workouts menu item title")
+        case .profile: return NSLocalizedString("PROFILE", comment: "Profile menu item title")
+        case .faq: return NSLocalizedString("FAQ", comment: "FAQ menu item title")
+        case .terms: return NSLocalizedString("TERMS & CONDITIONS", comment: "Terms menu item title")
+        case .tutorial: return NSLocalizedString("TUTORIAL", comment: "Tutorial menu item title")
         }
     }
     
     func icon() -> UIImage? {
         
         switch self {
-        case .Main: return UIImage(named: "icon_home")
-        case .Workouts: return UIImage(named: "icon_activities")
-        case .Profile: return UIImage(named: "icon_settings")
-        case .FAQ: return UIImage(named: "icon_faq")
-        case .Terms: return UIImage(named: "icon_terms")
-        case .Tutorial: return UIImage(named: "icon_tutorial")
+        case .main: return UIImage(named: "icon_home")
+        case .workouts: return UIImage(named: "icon_activities")
+        case .profile: return UIImage(named: "icon_settings")
+        case .faq: return UIImage(named: "icon_faq")
+        case .terms: return UIImage(named: "icon_terms")
+        case .tutorial: return UIImage(named: "icon_tutorial")
         }
     }
 }
@@ -59,7 +59,7 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBOutlet weak var versionLabel: UILabel!
     
-    private let menuCellId = "menuCell"
+    fileprivate let menuCellId = "menuCell"
     
     override func viewDidLoad() {
         
@@ -90,45 +90,45 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // MARK: - UI Customization
     
-    private func setupTableView() {
+    fileprivate func setupTableView() {
         
         menuTableView.tableFooterView = UIView()
-        menuTableView.backgroundColor = UIColor.clearColor()
+        menuTableView.backgroundColor = UIColor.clear
     }
     
-    private func setupHeader() {
+    fileprivate func setupHeader() {
         
         profileImageView.clipsToBounds = true
-        profileImageView.layer.borderColor = UIColor.ftLimeGreen().CGColor
+        profileImageView.layer.borderColor = UIColor.ftLimeGreen().cgColor
         profileImageView.layer.borderWidth = 5.0
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
         
-        userNameLabel.font = UIFont.defaultFont(.Medium, size: 15.0)
-        userNameLabel.textColor = UIColor.whiteColor()
+        userNameLabel.font = UIFont.defaultFont(.medium, size: 15.0)
+        userNameLabel.textColor = UIColor.white
         
-        userLocationLabel.font = UIFont.defaultFont(.Light, size: 11)
-        userLocationLabel.textColor = UIColor.whiteColor()
+        userLocationLabel.font = UIFont.defaultFont(.light, size: 11)
+        userLocationLabel.textColor = UIColor.white
     }
     
-    private func setupLogout() {
+    fileprivate func setupLogout() {
         
-        logoutLabel.font = UIFont.defaultFont(.Bold, size: 15.0)
+        logoutLabel.font = UIFont.defaultFont(.bold, size: 15.0)
         logoutLabel.textColor = UIColor.ftMidGray2()
         logoutLabel.text = NSLocalizedString("LOG OUT", comment: "Logout label title")
     }
     
-    private func setupVersionLabel() {
+    fileprivate func setupVersionLabel() {
         
         versionLabel.textColor = UIColor.ftMidGray()
-        versionLabel.font = UIFont.defaultFont(.Light, size: 10.0)
+        versionLabel.font = UIFont.defaultFont(.light, size: 10.0)
         
-        let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as! String
-        let build = NSBundle.mainBundle().infoDictionary?[kCFBundleVersionKey as String] as! String
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let build = Bundle.main.infoDictionary?[kCFBundleVersionKey as String] as! String
         
         versionLabel.text = "Games420 v\(version) (\(build)) \(FTDataManager.ftStaging ? " - Staging" : "")"
     }
     
-    private func setupUI() {
+    fileprivate func setupUI() {
         
         view.backgroundColor = UIColor.ftAlmostBlack()
     
@@ -143,30 +143,30 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // MARK: - Actions
     
-    @IBAction func logoutTapped(sender: AnyObject) {
+    @IBAction func logoutTapped(_ sender: AnyObject) {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = NSLocalizedString("Signing out", comment: "HUD title when signingout")
-        hud.mode = .Indeterminate
+        hud.mode = .indeterminate
         
         FTDataManager.sharedInstance.logout { (success, error) in
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
                 FTAnalytics.trackEvent(.SignOut, data: nil)
                 
-                hud.hideAnimated(true)
+                hud.hide(animated: true)
                 
                 self.slideMenuController()?.closeLeft()
                 
-                NSNotificationCenter.defaultCenter().postNotificationName(FTSignedOutNotificationName, object: self)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: FTSignedOutNotificationName), object: self)
             })
         }
     }
     
     // MARK: - Data integration
     
-    private func fetchUserData() {
+    fileprivate func fetchUserData() {
         
         if let athleteId = FTDataManager.sharedInstance.currentUser?.athlete?.objectId {
             
@@ -176,7 +176,7 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
                     
                     FTDataManager.sharedInstance.currentUser?.athlete = object as? Athlete
                     
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async(execute: {
                         self.populateUserData()
                     })
                 }
@@ -185,14 +185,15 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    private func populateUserData() {
+    fileprivate func populateUserData() {
         
         let defaultPhoto = UIImage(named: "default_photo")
         
         if let athlete = FTDataManager.sharedInstance.currentUser?.athlete {
             
             if let url = FTDataManager.sharedInstance.imageUrlForProperty(athlete.profileImage, path: Athlete.profileImagePath) {
-                profileImageView.kf_setImageWithURL(url, placeholderImage: defaultPhoto , optionsInfo: .None, progressBlock: nil, completionHandler: nil)
+                
+                profileImageView.kf.setImage(with: url, placeholder: defaultPhoto, options: .none, progressBlock: nil, completionHandler: nil)
             }
             else {
                 profileImageView.image = defaultPhoto
@@ -210,19 +211,19 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // MARK: - Tableview
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return FTSlideMenuItem.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(menuCellId, forIndexPath: indexPath) as! FTLeftMenuItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: menuCellId, for: indexPath) as! FTLeftMenuItemCell
         
         if let item = FTSlideMenuItem(rawValue: indexPath.row) {
             cell.setupCell(item.icon(), title: item.title(), lastItem: indexPath.row == FTSlideMenuItem.count - 1)
@@ -231,13 +232,13 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
         
         if let item = FTSlideMenuItem(rawValue: indexPath.row) {
-            NSNotificationCenter.defaultCenter().postNotificationName(FTSlideMenuItemSelectedNotificationName, object: self, userInfo: ["itemIndex": item.rawValue])
-            FTAnalytics.trackEvent(.MenuItemSelected, data: ["item": "\(item)"])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: FTSlideMenuItemSelectedNotificationName), object: self, userInfo: ["itemIndex": item.rawValue])
+            FTAnalytics.trackEvent(.MenuItemSelected, data: ["item": "\(item)" as AnyObject])
         }
         
         slideMenuController()?.closeLeft()
@@ -245,37 +246,37 @@ class FTLeftMenuViewController: UIViewController, UITableViewDelegate, UITableVi
 
     // MARK: - Notifications
     
-    private func signupForUserUpdatedNotification() {
+    fileprivate func signupForUserUpdatedNotification() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.userUpdatedNotificationReceived(_:)), name: FTUserUpdatedNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.userUpdatedNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTUserUpdatedNotificationName), object: nil)
     }
     
-    private func resignFromUserUpdatedNotification() {
+    fileprivate func resignFromUserUpdatedNotification() {
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: FTUserUpdatedNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTUserUpdatedNotificationName), object: nil)
     }
     
-    private func signupForProfileUpdatedNotification() {
+    fileprivate func signupForProfileUpdatedNotification() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.userUpdatedNotificationReceived(_:)), name: FTProfileUpdatedNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.userUpdatedNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTProfileUpdatedNotificationName), object: nil)
     }
     
-    private func resignFromProfileUpdatedNotification() {
+    fileprivate func resignFromProfileUpdatedNotification() {
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: FTProfileUpdatedNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTProfileUpdatedNotificationName), object: nil)
     }
     
-    private func signupForLoginNotification() {
+    fileprivate func signupForLoginNotification() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.userUpdatedNotificationReceived(_:)), name: FTSignedInNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.userUpdatedNotificationReceived(_:)), name: NSNotification.Name(rawValue: FTSignedInNotificationName), object: nil)
     }
     
-    private func resignFromLoginNotification() {
+    fileprivate func resignFromLoginNotification() {
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: FTSignedInNotificationName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: FTSignedInNotificationName), object: nil)
     }
     
-    func userUpdatedNotificationReceived(notification: NSNotification) {
+    func userUpdatedNotificationReceived(_ notification: Notification) {
         
         populateUserData()
     }
